@@ -969,7 +969,7 @@ def get_dashboard_html_template(json_data):
         <!-- BARRA LATERAL IZQUIERDA CON FILTROS E INFORMACIÓN -->
         <aside class="sidebar">
             <div class="sidebar-logo">
-                <img src="file:///C:/Users/Juan/Dropbox/Proyectos 2026/Med&Corp/Imagen institucional/Sanofi/sanofi_logo_white.png" alt="SANOFI Logo">
+                <img src="sanofi_logo_white.png" alt="SANOFI Logo">
             </div>
             
             <div class="sidebar-campaign">
