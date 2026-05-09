@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte Clínico de Check-Up | Med&Corp</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+        :root {
+            /* Pantone Corporativo Estricto */
+            --brand-primary: #003B94; /* Azul Logo */
+            --brand-navy: #16212E; /* Pantone 296 C */
+            --brand-red: #D22936; /* Pantone 1788 C */
+            --brand-silver: #B1B1B0; /* Gris de Retícula */
+            
+            /* Swiss Design Palette */
+            --bg-body: #f8fafc;
+            --surface: #ffffff;
+            --text-dark: #000000;
+            --text-mut: #5e666e;
+            --grid-line: #16212E;
+            
+            /* Technical Status */
+            --stat-high: #D22936;
+            --stat-low: #f59e0b;
+            --stat-norm: #16a34a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.4;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .report-grid {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        /* SYSTEM PAGINATION (PORTRAIT) */
+        .print-page {
+            background: white;
+            width: 100%;
+            min-height: 268mm; /* Se ajusta exactamente al alto disponible con márgenes elegantes */
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 4px solid var(--brand-navy);
+            position: relative;
+            margin-bottom: 2rem;
+            page-break-before: always;
+            page-break-after: always;
+            page-break-inside: avoid;
+        }
+
+        .print-page:first-child {
+            page-break-before: avoid;
+        }
+
+        @media print {
+            body { padding: 0; background: white; }
+            .report-grid {
+                box-shadow: none;
+                border: none;
+                max-width: 100%;
+                margin: 0 !important;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 1.2cm !important; /* Evita cortes físicos de hardware de impresoras de oficina */
+            }
+            .print-page {
+                height: 268mm !important; /* Alto físico exacto para que calce 1 página por hoja A4 */
+                min-height: 268mm !important;
+                border: 4px solid var(--brand-navy) !important;
+                padding: 24px !important;
+                margin: 0 !important;
+                box-sizing: border-box !important;
+            }
+        }
+
+        /* HEADER BLOQUE SOLIDO */
+        .solid-header {
+            background-color: var(--brand-navy);
+            color: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 6px solid var(--brand-primary);
+        }
+        .solid-header img { height: 45px; object-fit: contain; filter: brightness(0) invert(1); }
+        .header-r { text-align: right; }
+        .header-r h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; text-transform: uppercase; letter-spacing: -0.5px; font-weight: 700; line-height: 1.1; color: white;}
+        .header-r p { font-size: 0.75rem; color: var(--brand-silver); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 3px; font-weight: 600;}
+
+        /* BANNERS DE CONSENTIMIENTO */
+        .consent-banner {
+            display: block;
+            padding: 10px 16px;
+            border-radius: 4px;
+            margin: 15px 0 0 0;
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+        .consent-banner.authorized {
+            background-color: #f0fdf4;
+            border: 2px solid #16a34a;
+            color: #14532d !important;
+        }
+        .consent-banner.authorized * {
+            color: #14532d !important;
+        }
+        .consent-banner.authorized strong {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .consent-banner.confidential {
+            background-color: #fef2f2;
+            border: 2px solid var(--brand-red);
+            color: #7f1d1d !important;
+        }
+        .consent-banner.confidential * {
+            color: #7f1d1d !important;
+        }
+        .consent-banner.confidential strong {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* SECCION INFO PACIENTE EN REJILLA DURA (PATIENT ZONE) */
+        .patient-zone {
+            display: grid;
+            grid-template-columns: 3.2fr 1fr;
+            border: 3px solid var(--grid-line);
+            margin: 15px 0;
+        }
+        .pz-data {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            border-right: 3px solid var(--grid-line);
+        }
+        .data-cell {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--brand-silver);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .data-cell:nth-child(even) { border-left: 1px solid var(--brand-silver); }
+        .data-cell.headline { grid-column: span 2; border-bottom: 3px solid var(--grid-line); background: #f8fafc; padding: 12px 14px; }
+        .dc-lab { font-size: 0.6rem; font-weight: 800; color: var(--brand-primary); text-transform: uppercase; margin-bottom: 2px; display: block; letter-spacing: 0.8px;}
+        .dc-val { font-size: 0.85rem; font-weight: 600; color: var(--text-dark); }
+        .data-cell.headline .dc-val { font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; line-height: 1.1; color: var(--brand-navy); }
+
+        .pz-silh {
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: #ffffff; padding: 10px; position: relative;
+        }
+        .pz-silh-box { width: 85px; height: 160px; position: relative; overflow: hidden; }
+        .pz-silh img { position: absolute; height: 100%; width: 200%; top: 0; object-fit: contain; }
+        .pz-metrics { margin-top: 8px; display: flex; gap: 6px; width: 100%; justify-content: center; }
+        .metric-block { background: var(--brand-navy); color: white; font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; padding: 3px 8px; font-weight: 700; letter-spacing: 0.5px;}
+
+        /* KPIs Lineales (Double Column) */
+        .kpi-bar {
+            display: flex; border: 3px solid var(--grid-line); margin-bottom: 15px;
+        }
+        .kpi-cell { flex: 1; padding: 0.8rem; text-align: center; border-right: 3px solid var(--grid-line); }
+        .kpi-cell:last-child { border-right: none; }
+        .kc-val { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700; line-height: 1; color: var(--brand-navy); margin-bottom: 2px;}
+        .kc-lab { font-size: 0.65rem; font-weight: 800; color: var(--text-mut); text-transform: uppercase; letter-spacing: 1.5px;}
+
+        /* Diagnóstico Clínico */
+        .diag-board {
+            padding: 15px 20px; border: 3px solid var(--grid-line); background: white; margin-bottom: 15px; flex: 1;
+        }
+        .diag-board h3 { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; text-transform: uppercase; color: var(--brand-red); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;}
+        .diag-board h3::before { content: ''; display: inline-block; width: 10px; height: 10px; background: var(--brand-red); }
+        .diag-board p { font-size: 0.85rem; line-height: 1.5; font-weight: 500; color: #1e293b; text-align: justify; }
+
+        /* Tablas de Estudios Duras (Swiss Hard Tables) */
+        .study-header-container {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;
+        }
+        .s-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; background: var(--brand-navy); color: white; display: inline-block; padding: 6px 14px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        .method-badge { font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem; background: #e2e8f0; padding: 4px 10px; border-radius: 0px; color: var(--brand-navy); font-weight: 700; border: 1px solid var(--brand-navy); text-transform: uppercase; letter-spacing: 0.5px;}
+
+        .hard-table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .hard-table th { background: #f8fafc; color: var(--brand-navy); font-weight: 700; font-size: 0.65rem; text-align: left; padding: 10px; border: 2px solid var(--brand-navy); text-transform: uppercase; letter-spacing: 0.8px;}
+        .hard-table td { padding: 10px; border: 1px solid var(--brand-silver); font-weight: 500; font-size: 0.8rem; color: #000000; }
+        .hard-table tr { border-bottom: 1px solid var(--brand-silver); }
+        .technical-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.95rem; }
+        
+        /* Badges Cuadrados */
+        .sq-badge { padding: 3px 8px; font-weight: 700; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; border: 1px solid transparent; text-align: center; font-family: 'Space Grotesk', sans-serif; }
+        
+        tr.high-line td.technical-num { color: var(--stat-high); }
+        tr.high-line .sq-badge { color: var(--stat-high); border-color: var(--stat-high); background: #fef2f2;}
+        
+        tr.low-line td.technical-num { color: var(--stat-low); }
+        tr.low-line .sq-badge { color: var(--stat-low); border-color: var(--stat-low); background: #fffbeb;}
+        
+        tr.norm-line .sq-badge { color: var(--stat-norm); border-color: var(--stat-norm); background: #f0fdf4;}
+        .bub-none { color: var(--text-mut); border-color: var(--brand-silver); background: #f8fafc; }
+
+        /* FOOTER DE PÁGINA UNIFICADO */
+        .page-footer {
+            border-top: 2px solid var(--brand-navy);
+            padding-top: 10px;
+            font-size: 0.65rem;
+            color: var(--text-mut);
+            line-height: 1.3;
+        }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--brand-navy);
+            letter-spacing: 0.5px;
+        }
+
+        /* HEADER DE PÁGINA IMPRESA (Pág 2+) */
+        .page-header-print {
+            border-bottom: 3px solid var(--brand-navy);
+            padding-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 1.5rem;
+        }
+        .page-header-print .print-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--brand-navy);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .page-header-print .print-subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--brand-red);
+            text-transform: uppercase;
+        }
+
+        /* ESTRUCTURA DE IMÁGENES (EKG & ODONTOGRAMA) */
+        .img-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            margin: 10px 0;
+            background-color: #fafafa;
+            border: 2px solid var(--brand-navy);
+            padding: 10px;
+            overflow: hidden;
+        }
+        .img-container img {
+            max-width: 100%;
+            max-height: 380px;
+            object-fit: contain;
+        }
+
+        /* EKG Waveform specialized page fitting */
+        .img-container-ekg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            margin: 10px 0;
+            border: 2px solid var(--brand-navy);
+            padding: 5px;
+            background: white;
+            overflow: hidden;
+            height: 380px;
+        }
+        .img-container-ekg img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill; /* Forces the EKG vector grid to fill the printable horizontal layout correctly */
+        }
+
+        .recom-box {
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-left: 5px solid var(--brand-primary);
+            border-top: 1px solid var(--brand-silver);
+            border-right: 1px solid var(--brand-silver);
+            border-bottom: 1px solid var(--brand-silver);
+            margin-top: 10px;
+        }
+        .recom-box strong {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--brand-primary);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 3px;
+        }
+        .recom-box p {
+            font-size: 0.75rem;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+
+        /* ODONTOGRAMA COLS */
+        .odontograma-summary {
+            display: flex; justify-content: space-around; margin: 0 0 10px 0; background: #f8fafc; padding: 10px; border: 2px solid var(--brand-navy);
+        }
+        .odontograma-summary .summary-block {
+            text-align: center;
+        }
+        .odontograma-summary .summary-num {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; line-height: 1;
+        }
+        .odontograma-summary .summary-lbl {
+            font-size: 0.6rem; font-weight: 700; text-transform: uppercase; color: var(--text-mut); margin-top: 2px; letter-spacing: 0.5px;
+        }
+        .odontograma-summary .summary-det {
+            font-size: 0.55rem; color: var(--brand-red); margin-top: 2px; font-weight: 600; text-transform: uppercase; max-width: 250px; line-height: 1.1;
+        }
+    </style>
+</head>
+<body>
+    <div class="report-grid">
+        
+        <!-- PÁGINA 1: RESUMEN Y EVALUACIÓN CLÍNICA -->
+        <div class="print-page">
+            <header class="solid-header">
+                <div class="brand-logo">
+                    <img src="./logo_medcorp.png" alt="Med&Corp Logo" onerror="this.outerHTML='<h1 style=\'color:white; font-family:Space Grotesk, sans-serif; margin:0; font-size:1.6rem; font-weight:700;\'>MED&CORP</h1>'">
+                </div>
+                <div class="header-r">
+                    <h1>Reporte Clínico</h1>
+                    <p>Uso Exclusivo Diagnóstico</p>
+                </div>
+            </header>
+
+            <!-- Banner legal de consentimiento inyectado por JS -->
+            <div id="consent-banner-target"></div>
+
+            <!-- Zona de Paciente Horizontal Grid -->
+            <section class="patient-zone" id="patient-info-target"></section>
+
+            <!-- KPIs Lineales -->
+            <section class="kpi-bar">
+                <div class="kpi-cell">
+                    <div class="kc-val" id="kpi-tot">0</div>
+                    <div class="kc-lab">Exámenes</div>
+                </div>
+                <div class="kpi-cell">
+                    <div class="kc-val" id="kpi-alert" style="color:var(--brand-red)">0</div>
+                    <div class="kc-lab">Anillos Rojos</div>
+                </div>
+            </section>
+
+            <!-- Evaluación Médica -->
+            <div class="diag-board">
+                <h3>Evaluación Médica</h3>
+                <p id="s-diagnostico">-</p>
+            </div>
+
+            <!-- Footer unificado de Página 1 -->
+            <footer class="page-footer">
+                <p>Este informe es propiedad de Med&Corp y el paciente. Los datos están protegidos por la Ley Federal de Protección de Datos Personales.</p>
+                <div class="footer-bottom">
+                    <span>Med&Corp © 2026</span>
+                    <span class="page-num">Página 1 de <span class="total-pages">1</span></span>
+                </div>
+            </footer>
+        </div>
+
+        <!-- PÁGINAS DINÁMICAS (INYECTADAS POR JS) -->
+        <div id="dynamic-pages"></div>
+    </div>
+
+    <script>
+        const INCOMING_DATA = window.INCOMING_DATA || { paciente: {}, estudios: [], imagenes: {}, resumen: {} };
+
+        function analyzeResult(res, min, max, formato, explicitInterp) {
+            if (formato === 'text' && explicitInterp) {
+                const interp_clean = String(explicitInterp).trim().toUpperCase();
+                if (interp_clean === 'ANORMAL' || interp_clean === 'ALTO' || interp_clean === 'ALERT' || interp_clean.includes('CRITIC')) {
+                    return { status: 'high-line', badge: 'ALERT' };
+                }
+                if (interp_clean === 'BAJO' || interp_clean === 'WARN' || interp_clean === 'ALERTA_BAJO') {
+                    return { status: 'low-line', badge: 'WARN' };
+                }
+                return { status: 'norm-line', badge: 'NORM' };
+            }
+            if (formato === 'num' && min !== '-' && max !== '-') {
+                try {
+                    const val = parseFloat(String(res).replace('<','').replace('>','').replace(',','.').trim());
+                    const mn = parseFloat(String(min).replace(',','.').trim());
+                    const mx = parseFloat(String(max).replace(',','.').trim());
+                    if (!isNaN(val) && !isNaN(mn) && !isNaN(mx)) {
+                        if (val > mx) return { status: 'high-line', badge: 'H-ALERT' };
+                        if (val < mn) return { status: 'low-line', badge: 'L-WARN' };
+                        return { status: 'norm-line', badge: 'NORM' };
+                    }
+                } catch(e) {}
+            }
+            return { status: 'none', badge: '---' };
+        }
+
+        function renderApp() {
+            const p = INCOMING_DATA.paciente;
+            const r = INCOMING_DATA.resumen;
+            const img = INCOMING_DATA.imagenes;
+
+            // 1. Calcular total de páginas físicas del dossier (Paginación Dinámica de Parámetros)
+            const paginatedEstudios = [];
+            INCOMING_DATA.estudios.forEach(est => {
+                const maxParamsPerPage = 14;
+                if (est.parametros.length <= maxParamsPerPage) {
+                    paginatedEstudios.push(est);
+                } else {
+                    const totalChunks = Math.ceil(est.parametros.length / maxParamsPerPage);
+                    for (let i = 0; i < est.parametros.length; i += maxParamsPerPage) {
+                        const chunkParams = est.parametros.slice(i, i + maxParamsPerPage);
+                        const chunkNum = Math.floor(i / maxParamsPerPage) + 1;
+                        paginatedEstudios.push({
+                            titulo: `${est.titulo} (${chunkNum}/${totalChunks})`,
+                            metodologia: est.metodologia,
+                            parametros: chunkParams
+                        });
+                    }
+                }
+            });
+
+            let totalPages = 1; // Página 1 (Resumen) es obligatoria
+            totalPages += paginatedEstudios.length; // Cada sub-estudio va en su propia página
+            
+            let ekgPageIdx = 0;
+            let ekgWaveformPageIdx = 0;
+            if (img.electrocardiograma || img.electrocardiograma_datos) {
+                totalPages += 1; // Página de parámetros electrocardiograma
+                ekgPageIdx = totalPages;
+                
+                if (img.electrocardiograma) {
+                    totalPages += 1; // Página del trazo electrocardiográfico
+                    ekgWaveformPageIdx = totalPages;
+                }
+            }
+
+            let odontogramaPageIdx = 0;
+            if (img.odontograma || img.odontograma_recomendaciones) {
+                totalPages += 1; // Página de Odontograma
+                odontogramaPageIdx = totalPages;
+            }
+
+            // Actualizar total-pages en la primera página
+            document.querySelectorAll('.total-pages').forEach(el => el.textContent = totalPages);
+
+            // 2. Renderizar Banner Legal de Consentimiento (Columna T "Compartir")
+            const bannerTarget = document.getElementById('consent-banner-target');
+            const consent_status = String(p.compartir || 'NO').trim().toUpperCase();
+            if (consent_status === 'SÍ' || consent_status === 'SI') {
+                bannerTarget.innerHTML = `
+                    <div class="consent-banner authorized">
+                        <div class="cb-text">
+                            <strong>• Consentimiento de Datos: AUTORIZADO</strong><br>
+                            <span>El colaborador ha otorgado su consentimiento expreso para compartir los resultados de este check-up médico con la empresa SANOFI.</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                bannerTarget.innerHTML = `
+                    <div class="consent-banner confidential">
+                        <div class="cb-text">
+                            <strong>• Consentimiento de Datos: ESTRICTAMENTE CONFIDENCIAL</strong><br>
+                            <span>El colaborador NO ha autorizado la compartición de su información médica con SANOFI. Queda PROHIBIDO archivar o divulgar este reporte a la compañía.</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 3. Renderizar Información General del Paciente en Rejilla Suiza
+            document.getElementById('patient-info-target').innerHTML = `
+                <div class="pz-data">
+                    <div class="data-cell headline">
+                        <span class="dc-lab">Paciente Confirmado</span>
+                        <span class="dc-val" id="p-nombre">${p.nombre || 'N/A'}</span>
+                    </div>
+                    <div class="data-cell">
+                        <span class="dc-lab">ID Registro</span>
+                        <span class="dc-val">${p.id_paciente || 'N/A'}</span>
+                    </div>
+                    <div class="data-cell">
+                        <span class="dc-lab">Demografía</span>
+                        <span class="dc-val">${p.sexo_display || 'N/A'} | ${p.edad || 'N/A'}</span>
+                    </div>
+                    <div class="data-cell">
+                        <span class="dc-lab">Folio de Orden</span>
+                        <span class="dc-val">${p.folio || 'N/A'}</span>
+                    </div>
+                    <div class="data-cell">
+                        <span class="dc-lab">Emisión Médica</span>
+                        <span class="dc-val">${p.medico || 'Dr. Damián Guzmán (Céd. 6656442)'}</span>
+                    </div>
+                    <div class="data-cell">
+                        <span class="dc-lab">Procesado En</span>
+                        <span class="dc-val">${p.unidad || 'Central Operativa'}</span>
+                    </div>
+                    <div class="data-cell" style="grid-column: span 2; border-bottom: none;">
+                        <span class="dc-lab">Fechas Operativas</span>
+                        <span class="dc-val" style="font-size:0.75rem;">Toma de Muestra: ${p.fecha_toma || 'N/A'} | Validación: ${p.fecha_toma || 'N/A'}</span>
+                    </div>
+                </div>
+                <div class="pz-silh">
+                    <div class="pz-silh-box">
+                        <img id="silhouette-img" src="${p.silueta_b64 || ''}" alt="Silueta">
+                    </div>
+                    <div class="pz-metrics">
+                        <span class="metric-block">H: ${p.estatura || '-'}</span>
+                        <span class="metric-block">W: ${p.peso || '-'}</span>
+                    </div>
+                </div>
+            `;
+
+            const silImg = document.getElementById('silhouette-img');
+            const lower_sex = String(p.sexo || '').toLowerCase();
+            if (lower_sex === 'h' || lower_sex === 'masculino' || lower_sex === 'hombre') {
+                silImg.style.left = "-100%";
+            } else {
+                silImg.style.left = "0";
+            }
+
+            // 4. Renderizar KPIs y Evaluación Diagnóstica
+            let kpiTotalExamenes = INCOMING_DATA.estudios.length;
+            if (img.electrocardiograma || img.electrocardiograma_conclusion || img.electrocardiograma_observaciones) {
+                kpiTotalExamenes += 1;
+            }
+            if (img.odontograma || img.odontograma_recomendaciones) {
+                kpiTotalExamenes += 1;
+            }
+            document.getElementById('kpi-tot').textContent = kpiTotalExamenes;
+            document.getElementById('kpi-alert').textContent = r.alertas_clinicas || 0;
+            document.getElementById('s-diagnostico').textContent = r.diagnostico_general || 'N/A';
+
+            if ((r.alertas_clinicas || 0) === 0) {
+                document.getElementById('kpi-alert').style.color = "var(--brand-navy)";
+            }
+
+            // 5. Renderizar Páginas de Estudios Clínicos
+            const dynamicContainer = document.getElementById('dynamic-pages');
+            let contentHTML = '';
+            let currentPage = 1;
+
+            paginatedEstudios.forEach(est => {
+                currentPage++;
+                let rowsHTML = '';
+                
+                est.parametros.forEach(param => {
+                    const res = param.resultado || '-';
+                    const min = param.min || '-';
+                    const max = param.max || '-';
+                    
+                    let isAlert = param.is_alert || false;
+                    const interpretation = param.estado || (isAlert ? 'ALERT' : 'NORMAL');
+                    const analysis = analyzeResult(res, min, max, param.formato, interpretation);
+                    
+                    if (analysis.status === 'high-line' || analysis.status === 'low-line') {
+                        isAlert = true;
+                    }
+
+                    const refRange = param.rango_referencia ? param.rango_referencia : (min !== '-' ? `${min} - ${max}` : '-');
+                    const badgeMarkup = analysis.badge !== '---' ? 
+                        `<span class="sq-badge">${analysis.badge}</span>` : 
+                        `<span class="sq-badge bub-none">-</span>`;
+
+                    rowsHTML += `
+                        <tr class="${analysis.status}">
+                            <td style="font-weight: 600;">${param.nombre}</td>
+                            <td class="technical-num" style="text-align: center;">${res}</td>
+                            <td style="text-align: center; font-weight: 600; color: var(--text-mut);">${param.unidad || ''}</td>
+                            <td style="text-align: center; color: var(--text-mut);">${refRange}</td>
+                            <td style="text-align: center;">${badgeMarkup}</td>
+                        </tr>
+                    `;
+                });
+
+                contentHTML += `
+                    <div class="print-page">
+                        <div class="page-content-wrapper">
+                            <div class="page-header-print">
+                                <span class="print-title">Reporte Clínico • Med&Corp</span>
+                                <span class="print-subtitle">${est.titulo}</span>
+                            </div>
+                            
+                            <div class="study-header-container">
+                                <div class="s-title">${est.titulo}</div>
+                                <div class="method-badge">${est.metodologia}</div>
+                            </div>
+                            
+                            <table class="hard-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 35%;">Parámetro Clínico</th>
+                                        <th style="text-align: center; width: 18%;">Valor Obtenido</th>
+                                        <th style="text-align: center; width: 12%;">Unidad</th>
+                                        <th style="text-align: center; width: 20%;">Límites Operativos</th>
+                                        <th style="text-align: center; width: 15%;">Detección</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${rowsHTML}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <footer class="page-footer">
+                            <p>Este informe es propiedad de Med&Corp y el paciente. Los datos están protegidos por la Ley Federal de Protección de Datos Personales.</p>
+                            <div class="footer-bottom">
+                                <span>Med&Corp © 2026</span>
+                                <span class="page-num">Página ${currentPage} de ${totalPages}</span>
+                            </div>
+                        </footer>
+                    </div>
+                `;
+            });
+
+            // 6. Renderizar Páginas de Electrocardiograma (si existen datos)
+            if (img.electrocardiograma || img.electrocardiograma_datos) {
+                currentPage++;
+                let ekgRowsHTML = '';
+                
+                if (img.electrocardiograma_datos) {
+                    img.electrocardiograma_datos.forEach(d => {
+                        ekgRowsHTML += `
+                            <tr>
+                                <td style="font-weight:700; border-bottom:1px solid var(--brand-silver); color: var(--brand-navy);">${d.nombre}</td>
+                                <td class="technical-num" style="text-align:right; border-bottom:1px solid var(--brand-silver);">${d.resultado} <span style="font-size:0.7rem; color: var(--text-mut); font-weight:normal;">${d.unidad}</span></td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                contentHTML += `
+                    <div class="print-page">
+                        <div class="page-content-wrapper">
+                            <div class="page-header-print">
+                                <span class="print-title">Reporte Clínico • Med&Corp</span>
+                                <span class="print-subtitle">Electrocardiografía</span>
+                            </div>
+                            
+                            <div class="study-header-container">
+                                <div class="s-title">Parámetros Electrocardiograma</div>
+                                <div class="method-badge">Adquisición Computarizada de 12 Derivaciones</div>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: flex-start; margin-bottom: 15px;">
+                                <table class="hard-table" style="margin-bottom:0;">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 0.6rem; padding: 8px;">Parámetro Técnico</th>
+                                            <th style="text-align: right; font-size: 0.6rem; padding: 8px;">Medición / Estatus</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${ekgRowsHTML}
+                                    </tbody>
+                                </table>
+                                
+                                <div style="display: flex; flex-direction: column; gap: 10px;">
+                                    ${img.electrocardiograma_conclusion ? `
+                                        <div class="recom-box" style="margin-top:0; border-left-color: var(--brand-red);">
+                                            <strong style="color: var(--brand-red);">❤️ Conclusión Médica:</strong>
+                                            <p>${img.electrocardiograma_conclusion}</p>
+                                        </div>
+                                    ` : ''}
+                                    
+                                    ${img.electrocardiograma_observaciones ? `
+                                        <div class="recom-box" style="margin-top:0;">
+                                            <strong>📝 Observaciones:</strong>
+                                            <p>${img.electrocardiograma_observaciones}</p>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <footer class="page-footer">
+                            <p>Este informe es propiedad de Med&Corp y el paciente. Los datos están protegidos por la Ley Federal de Protección de Datos Personales.</p>
+                            <div class="footer-bottom">
+                                <span>Med&Corp © 2026</span>
+                                <span class="page-num">Página ${currentPage} de ${totalPages}</span>
+                            </div>
+                        </footer>
+                    </div>
+                `;
+
+                if (img.electrocardiograma) {
+                    currentPage++;
+                    contentHTML += `
+                        <div class="print-page">
+                            <div class="page-content-wrapper" style="display: flex; flex-direction: column; height: 100%;">
+                                <div class="page-header-print">
+                                    <span class="print-title">Reporte Clínico • Med&Corp</span>
+                                    <span class="print-subtitle">Trazado Eléctrico</span>
+                                </div>
+                                
+                                <div class="study-header-container">
+                                    <div class="s-title">Trazo Electrocardiográfico</div>
+                                    <div class="method-badge">Gráfico de Derivaciones</div>
+                                </div>
+                                
+                                <div class="img-container-ekg">
+                                    <img src="${img.electrocardiograma}" alt="Trazo EKG">
+                                </div>
+                            </div>
+                            
+                            <footer class="page-footer" style="margin-top: auto;">
+                                <p>Este informe es propiedad de Med&Corp y el paciente. Los datos están protegidos por la Ley Federal de Protección de Datos Personales.</p>
+                                <div class="footer-bottom">
+                                    <span>Med&Corp © 2026</span>
+                                    <span class="page-num">Página ${currentPage} de ${totalPages}</span>
+                                </div>
+                            </footer>
+                        </div>
+                    `;
+                }
+            }
+
+            // 7. Renderizar Página de Odontograma (si existen datos)
+            if (img.odontograma || img.odontograma_recomendaciones) {
+                currentPage++;
+                contentHTML += `
+                    <div class="print-page">
+                        <div class="page-content-wrapper">
+                            <div class="page-header-print">
+                                <span class="print-title">Reporte Clínico • Med&Corp</span>
+                                <span class="print-subtitle">Odontología</span>
+                            </div>
+                            
+                            <div class="study-header-container">
+                                <div class="s-title">Odontograma</div>
+                                <div class="method-badge">Exploración Clínica Directa</div>
+                            </div>
+                            
+                            <div class="odontograma-summary">
+                                <div class="summary-block">
+                                    <div class="summary-num" style="color: #16a34a;">${img.odontograma_sanos || 0}</div>
+                                    <div class="summary-lbl">Dientes Sanos</div>
+                                </div>
+                                <div class="summary-block" style="border-left: 2px solid var(--brand-navy); padding-left: 30px;">
+                                    <div class="summary-num" style="color: var(--brand-red);">${img.odontograma_atencion || 0}</div>
+                                    <div class="summary-lbl">Requieren Atención</div>
+                                    <div class="summary-det">${img.odontograma_detalle || ''}</div>
+                                </div>
+                            </div>
+
+                            <div class="img-container" style="max-height: 290px;">
+                                <img src="${img.odontograma}" alt="Ficha de Odontograma" style="max-height: 270px;">
+                            </div>
+                            
+                            ${img.odontograma_recomendaciones ? `
+                                <div class="recom-box">
+                                    <strong>🦷 Recomendaciones Clínicas Dentales:</strong>
+                                    <p>${img.odontograma_recomendaciones}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <footer class="page-footer" style="margin-top: auto;">
+                            <p>Este informe es propiedad de Med&Corp y el paciente. Los datos están protegidos por la Ley Federal de Protección de Datos Personales.</p>
+                            <div class="footer-bottom">
+                                <span>Med&Corp © 2026</span>
+                                <span class="page-num">Página ${currentPage} de ${totalPages}</span>
+                            </div>
+                        </footer>
+                    </div>
+                `;
+            }
+
+            dynamicContainer.innerHTML = contentHTML;
+        }
+
+        window.onload = renderApp;
+    </script>
+</body>
+</html>

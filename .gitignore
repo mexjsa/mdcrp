@@ -1,0 +1,25 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Large binaries (exceeds GitHub limits)
+*.exe
+*.zip
+
+# Sensitive Excel database
+*.xlsx
+*.xls
+*.csv
+
+# Folders with sensitive clinical or personal data
+ESTUDIOS AGREGADOS/
+ESTUDIOS INDIVIDUALES/
+PERSONAL SANOFI/
+REPORTES FINALES/
+
+# Compiled static dashboard (contains embedded JSON of 194 patient medical records)
+dashboard_estadistico_sanofi.html
+
+# Temp files
+test_write.py
