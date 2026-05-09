@@ -223,16 +223,34 @@ def main():
             }
         })
 
-    # Serializar datos a JSON
+    # 1. Serializar datos a JSON (Confidencial con nombres reales)
     json_data = json.dumps(patients_data, indent=2, ensure_ascii=False)
     
-    # Crear contenido HTML inyectando los datos
+    # Crear contenido HTML confidencial
     html_template = get_dashboard_html_template(json_data)
     
-    print(f"Escribiendo dashboard interactivo final en: {output_path}...")
+    print(f"Escribiendo dashboard interactivo final (Confidencial) en: {output_path}...")
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html_template)
-    print("¡Generación del Dashboard completada con éxito total!")
+
+    # 2. Crear versión pública totalmente anonimizada para GitHub Pages (sin nombres reales)
+    patients_data_public = []
+    for idx, p in enumerate(patients_data):
+        p_public = p.copy()
+        # Copiar de forma profunda el objeto para no alterar el original
+        p_public_dict = json.loads(json.dumps(p_public))
+        p_public_dict["nombre"] = f"Colaborador {idx + 1}"
+        patients_data_public.append(p_public_dict)
+        
+    json_data_public = json.dumps(patients_data_public, indent=2, ensure_ascii=False)
+    html_template_public = get_dashboard_html_template(json_data_public)
+    
+    public_output_path = os.path.join(base_dir, "index.html")
+    print(f"Escribiendo dashboard público (Anonimizado) en: {public_output_path}...")
+    with open(public_output_path, 'w', encoding='utf-8') as f:
+        f.write(html_template_public)
+        
+    print("¡Generación de dashboards completada con éxito total (local confidencial e index.html público)!")
 
 def get_dashboard_html_template(json_data):
     # Retorna la plantilla HTML completa del dashboard inyectando el RAW_DATA
