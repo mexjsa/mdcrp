@@ -12509,10 +12509,23 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: true, position: 'bottom' }
+                        legend: { display: true, position: 'bottom' },
+                        datalabels: {
+                            display: true,
+                            anchor: 'end',
+                            align: 'end',
+                            offset: 2,
+                            color: '#f8fafc',
+                            font: {
+                                weight: '600',
+                                size: 10,
+                                family: "'Outfit', sans-serif"
+                            },
+                            formatter: (value) => value > 0 ? value : ''
+                        }
                     },
                     scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.04)' } },
+                        y: { beginAtZero: true, grace: '10%', grid: { color: 'rgba(255,255,255,0.04)' } },
                         x: { grid: { display: false } }
                     }
                 }
