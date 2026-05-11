@@ -1776,6 +1776,8 @@ def get_dashboard_html_template(json_data):
                         }
                     }
                 }
+            });
+
             // 9. Gráfico de Cobertura de Estudios por Género (Especialidades - Stacked horizontal)
             const ctxEstudiosSexo = document.getElementById('chart-estudios-sexo').getContext('2d');
             chartInstances.estudiosSexo = new Chart(ctxEstudiosSexo, {
