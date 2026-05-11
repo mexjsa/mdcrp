@@ -129,8 +129,12 @@ def main():
         ekg_ritmo = str(row.get('ELECTROCARDIOGRAMA_Ritmo', '')).strip()
         ekg_ritmo = ekg_ritmo if pd.notna(row.get('ELECTROCARDIOGRAMA_Ritmo')) and ekg_ritmo != '' else None
         
+        tiene_ekg = pd.notna(row.get('ELECTROCARDIOGRAMA_Archivo_Origen')) if 'ELECTROCARDIOGRAMA_Archivo_Origen' in row else (ekg_ritmo is not None)
+        
         espiro_int = str(row.get('ESPIROMETRIA_Interpretacion_Sistema', '')).strip()
         espiro_int = espiro_int if pd.notna(row.get('ESPIROMETRIA_Interpretacion_Sistema')) and espiro_int != '' else None
+        
+        tiene_espirometria = pd.notna(row.get('ESPIROMETRIA_Archivo_Origen'))
 
         # Sub-estudios específicos de CHOPO
         tiene_biometria = pd.notna(row.get('CHOPO_17103:Hemoglobina'))
@@ -199,9 +203,9 @@ def main():
                 "atencion": dientes_atencion
             },
             "cardio_respiratorio": {
-                "ekg_medido": ekg_ritmo is not None,
+                "ekg_medido": tiene_ekg,
                 "ekg_ritmo": ekg_ritmo,
-                "espiro_medido": espiro_int is not None,
+                "espiro_medido": tiene_espirometria,
                 "espiro_interpretacion": espiro_int
             },
             "habitos": {
@@ -218,8 +222,8 @@ def main():
                 "chopo_orina": tiene_orina,
                 "chopo_antigeno": tiene_antigeno,
                 "odontograma": tiene_odontograma,
-                "ekg": ekg_ritmo is not None,
-                "espirometria": espiro_int is not None
+                "ekg": tiene_ekg,
+                "espirometria": tiene_espirometria
             }
         })
 
