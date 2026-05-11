@@ -1335,13 +1335,13 @@ def get_dashboard_html_template(json_data):
                             <tbody>
                                 <tr>
                                     <td>Electrocardiograma (EKG)</td>
-                                    <td id="td-ekg-normal" style="color: var(--success-accent); font-weight: 600;">100.0% Sinusal (120 de 120)</td>
-                                    <td id="td-ekg-alert">0.0% Arritmias graves (0 de 120)</td>
+                                    <td id="td-ekg-normal" style="color: var(--success-accent); font-weight: 600;">100.000% Sinusal (120 de 120)</td>
+                                    <td id="td-ekg-alert">0.000% Arritmias graves (0 de 120)</td>
                                 </tr>
                                 <tr>
                                     <td>Espirometría Pulmonar</td>
-                                    <td id="td-espiro-normal" style="color: var(--success-accent); font-weight: 600;">100.0% Normal (146 de 146)</td>
-                                    <td id="td-espiro-alert">0.0% Restrictivo/Obstructivo (0 de 146)</td>
+                                    <td id="td-espiro-normal" style="color: var(--success-accent); font-weight: 600;">100.000% Normal (146 de 146)</td>
+                                    <td id="td-espiro-alert">0.000% Restrictivo/Obstructivo (0 de 146)</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -2230,8 +2230,8 @@ def get_dashboard_html_template(json_data):
             if (totalEKG > 0) {
                 const ekgNormalPct = (sinusalEKG / totalEKG) * 100;
                 const ekgAlertPct = (alertEKG / totalEKG) * 100;
-                ekgNormalCell.innerText = `${ekgNormalPct.toFixed(1)}% Sinusal (${sinusalEKG} de ${totalEKG})`;
-                ekgAlertCell.innerText = `${ekgAlertPct.toFixed(1)}% Arritmias graves (${alertEKG} de ${totalEKG})`;
+                ekgNormalCell.innerText = `${ekgNormalPct.toFixed(3)}% Sinusal (${sinusalEKG} de ${totalEKG})`;
+                ekgAlertCell.innerText = `${ekgAlertPct.toFixed(3)}% Arritmias graves (${alertEKG} de ${totalEKG})`;
                 ekgNormalCell.style.color = ekgNormalPct > 90 ? 'var(--success-accent)' : 'var(--text-primary)';
                 ekgAlertCell.style.color = ekgAlertPct > 0 ? 'var(--danger-accent)' : 'var(--text-secondary)';
             } else {
@@ -2244,8 +2244,8 @@ def get_dashboard_html_template(json_data):
             if (totalEspiro > 0) {
                 const espiroNormalPct = (normalEspiro / totalEspiro) * 100;
                 const espiroAlertPct = (alertEspiro / totalEspiro) * 100;
-                espiroNormalCell.innerText = `${espiroNormalPct.toFixed(1)}% Normal (${normalEspiro} de ${totalEspiro})`;
-                espiroAlertCell.innerText = `${espiroAlertPct.toFixed(1)}% Restrictivo/Obstructivo (${alertEspiro} de ${totalEspiro})`;
+                espiroNormalCell.innerText = `${espiroNormalPct.toFixed(3)}% Normal (${normalEspiro} de ${totalEspiro})`;
+                espiroAlertCell.innerText = `${espiroAlertPct.toFixed(3)}% Restrictivo/Obstructivo (${alertEspiro} de ${totalEspiro})`;
                 espiroNormalCell.style.color = espiroNormalPct > 90 ? 'var(--success-accent)' : 'var(--text-primary)';
                 espiroAlertCell.style.color = espiroAlertPct > 0 ? 'var(--danger-accent)' : 'var(--text-secondary)';
             } else {
