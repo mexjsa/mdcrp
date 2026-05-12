@@ -1957,7 +1957,7 @@ def get_dashboard_html_template(json_data):
 
             // 8. El Gráfico de Consentimiento para Compartir Información se maneja como barra horizontal HTML nativa por estética
 
-            // 9. Gráfico de Cobertura de Estudios por Género (Especialidades - Stacked horizontal)
+            // 9. Gráfico de Cobertura de Estudios por Género (Especialidades - Stacked vertical)
             const ctxEstudiosSexo = document.getElementById('chart-estudios-sexo').getContext('2d');
             chartInstances.estudiosSexo = new Chart(ctxEstudiosSexo, {
                 type: 'bar',
@@ -1989,7 +1989,6 @@ def get_dashboard_html_template(json_data):
                     ]
                 },
                 options: {
-                    indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
@@ -2008,8 +2007,8 @@ def get_dashboard_html_template(json_data):
                         }
                     },
                     scales: {
-                        x: { stacked: true, beginAtZero: true, grace: '10%', grid: { color: 'rgba(255,255,255,0.04)' } },
-                        y: { stacked: true, grid: { display: false } }
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, beginAtZero: true, grace: '10%', grid: { color: 'rgba(255,255,255,0.04)' } }
                     }
                 }
             });
