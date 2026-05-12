@@ -1325,6 +1325,16 @@ def get_dashboard_html_template(json_data):
                 </p>
             </div>
 
+            <!-- Gráfico: Cobertura de Estudios por Género (Laboratorios) -->
+            <div class="dashboard-card" style="margin-top: 15px; margin-bottom: 20px;">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-chart-bar" style="color: var(--primary-accent)"></i> Cobertura de Estudios por Género</h3>
+                </div>
+                <div class="chart-container" style="height: 320px;">
+                    <canvas id="chart-estudios-sexo-lab"></canvas>
+                </div>
+            </div>
+
             <!-- Prevalencia de Alertas CHOPO -->
             <div class="dashboard-grid-2">
                 <div class="dashboard-card">
@@ -1377,16 +1387,6 @@ def get_dashboard_html_template(json_data):
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-
-            <!-- Gráfico: Cobertura de Estudios por Género (Laboratorios) -->
-            <div class="dashboard-card" style="margin-top: 15px; margin-bottom: 20px;">
-                <div class="card-header">
-                    <h3><i class="fa-solid fa-chart-bar" style="color: var(--primary-accent)"></i> Cobertura de Estudios por Género</h3>
-                </div>
-                <div class="chart-container" style="height: 320px;">
-                    <canvas id="chart-estudios-sexo-lab"></canvas>
                 </div>
             </div>
 
