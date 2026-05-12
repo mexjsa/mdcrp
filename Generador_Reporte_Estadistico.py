@@ -34,6 +34,20 @@ def main():
     sueno_hrs_col_name = next((c for c in df.columns if 'horas' in c.lower() and 'duermes' in c.lower()), None)
     fuma_col_name = next((c for c in df.columns if 'fumas?' in c.lower() or ('fumas' in c.lower() and len(c) < 10)), None)
     alcohol_col_name = next((c for c in df.columns if 'tomas alcohol' in c.lower()), None)
+
+    # Columnas de Peso (CD a CF) y Alimentación (CG a CI)
+    disposicion_peso_col = next((c for c in df.columns if 'disposici' in c.lower() and 'cambios' in c.lower() and 'peso' in c.lower()), None)
+    confianza_peso_col = next((c for c in df.columns if 'confiado' in c.lower() and 'peso' in c.lower()), None)
+    importancia_peso_col = next((c for c in df.columns if 'importante' in c.lower() and 'peso' in c.lower()), None)
+
+    disposicion_alimentacion_col = next((c for c in df.columns if 'cambios' in c.lower() and 'alimentaci' in c.lower()), None)
+    confianza_alimentacion_col = next((c for c in df.columns if 'confiado' in c.lower() and 'alimentaci' in c.lower()), None)
+    importancia_alimentacion_col = next((c for c in df.columns if 'importante' in c.lower() and 'alimentaci' in c.lower()), None)
+
+    # Columnas de Sueño (CP a CR)
+    disposicion_sueno_col = next((c for c in df.columns if 'disposici' in c.lower() and 'sue' in c.lower()), None)
+    confianza_sueno_col = next((c for c in df.columns if 'confiado' in c.lower() and 'sue' in c.lower()), None)
+    importancia_sueno_col = next((c for c in df.columns if 'importante' in c.lower() and 'sue' in c.lower()), None)
     
     patients_data = []
     for index, row in df.iterrows():
@@ -171,6 +185,19 @@ def main():
                 alcohol_raw = str(alcohol_val).strip().lower()
                 alcohol = "Sí" if ('sí' in alcohol_raw or 'si' in alcohol_raw or 's' in alcohol_raw or alcohol_raw.startswith('s')) else "No"
 
+        # Hábitos específicos de Peso, Alimentación y Sueño
+        disp_peso = str(row.get(disposicion_peso_col, '')).strip() if disposicion_peso_col and pd.notna(row.get(disposicion_peso_col)) else None
+        conf_peso = str(row.get(confianza_peso_col, '')).strip() if confianza_peso_col and pd.notna(row.get(confianza_peso_col)) else None
+        imp_peso = str(row.get(importancia_peso_col, '')).strip() if importancia_peso_col and pd.notna(row.get(importancia_peso_col)) else None
+
+        disp_alim = str(row.get(disposicion_alimentacion_col, '')).strip() if disposicion_alimentacion_col and pd.notna(row.get(disposicion_alimentacion_col)) else None
+        conf_alim = str(row.get(confianza_alimentacion_col, '')).strip() if confianza_alimentacion_col and pd.notna(row.get(confianza_alimentacion_col)) else None
+        imp_alim = str(row.get(importancia_alimentacion_col, '')).strip() if importancia_alimentacion_col and pd.notna(row.get(importancia_alimentacion_col)) else None
+
+        disp_sueno = str(row.get(disposicion_sueno_col, '')).strip() if disposicion_sueno_col and pd.notna(row.get(disposicion_sueno_col)) else None
+        conf_sueno = str(row.get(confianza_sueno_col, '')).strip() if confianza_sueno_col and pd.notna(row.get(confianza_sueno_col)) else None
+        imp_sueno = str(row.get(importancia_sueno_col, '')).strip() if importancia_sueno_col and pd.notna(row.get(importancia_sueno_col)) else None
+
         patients_data.append({
             "nombre": nombre,
             "sexo": sexo,
@@ -217,7 +244,16 @@ def main():
                 "sueno_calidad": sueno_calidad,
                 "sueno_horas": sueno_horas,
                 "fuma": fuma,
-                "alcohol": alcohol
+                "alcohol": alcohol,
+                "disp_peso": disp_peso,
+                "conf_peso": conf_peso,
+                "imp_peso": imp_peso,
+                "disp_alim": disp_alim,
+                "conf_alim": conf_alim,
+                "imp_alim": imp_alim,
+                "disp_sueno": disp_sueno,
+                "conf_sueno": conf_sueno,
+                "imp_sueno": imp_sueno
             },
             "estudios_realizados": {
                 "inbody": imc is not None,
@@ -1451,20 +1487,36 @@ def get_dashboard_html_template(json_data):
 
             <!-- Gráficos de Encuestas -->
             <div class="dashboard-grid-2" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
-                <div class="dashboard-card" style="padding: 20px;">
-                    <div class="card-header" style="padding-bottom: 8px;">
+                <div class="dashboard-card" style="padding: 15px;">
+                    <div class="card-header" style="padding-bottom: 6px;">
                         <h3><i class="fa-solid fa-brain" style="color: var(--primary-accent)"></i> Estrés Percibido (Escala 1 a 5)</h3>
                     </div>
-                    <div class="chart-container" style="height: 180px;">
+                    <div class="chart-container" style="height: 160px;">
                         <canvas id="chart-estres"></canvas>
                     </div>
                 </div>
-                <div class="dashboard-card" style="padding: 20px;">
-                    <div class="card-header" style="padding-bottom: 8px;">
+                <div class="dashboard-card" style="padding: 15px;">
+                    <div class="card-header" style="padding-bottom: 6px;">
                         <h3><i class="fa-solid fa-smoking" style="color: var(--primary-accent)"></i> Hábitos de Riesgo (Tabaquismo / Alcohol)</h3>
                     </div>
-                    <div class="chart-container" style="height: 180px;">
+                    <div class="chart-container" style="height: 160px;">
                         <canvas id="chart-tabaco"></canvas>
+                    </div>
+                </div>
+                <div class="dashboard-card" style="padding: 15px;">
+                    <div class="card-header" style="padding-bottom: 6px;">
+                        <h3><i class="fa-solid fa-person-running" style="color: var(--primary-accent)"></i> Disposición al Cambio (Etapas Prochaska)</h3>
+                    </div>
+                    <div class="chart-container" style="height: 160px;">
+                        <canvas id="chart-disposicion-cambio"></canvas>
+                    </div>
+                </div>
+                <div class="dashboard-card" style="padding: 15px;">
+                    <div class="card-header" style="padding-bottom: 6px;">
+                        <h3><i class="fa-solid fa-gauge-high" style="color: var(--primary-accent)"></i> Hábitos: Confianza e Importancia (Nivel Alto)</h3>
+                    </div>
+                    <div class="chart-container" style="height: 160px;">
+                        <canvas id="chart-confianza-importancia"></canvas>
                     </div>
                 </div>
             </div>
@@ -1837,6 +1889,72 @@ def get_dashboard_html_template(json_data):
                 }
             });
 
+            // 7b. Gráfico de Disposición al Cambio (Etapas de Prochaska)
+            const ctxDispCambio = document.getElementById('chart-disposicion-cambio').getContext('2d');
+            chartInstances.disposicionCambio = new Chart(ctxDispCambio, {
+                type: 'bar',
+                data: {
+                    labels: ['Precontemplación', 'Contemplación', 'Preparación', 'Acción', 'Mantenimiento'],
+                    datasets: [
+                        {
+                            label: 'Peso Sano',
+                            data: [0, 0, 0, 0, 0],
+                            backgroundColor: '#0d9488', // Teal
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Alimentación',
+                            data: [0, 0, 0, 0, 0],
+                            backgroundColor: '#10b981', // Emerald
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Calidad Sueño',
+                            data: [0, 0, 0, 0, 0],
+                            backgroundColor: '#6366f1', // Indigo
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 6, font: { size: 9 }, color: '#94a3b8' } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { font: { size: 9 }, color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { font: { size: 8 }, color: '#94a3b8' } }
+                    }
+                }
+            });
+
+            // 7c. Gráfico de Confianza e Importancia Percibida (Nivel Alto %)
+            const ctxConfImp = document.getElementById('chart-confianza-importancia').getContext('2d');
+            chartInstances.confianzaImportancia = new Chart(ctxConfImp, {
+                type: 'bar',
+                data: {
+                    labels: ['Confianza (Peso)', 'Importancia (Peso)', 'Confianza (Alim.)', 'Importancia (Alim.)', 'Confianza (Sueño)', 'Importancia (Sueño)'],
+                    datasets: [{
+                        label: 'Alto / Muy Alto %',
+                        data: [0, 0, 0, 0, 0, 0],
+                        backgroundColor: ['#2dd4bf', '#0d9488', '#34d399', '#10b981', '#818cf8', '#6366f1'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', font: { size: 9 }, color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+                        x: { grid: { display: false }, ticks: { font: { size: 8 }, color: '#94a3b8' } }
+                    }
+                }
+            });
+
             // 8. El Gráfico de Consentimiento para Compartir Información se maneja como barra horizontal HTML nativa por estética
 
             // 9. Gráfico de Cobertura de Estudios por Género (Especialidades - Stacked horizontal)
@@ -2009,6 +2127,17 @@ def get_dashboard_html_template(json_data):
             let countEstres = [0, 0, 0, 0, 0];
             let fumaCounts = [0, 0]; // No, Si
             let alcoholCounts = [0, 0]; // No, Si
+
+            // Contadores de hábitos de Peso, Alimentación y Sueño
+            let dispPesoCounts = [0, 0, 0, 0, 0]; // Precontemplación, Contemplación, Preparación, Acción, Mantenimiento
+            let dispAlimCounts = [0, 0, 0, 0, 0];
+            let dispSuenoCounts = [0, 0, 0, 0, 0];
+
+            let highConfCounts = [0, 0, 0]; // Peso, Alimentación, Sueño (Alto / Muy Alto / Totalmente)
+            let highImpCounts = [0, 0, 0]; // Peso, Alimentación, Sueño (Alto / Muy Alto / Extremadamente)
+            let countDispPeso = 0, countDispAlim = 0, countDispSueno = 0;
+            let countConfPeso = 0, countConfAlim = 0, countConfSueno = 0;
+            let countImpPeso = 0, countImpAlim = 0, countImpSueno = 0;
 
             // 4. Recorrer datos de la población filtrada
             filteredData.forEach(p => {
@@ -2186,6 +2315,73 @@ def get_dashboard_html_template(json_data):
 
                 if (p.habitos.alcohol === "Sí") alcoholCounts[1]++;
                 else if (p.habitos.alcohol === "No") alcoholCounts[0]++;
+
+                // Procesamiento de hábitos detallados (Peso, Alimentación y Sueño)
+                // Peso Sano - Disposición
+                if (p.habitos.disp_peso) {
+                    countDispPeso++;
+                    const val = p.habitos.disp_peso.toLowerCase();
+                    if (val.includes("no har") || val.includes("no haré") || val.includes("no hare")) dispPesoCounts[0]++;
+                    else if (val.includes("tal vez")) dispPesoCounts[1]++;
+                    else if (val.includes("har") && (val.includes("cambio") || val.includes("alcanzar"))) dispPesoCounts[2]++;
+                    else if (val.includes("activa")) dispPesoCounts[3]++;
+                    else if (val.includes("constante") || val.includes("sigo haciendo")) dispPesoCounts[4]++;
+                }
+                // Alimentación - Disposición
+                if (p.habitos.disp_alim) {
+                    countDispAlim++;
+                    const val = p.habitos.disp_alim.toLowerCase();
+                    if (val.includes("no har") || val.includes("no haré") || val.includes("no hare")) dispAlimCounts[0]++;
+                    else if (val.includes("tal vez")) dispAlimCounts[1]++;
+                    else if (val.includes("har") && (val.includes("cambio") || val.includes("mejorar"))) dispAlimCounts[2]++;
+                    else if (val.includes("activa")) dispAlimCounts[3]++;
+                    else if (val.includes("constante") || val.includes("sigo haciendo")) dispAlimCounts[4]++;
+                }
+                // Sueño - Disposición
+                if (p.habitos.disp_sueno) {
+                    countDispSueno++;
+                    const val = p.habitos.disp_sueno.toLowerCase();
+                    if (val.includes("no har") || val.includes("no haré") || val.includes("no hare")) dispSuenoCounts[0]++;
+                    else if (val.includes("tal vez")) dispSuenoCounts[1]++;
+                    else if (val.includes("har") && (val.includes("cambio") || val.includes("mejorar"))) dispSuenoCounts[2]++;
+                    else if (val.includes("activa")) dispSuenoCounts[3]++;
+                    else if (val.includes("constante") || val.includes("sigo haciendo")) dispSuenoCounts[4]++;
+                }
+
+                // Confianza e Importancia (Nivel Alto: Totalmente, Muy, Bastante, Extremadamente)
+                // Peso - Confianza e Importancia
+                if (p.habitos.conf_peso) {
+                    countConfPeso++;
+                    const val = p.habitos.conf_peso.toLowerCase();
+                    if (val.includes("totalmente") || val.includes("muy") || val.includes("bastante")) highConfCounts[0]++;
+                }
+                if (p.habitos.imp_peso) {
+                    countImpPeso++;
+                    const val = p.habitos.imp_peso.toLowerCase();
+                    if (val.includes("extremadamente") || val.includes("muy") || val.includes("bastante")) highImpCounts[0]++;
+                }
+                // Alimentación - Confianza e Importancia
+                if (p.habitos.conf_alim) {
+                    countConfAlim++;
+                    const val = p.habitos.conf_alim.toLowerCase();
+                    if (val.includes("totalmente") || val.includes("muy") || val.includes("bastante")) highConfCounts[1]++;
+                }
+                if (p.habitos.imp_alim) {
+                    countImpAlim++;
+                    const val = p.habitos.imp_alim.toLowerCase();
+                    if (val.includes("extremadamente") || val.includes("muy") || val.includes("bastante")) highImpCounts[1]++;
+                }
+                // Sueño - Confianza e Importancia
+                if (p.habitos.conf_sueno) {
+                    countConfSueno++;
+                    const val = p.habitos.conf_sueno.toLowerCase();
+                    if (val.includes("totalmente") || val.includes("muy") || val.includes("bastante")) highConfCounts[2]++;
+                }
+                if (p.habitos.imp_sueno) {
+                    countImpSueno++;
+                    const val = p.habitos.imp_sueno.toLowerCase();
+                    if (val.includes("extremadamente") || val.includes("muy") || val.includes("bastante")) highImpCounts[2]++;
+                }
             });
 
             // 5. Calcular promedios para KPIs y Tablas
@@ -2372,6 +2568,30 @@ def get_dashboard_html_template(json_data):
 
             chartInstances.tabaco.data.datasets[0].data = [fumaCounts[0], fumaCounts[1], alcoholCounts[0], alcoholCounts[1]];
             chartInstances.tabaco.update();
+
+            // Actualizar Gráfico de Disposición al Cambio (Prochaska)
+            chartInstances.disposicionCambio.data.datasets[0].data = dispPesoCounts;
+            chartInstances.disposicionCambio.data.datasets[1].data = dispAlimCounts;
+            chartInstances.disposicionCambio.data.datasets[2].data = dispSuenoCounts;
+            chartInstances.disposicionCambio.update();
+
+            // Actualizar Gráfico de Confianza e Importancia Percibida
+            const pctConfPeso = countConfPeso > 0 ? (100 * highConfCounts[0] / countConfPeso) : 0;
+            const pctImpPeso = countImpPeso > 0 ? (100 * highImpCounts[0] / countImpPeso) : 0;
+            const pctConfAlim = countConfAlim > 0 ? (100 * highConfCounts[1] / countConfAlim) : 0;
+            const pctImpAlim = countImpAlim > 0 ? (100 * highImpCounts[1] / countImpAlim) : 0;
+            const pctConfSueno = countConfSueno > 0 ? (100 * highConfCounts[2] / countConfSueno) : 0;
+            const pctImpSueno = countImpSueno > 0 ? (100 * highImpCounts[2] / countImpSueno) : 0;
+
+            chartInstances.confianzaImportancia.data.datasets[0].data = [
+                pctConfPeso.toFixed(1),
+                pctImpPeso.toFixed(1),
+                pctConfAlim.toFixed(1),
+                pctImpAlim.toFixed(1),
+                pctConfSueno.toFixed(1),
+                pctImpSueno.toFixed(1)
+            ];
+            chartInstances.confianzaImportancia.update();
 
             // 8. Actualizar Gráfico de Cobertura por Género (Especialidades)
             chartInstances.estudiosSexo.data.datasets[0].data = [
