@@ -1124,9 +1124,9 @@ def get_dashboard_html_template(json_data):
                 <div class="kpi-card">
                     <div class="kpi-info" style="display: flex; flex-direction: column; gap: 4px;">
                         <h4 style="margin: 0;">Población Evaluada</h4>
-                        <div style="display: flex; align-items: baseline; gap: 6px;">
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
                             <span id="kpi-total" style="font-size: 24px; font-weight: 800; color: white; font-family: 'Outfit', sans-serif;">194</span>
-                            <span style="font-size: 11.5px; color: var(--text-secondary); font-weight: 500;">de 200 (97.0%)</span>
+                            <span style="font-size: 10px; color: var(--text-secondary); font-weight: 500; line-height: 1.25;">esperábamos 200 (alcanzamos a 97% que representan los 194)</span>
                         </div>
                     </div>
                     <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
@@ -1377,6 +1377,16 @@ def get_dashboard_html_template(json_data):
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+
+            <!-- Gráfico: Cobertura de Estudios por Género (Laboratorios) -->
+            <div class="dashboard-card" style="margin-top: 15px; margin-bottom: 20px;">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-chart-bar" style="color: var(--primary-accent)"></i> Cobertura de Estudios por Género</h3>
+                </div>
+                <div class="chart-container" style="height: 320px;">
+                    <canvas id="chart-estudios-sexo-lab"></canvas>
                 </div>
             </div>
 
@@ -1964,10 +1974,6 @@ def get_dashboard_html_template(json_data):
                 plugins: (typeof ChartDataLabels !== 'undefined') ? [ChartDataLabels] : [],
                 data: {
                     labels: [
-                        'Biometría Hemática',
-                        'Química Clínica',
-                        'Gral. de Orina (EGO)',
-                        'Antígeno Prostático',
                         'InBody',
                         'Electrocardiograma',
                         'Espirometría',
@@ -1976,13 +1982,65 @@ def get_dashboard_html_template(json_data):
                     datasets: [
                         {
                             label: 'Femenino',
-                            data: [0, 0, 0, 0, 0, 0, 0, 0],
+                            data: [0, 0, 0, 0],
                             backgroundColor: '#db2777',
                             borderRadius: 4
                         },
                         {
                             label: 'Masculino',
-                            data: [0, 0, 0, 0, 0, 0, 0, 0],
+                            data: [0, 0, 0, 0],
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: true, position: 'bottom' },
+                        datalabels: {
+                            display: true,
+                            anchor: 'center',
+                            align: 'center',
+                            color: '#ffffff',
+                            font: {
+                                weight: '600',
+                                size: 10,
+                                family: "'Outfit', sans-serif"
+                            },
+                            formatter: (value) => value > 0 ? value : ''
+                        }
+                    },
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, beginAtZero: true, grace: '10%', grid: { color: 'rgba(255,255,255,0.04)' } }
+                    }
+                }
+            });
+
+            // 9b. Gráfico de Cobertura de Estudios por Género (Laboratorios - Stacked vertical)
+            const ctxEstudiosSexoLab = document.getElementById('chart-estudios-sexo-lab').getContext('2d');
+            chartInstances.estudiosSexoLab = new Chart(ctxEstudiosSexoLab, {
+                type: 'bar',
+                plugins: (typeof ChartDataLabels !== 'undefined') ? [ChartDataLabels] : [],
+                data: {
+                    labels: [
+                        'Biometría Hemática',
+                        'Química Clínica',
+                        'Gral. de Orina (EGO)',
+                        'Antígeno Prostático'
+                    ],
+                    datasets: [
+                        {
+                            label: 'Femenino',
+                            data: [0, 0, 0, 0],
+                            backgroundColor: '#db2777',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Masculino',
+                            data: [0, 0, 0, 0],
                             backgroundColor: '#3b82f6',
                             borderRadius: 4
                         }
@@ -2594,26 +2652,33 @@ def get_dashboard_html_template(json_data):
 
             // 8. Actualizar Gráfico de Cobertura por Género (Especialidades)
             chartInstances.estudiosSexo.data.datasets[0].data = [
-                studySexCounts.Femenino.biometria,
-                studySexCounts.Femenino.quimica,
-                studySexCounts.Femenino.orina,
-                studySexCounts.Femenino.antigeno,
                 studySexCounts.Femenino.inbody,
                 studySexCounts.Femenino.ekg,
                 studySexCounts.Femenino.espirometria,
                 studySexCounts.Femenino.odontograma
             ];
             chartInstances.estudiosSexo.data.datasets[1].data = [
-                studySexCounts.Masculino.biometria,
-                studySexCounts.Masculino.quimica,
-                studySexCounts.Masculino.orina,
-                studySexCounts.Masculino.antigeno,
                 studySexCounts.Masculino.inbody,
                 studySexCounts.Masculino.ekg,
                 studySexCounts.Masculino.espirometria,
                 studySexCounts.Masculino.odontograma
             ];
             chartInstances.estudiosSexo.update();
+
+            // 8b. Actualizar Gráfico de Cobertura por Género (Laboratorios)
+            chartInstances.estudiosSexoLab.data.datasets[0].data = [
+                studySexCounts.Femenino.biometria,
+                studySexCounts.Femenino.quimica,
+                studySexCounts.Femenino.orina,
+                studySexCounts.Femenino.antigeno
+            ];
+            chartInstances.estudiosSexoLab.data.datasets[1].data = [
+                studySexCounts.Masculino.biometria,
+                studySexCounts.Masculino.quimica,
+                studySexCounts.Masculino.orina,
+                studySexCounts.Masculino.antigeno
+            ];
+            chartInstances.estudiosSexoLab.update();
 
             // 9. Actualizar Tabla de Pruebas Cardiorrespiratorias Funcionales (Dinámica)
             const ekgNormalCell = document.getElementById('td-ekg-normal');
