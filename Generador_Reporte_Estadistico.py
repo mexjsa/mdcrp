@@ -1486,7 +1486,7 @@ def get_dashboard_html_template(json_data):
             </div>
 
             <!-- Gráficos de Encuestas -->
-            <div class="dashboard-grid-2" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
+            <div class="dashboard-grid-2">
                 <div class="dashboard-card" style="padding: 15px;">
                     <div class="card-header" style="padding-bottom: 6px;">
                         <h3><i class="fa-solid fa-brain" style="color: var(--primary-accent)"></i> Estrés Percibido (Escala 1 a 5)</h3>
