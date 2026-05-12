@@ -129,6 +129,9 @@ def main():
         ekg_ritmo = str(row.get('ELECTROCARDIOGRAMA_Ritmo', '')).strip()
         ekg_ritmo = ekg_ritmo if pd.notna(row.get('ELECTROCARDIOGRAMA_Ritmo')) and ekg_ritmo != '' else None
         
+        ekg_conclusion = str(row.get('ELECTROCARDIOGRAMA_Conclusion', '')).strip()
+        ekg_conclusion = ekg_conclusion if pd.notna(row.get('ELECTROCARDIOGRAMA_Conclusion')) and ekg_conclusion != '' else None
+        
         tiene_ekg = pd.notna(row.get('ELECTROCARDIOGRAMA_Archivo_Origen')) if 'ELECTROCARDIOGRAMA_Archivo_Origen' in row else (ekg_ritmo is not None)
         
         espiro_int = str(row.get('ESPIROMETRIA_Interpretacion_Sistema', '')).strip()
@@ -205,6 +208,7 @@ def main():
             "cardio_respiratorio": {
                 "ekg_medido": tiene_ekg,
                 "ekg_ritmo": ekg_ritmo,
+                "ekg_conclusion": ekg_conclusion,
                 "espiro_medido": tiene_espirometria,
                 "espiro_interpretacion": espiro_int
             },
@@ -1988,7 +1992,41 @@ def get_dashboard_html_template(json_data):
                     if (p.cardio_respiratorio.ekg_medido) {
                         totalEKG++;
                         let ritmo = (p.cardio_respiratorio.ekg_ritmo || "").trim().toLowerCase();
-                        if (ritmo === "" || ritmo.includes("sinusal") || ritmo.includes("normal")) {
+                        let conclusion = (p.cardio_respiratorio.ekg_conclusion || "").trim().toLowerCase();
+                        
+                        // Limpiar frases negativas que darían falsos positivos
+                        conclusion = conclusion.replace("sin datos de isquemia, lesión 0", "");
+                        conclusion = conclusion.replace("sin datos de isquemia; lesión 0", "");
+                        conclusion = conclusion.replace("sin datos de isquemia, lesion 0", "");
+                        conclusion = conclusion.replace("sin datos de isquemia, lesión o necrosis", "");
+                        conclusion = conclusion.replace("sin datos de isquemia, lesion o necrosis", "");
+                        conclusion = conclusion.replace("sin datos de isquemia, lesion", "");
+                        conclusion = conclusion.replace("sin datos de isquemia, lesión", "");
+                        conclusion = conclusion.replace("sin datos de isquemia", "");
+                        conclusion = conclusion.replace("sin datos que sugieran", "");
+                        conclusion = conclusion.replace("sin alteraciones", "");
+                        conclusion = conclusion.replace("sin bloqueos", "");
+                        conclusion = conclusion.replace("sin lesion", "");
+                        conclusion = conclusion.replace("sin lesión", "");
+                        conclusion = conclusion.replace("lesión 0", "");
+                        conclusion = conclusion.replace("lesion 0", "");
+
+                        // Buscar palabras de alerta médica positiva
+                        let esAlerta = false;
+                        const alertKeywords = ["bloqueo", "isquemia", "necrosis", "infarto", "lesión", "lesion", "desviación", "desviacion", "q patológica", "q patologica", "anormal"];
+                        for (let kw of alertKeywords) {
+                            if (conclusion.includes(kw)) {
+                                esAlerta = true;
+                                break;
+                            }
+                        }
+
+                        // Evaluar ritmo general
+                        if (ritmo !== "" && !ritmo.includes("sinusal") && !ritmo.includes("normal")) {
+                            esAlerta = true;
+                        }
+
+                        if (!esAlerta) {
                             sinusalEKG++;
                         } else {
                             alertEKG++;
