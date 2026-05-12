@@ -331,6 +331,13 @@
             flex-shrink: 0;
         }
 
+        .dashboard-grid-3 {
+            display: grid;
+            grid-template-columns: 1.15fr 1.25fr 1fr;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
         .dashboard-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-card);
@@ -610,6 +617,13 @@
                 width: 100% !important;
             }
 
+            .dashboard-grid-3 {
+                display: grid !important;
+                grid-template-columns: 1.15fr 1.25fr 1.1fr !important;
+                gap: 12px !important;
+                width: 100% !important;
+            }
+
             .dashboard-card {
                 background-color: white !important;
                 border: 1px solid #e2e8f0 !important;
@@ -808,9 +822,12 @@
             <!-- KPI Cards de la Portada -->
             <div class="kpi-row">
                 <div class="kpi-card">
-                    <div class="kpi-info">
-                        <h4>Población Evaluada</h4>
-                        <p id="kpi-total">194</p>
+                    <div class="kpi-info" style="display: flex; flex-direction: column; gap: 4px;">
+                        <h4 style="margin: 0;">Población Evaluada</h4>
+                        <div style="display: flex; align-items: baseline; gap: 6px;">
+                            <span id="kpi-total" style="font-size: 24px; font-weight: 800; color: white; font-family: 'Outfit', sans-serif;">194</span>
+                            <span style="font-size: 11.5px; color: var(--text-secondary); font-weight: 500;">de 200 (97.0%)</span>
+                        </div>
                     </div>
                     <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
                 </div>
@@ -836,7 +853,7 @@
             </div>
 
             <!-- Gráficos Demográficos -->
-            <div class="dashboard-grid-2">
+            <div class="dashboard-grid-3">
                 <div class="dashboard-card">
                     <div class="card-header">
                         <h3><i class="fa-solid fa-people-group" style="color: var(--primary-accent)"></i> Distribución de Edad por Género</h3>
@@ -847,13 +864,63 @@
                 </div>
                 <div class="dashboard-card">
                     <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
-                        <h3><i class="fa-solid fa-clipboard-check" style="color: var(--primary-accent)"></i> Cobertura de Estudios Realizados</h3>
+                        <h3><i class="fa-solid fa-clipboard-check" style="color: var(--primary-accent)"></i> Cobertura de Estudios</h3>
                         <span id="slicer-indicator" style="font-size: 11px; color: #10b981; font-weight: 500; cursor: pointer; display: none;" onclick="clearStudyFilter()">
                             Limpiar <i class="fa-solid fa-circle-xmark"></i>
                         </span>
                     </div>
                     <div class="chart-container">
                         <canvas id="chart-estudios"></canvas>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary-accent)"></i> Participación</h3>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px; flex: 1; justify-content: space-between;">
+                        <div style="font-size: 11.5px; font-weight: 700; color: #10b981; text-align: center; margin-top: -3px;">
+                            Se alcanzó un 91.24% de registros en línea
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; height: 115px;">
+                            <div style="width: 48%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
+                                <canvas id="chart-participacion" style="max-height: 100% !important; max-width: 100% !important;"></canvas>
+                                <!-- Texto en el centro de la dona -->
+                                <div style="position: absolute; text-align: center; pointer-events: none; top: 52%; left: 50%; transform: translate(-50%, -50%);">
+                                    <span style="font-size: 16px; font-weight: 800; color: white; display: block; line-height: 1;">91.24%</span>
+                                    <span style="font-size: 8px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">En línea</span>
+                                </div>
+                            </div>
+                            <!-- Leyenda Custom con los bloques que emulan la primera imagen -->
+                            <div style="width: 52%; display: flex; flex-direction: column; gap: 4px; font-size: 9.5px;">
+                                <div style="border-left: 2px solid #64748b; padding-left: 4px; line-height: 1.1;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 7.5px; display: block;">Total Registros</span>
+                                    <strong style="color: white; font-size: 10.5px;">194</strong> <span style="color: var(--text-secondary);">| 100%</span>
+                                </div>
+                                <div style="border-left: 2px solid #3b82f6; padding-left: 4px; line-height: 1.1;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 7.5px; display: block;">Registros en Línea</span>
+                                    <strong style="color: #3b82f6; font-size: 10.5px;">177</strong> <span style="color: var(--text-secondary);">| 91.24%</span>
+                                </div>
+                                <div style="border-left: 2px solid #f97316; padding-left: 4px; line-height: 1.1;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 7.5px; display: block;">Registros Manuales</span>
+                                    <strong style="color: #f97316; font-size: 10.5px;">17</strong> <span style="color: var(--text-secondary);">| 8.76%</span>
+                                </div>
+                                <div style="border-left: 2px solid #10b981; padding-left: 4px; line-height: 1.1;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 7.5px; display: block;">Consentimientos Firmados</span>
+                                    <strong style="color: #10b981; font-size: 10.5px;">17</strong> <span style="color: var(--text-secondary);">| 8.76%</span>
+                                </div>
+                                <div style="border-left: 2px solid #a855f7; padding-left: 4px; line-height: 1.1;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 7.5px; display: block;">Con Registro / Sin Estudios</span>
+                                    <strong style="color: #a855f7; font-size: 10.5px;">16</strong> <span style="color: var(--text-secondary);">| 8.25%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pill descriptiva tipo Info Box -->
+                        <div style="background-color: rgba(255, 255, 255, 0.01); border: 1px solid var(--border-card); border-radius: 6px; padding: 5px 8px; font-size: 8.5px; line-height: 1.25; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 6px;">
+                            <i class="fa-solid fa-clipboard-list" style="color: var(--primary-accent); margin-top: 1px; font-size: 10px;"></i>
+                            <div>
+                                De un total de <strong>194 registros</strong>, <strong>177 (91.24%)</strong> se realizaron en línea, <strong>17 (8.76%)</strong> fueron manuales, <strong>17 (8.76%)</strong> corresponden a consentimientos y <strong>16 (8.25%)</strong> sin estudios.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -12735,7 +12802,7 @@
                 }
             });
 
-            // 2. Gráfico de Cobertura de Estudios Realizados (Horizontal)
+            // 2. Gráfico de Cobertura de Estudios Realizados (Horizontal Apilado)
             const ctxEstudios = document.getElementById('chart-estudios').getContext('2d');
             chartInstances.estudios = new Chart(ctxEstudios, {
                 type: 'bar',
@@ -12751,12 +12818,20 @@
                         'Espirometría',
                         'Odontograma'
                     ],
-                    datasets: [{
-                        label: 'Realizados',
-                        data: [0, 0, 0, 0, 0, 0, 0, 0],
-                        backgroundColor: '#0d9488',
-                        borderRadius: 6
-                    }]
+                    datasets: [
+                        {
+                            label: 'Efectuados',
+                            data: [0, 0, 0, 0, 0, 0, 0, 0],
+                            backgroundColor: '#0d9488',
+                            borderRadius: { topLeft: 4, bottomLeft: 4 }
+                        },
+                        {
+                            label: 'Pendientes',
+                            data: [0, 0, 0, 0, 0, 0, 0, 0],
+                            backgroundColor: '#475569', // Gris claro para pendientes en fondo oscuro
+                            borderRadius: { topRight: 4, bottomRight: 4 }
+                        }
+                    ]
                 },
                 options: {
                     indexAxis: 'y',
@@ -12784,26 +12859,38 @@
                         event.native.target.style.cursor = chartElement.length ? 'pointer' : 'default';
                     },
                     plugins: {
-                        legend: { display: false },
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#e2e8f0',
+                                boxWidth: 10,
+                                font: { size: 9.5, family: "'Outfit', sans-serif" }
+                            }
+                        },
                         datalabels: {
                             display: true,
-                            anchor: 'end',
-                            align: 'end',
-                            color: '#e2e8f0', // Color blanco hueso premium
+                            anchor: 'center',
+                            align: 'center',
+                            color: '#ffffff', // Color blanco hueso premium
                             font: {
                                 weight: 'bold',
-                                size: 10
+                                size: 9,
+                                family: "'Outfit', sans-serif"
                             },
                             formatter: (value) => value > 0 ? value : ''
                         }
                     },
                     scales: {
                         x: { 
+                            stacked: true,
                             beginAtZero: true, 
-                            grace: '10%', // Agrega margen al final para que no se recorten las etiquetas
                             grid: { color: 'rgba(255,255,255,0.04)' } 
                         },
-                        y: { grid: { display: false } }
+                        y: { 
+                            stacked: true,
+                            grid: { display: false } 
+                        }
                     }
                 }
             });
@@ -13018,6 +13105,37 @@
                     scales: {
                         x: { stacked: true, beginAtZero: true, grace: '10%', grid: { color: 'rgba(255,255,255,0.04)' } },
                         y: { stacked: true, grid: { display: false } }
+                    }
+                }
+            });
+
+            // 10. Gráfico de Participación (Doughnut)
+            const ctxParticipacion = document.getElementById('chart-participacion').getContext('2d');
+            chartInstances.participacion = new Chart(ctxParticipacion, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Registros en Línea', 'Registros Manuales', 'Consentimientos Firmados', 'Con Registro / Sin Estudios'],
+                    datasets: [{
+                        data: [177, 17, 17, 16],
+                        backgroundColor: ['#3b82f6', '#f97316', '#10b981', '#a855f7'],
+                        borderWidth: 0,
+                        cutout: '75%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const val = context.raw;
+                                    const pct = ((val / 194) * 100).toFixed(2);
+                                    return ` ${context.label}: ${val} (${pct}%)`;
+                                }
+                            }
+                        }
                     }
                 }
             });
@@ -13381,6 +13499,25 @@
             chartInstances.edadSexo.data.datasets[2].data = ageGroupGender.Desconocido;
             chartInstances.edadSexo.update();
 
+            // Definir colores dinámicos de fondo para los pendientes (Efecto Slicer)
+            let backgroundColorsPendientes = [
+                '#475569', '#475569', '#475569', '#475569',
+                '#475569', '#475569', '#475569', '#475569'
+            ];
+            if (selectedStudyFilter) {
+                const labels = [
+                    'Biometría Hemática',
+                    'Química Clínica',
+                    'Gral. de Orina (EGO)',
+                    'Antígeno Prostático',
+                    'InBody',
+                    'Electrocardiograma',
+                    'Espirometría',
+                    'Odontograma'
+                ];
+                backgroundColorsPendientes = labels.map(label => label === selectedStudyFilter ? '#475569' : '#1e293b');
+            }
+
             chartInstances.estudios.data.datasets[0].backgroundColor = backgroundColors;
             chartInstances.estudios.data.datasets[0].data = [
                 studyCounts.biometria,
@@ -13391,6 +13528,29 @@
                 studyCounts.ekg,
                 studyCounts.espirometria,
                 studyCounts.odontograma
+            ];
+
+            const contratados = {
+                biometria: 200,
+                quimica: 200,
+                orina: 200,
+                antigeno: 70,
+                inbody: 200,
+                ekg: 120,
+                espirometria: 150,
+                odontograma: 200
+            };
+
+            chartInstances.estudios.data.datasets[1].backgroundColor = backgroundColorsPendientes;
+            chartInstances.estudios.data.datasets[1].data = [
+                Math.max(0, contratados.biometria - studyCounts.biometria),
+                Math.max(0, contratados.quimica - studyCounts.quimica),
+                Math.max(0, contratados.orina - studyCounts.orina),
+                Math.max(0, contratados.antigeno - studyCounts.antigeno),
+                Math.max(0, contratados.inbody - studyCounts.inbody),
+                Math.max(0, contratados.ekg - studyCounts.ekg),
+                Math.max(0, contratados.espirometria - studyCounts.espirometria),
+                Math.max(0, contratados.odontograma - studyCounts.odontograma)
             ];
             chartInstances.estudios.update();
 
