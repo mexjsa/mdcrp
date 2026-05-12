@@ -1102,7 +1102,7 @@ def get_dashboard_html_template(json_data):
                     </div>
                     <div class="kpi-icon"><i class="fa-solid fa-notes-medical"></i></div>
                 </div>
-                <div class="kpi-card" style="grid-column: span 2; display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: 15px 20px; gap: 15px; min-height: 82px;">
+                <div class="kpi-card" style="grid-column: span 2; display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: 15px 20px; gap: 20px; min-height: 82px;">
                     <div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
                         <h4 style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin: 0;">Compartir Información (Consentimiento)</h4>
                         <div style="display: flex; align-items: baseline; gap: 8px;">
@@ -1110,8 +1110,15 @@ def get_dashboard_html_template(json_data):
                             <span id="kpi-consentimiento-si-qty" style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">(0 de 0)</span>
                         </div>
                     </div>
-                    <div style="width: 140px; height: 50px; position: relative; display: flex; align-items: center; justify-content: center;">
-                        <canvas id="chart-consentimiento" style="max-height: 50px !important; max-width: 140px !important;"></canvas>
+                    <div style="width: 200px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
+                        <div style="display: flex; justify-content: space-between; font-size: 9.5px; font-weight: 600; font-family: 'Outfit', sans-serif;">
+                            <span style="color: #10b981;">Sí: <span id="bar-consentimiento-si-val" style="font-weight: 700;">0</span> (<span id="bar-consentimiento-si-pct">0%</span>)</span>
+                            <span style="color: #ef4444;">No: <span id="bar-consentimiento-no-val" style="font-weight: 700;">0</span> (<span id="bar-consentimiento-no-pct">0%</span>)</span>
+                        </div>
+                        <div style="height: 12px; width: 100%; background-color: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; display: flex; border: 1px solid rgba(255,255,255,0.04);">
+                            <div id="bar-consentimiento-si" style="height: 100%; background-color: #10b981; transition: width 0.4s ease; width: 0%;"></div>
+                            <div id="bar-consentimiento-no" style="height: 100%; background-color: #ef4444; transition: width 0.4s ease; width: 0%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1830,37 +1837,7 @@ def get_dashboard_html_template(json_data):
                 }
             });
 
-            // 8. Gráfico de Consentimiento para Compartir Información (Doughnut Mini)
-            const ctxConsentimiento = document.getElementById('chart-consentimiento').getContext('2d');
-            chartInstances.consentimiento = new Chart(ctxConsentimiento, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Sí', 'No'],
-                    datasets: [{
-                        data: [0, 0],
-                        backgroundColor: ['#10b981', '#ef4444'], // Verde esmeralda para Sí, rojo para No
-                        borderWidth: 0,
-                        cutout: '70%'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => {
-                                    const value = context.raw;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const pct = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                    return ` ${context.label}: ${value} (${pct}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            // 8. El Gráfico de Consentimiento para Compartir Información se maneja como barra horizontal HTML nativa por estética
 
             // 9. Gráfico de Cobertura de Estudios por Género (Especialidades - Stacked horizontal)
             const ctxEstudiosSexo = document.getElementById('chart-estudios-sexo').getContext('2d');
@@ -2240,13 +2217,21 @@ def get_dashboard_html_template(json_data):
 
             const totalCompartir = countCompartirSI + countCompartirNO;
             const pctCompartirSI = totalCompartir > 0 ? (100 * countCompartirSI / totalCompartir) : 0;
+            const pctCompartirNO = totalCompartir > 0 ? (100 * countCompartirNO / totalCompartir) : 0;
             
             document.getElementById('kpi-consentimiento-si-pct').innerText = `${pctCompartirSI.toFixed(1)}%`;
             document.getElementById('kpi-consentimiento-si-qty').innerText = `(${countCompartirSI} de ${totalCompartir})`;
             
-            if (chartInstances.consentimiento) {
-                chartInstances.consentimiento.data.datasets[0].data = [countCompartirSI, countCompartirNO];
-                chartInstances.consentimiento.update();
+            // Actualizar la barra horizontal nativa de consentimiento
+            const barSI = document.getElementById('bar-consentimiento-si');
+            const barNO = document.getElementById('bar-consentimiento-no');
+            if (barSI && barNO) {
+                barSI.style.width = `${pctCompartirSI}%`;
+                barNO.style.width = `${pctCompartirNO}%`;
+                document.getElementById('bar-consentimiento-si-val').innerText = countCompartirSI;
+                document.getElementById('bar-consentimiento-no-val').innerText = countCompartirNO;
+                document.getElementById('bar-consentimiento-si-pct').innerText = `${pctCompartirSI.toFixed(1)}%`;
+                document.getElementById('bar-consentimiento-no-pct').innerText = `${pctCompartirNO.toFixed(1)}%`;
             }
 
             // Actualizar tabla InBody (Pág 2)
