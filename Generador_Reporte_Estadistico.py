@@ -575,8 +575,8 @@ def get_dashboard_html_template(json_data):
         /* GRIDS & CARDS */
         .kpi-row {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
             flex-shrink: 0;
         }
 
@@ -1138,7 +1138,7 @@ def get_dashboard_html_template(json_data):
                     </div>
                     <div class="kpi-icon"><i class="fa-solid fa-notes-medical"></i></div>
                 </div>
-                <div class="kpi-card" style="grid-column: span 2; display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: 15px 20px; gap: 20px; min-height: 82px;">
+                <div class="kpi-card" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: 15px 20px; gap: 15px; min-height: 82px;">
                     <div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
                         <h4 style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin: 0;">Compartir Información (Consentimiento)</h4>
                         <div style="display: flex; align-items: baseline; gap: 8px;">
@@ -1146,7 +1146,7 @@ def get_dashboard_html_template(json_data):
                             <span id="kpi-consentimiento-si-qty" style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">(0 de 0)</span>
                         </div>
                     </div>
-                    <div style="width: 200px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
+                    <div style="width: 170px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
                         <div style="display: flex; justify-content: space-between; font-size: 9.5px; font-weight: 600; font-family: 'Outfit', sans-serif;">
                             <span style="color: #10b981;">Sí: <span id="bar-consentimiento-si-val" style="font-weight: 700;">0</span> (<span id="bar-consentimiento-si-pct">0%</span>)</span>
                             <span style="color: #ef4444;">No: <span id="bar-consentimiento-no-val" style="font-weight: 700;">0</span> (<span id="bar-consentimiento-no-pct">0%</span>)</span>
