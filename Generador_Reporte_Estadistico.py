@@ -1243,6 +1243,16 @@ def get_dashboard_html_template(json_data):
                 </p>
             </div>
 
+            <!-- Gráfico: Cobertura InBody por Género -->
+            <div class="dashboard-card" style="margin-top: 15px; margin-bottom: 20px;">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-chart-bar" style="color: var(--primary-accent)"></i> Cobertura de Estudio InBody por Género</h3>
+                </div>
+                <div class="chart-container" style="height: 240px;">
+                    <canvas id="chart-estudios-sexo-inbody"></canvas>
+                </div>
+            </div>
+
             <!-- Gráficos InBody -->
             <div class="dashboard-grid-2">
                 <div class="dashboard-card" style="flex: 1.3;">
@@ -1967,7 +1977,6 @@ def get_dashboard_html_template(json_data):
                 plugins: (typeof ChartDataLabels !== 'undefined') ? [ChartDataLabels] : [],
                 data: {
                     labels: [
-                        'InBody',
                         'Electrocardiograma',
                         'Espirometría',
                         'Odontograma'
@@ -1975,13 +1984,61 @@ def get_dashboard_html_template(json_data):
                     datasets: [
                         {
                             label: 'Femenino',
-                            data: [0, 0, 0, 0],
+                            data: [0, 0, 0],
                             backgroundColor: '#db2777',
                             borderRadius: 6
                         },
                         {
                             label: 'Masculino',
-                            data: [0, 0, 0, 0],
+                            data: [0, 0, 0],
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: true, position: 'bottom' },
+                        datalabels: {
+                            display: true,
+                            anchor: 'end',
+                            align: 'end',
+                            offset: 2,
+                            color: '#f8fafc',
+                            font: {
+                                weight: '600',
+                                size: 10,
+                                family: "'Outfit', sans-serif"
+                            },
+                            formatter: (value) => value > 0 ? value : ''
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { beginAtZero: true, grace: '15%', grid: { color: 'rgba(255,255,255,0.04)' } }
+                    }
+                }
+            });
+
+            // 9a. Gráfico de Cobertura de Estudio InBody por Género
+            const ctxEstudiosSexoInBody = document.getElementById('chart-estudios-sexo-inbody').getContext('2d');
+            chartInstances.estudiosSexoInBody = new Chart(ctxEstudiosSexoInBody, {
+                type: 'bar',
+                plugins: (typeof ChartDataLabels !== 'undefined') ? [ChartDataLabels] : [],
+                data: {
+                    labels: ['InBody'],
+                    datasets: [
+                        {
+                            label: 'Femenino',
+                            data: [0],
+                            backgroundColor: '#db2777',
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'Masculino',
+                            data: [0],
                             backgroundColor: '#3b82f6',
                             borderRadius: 6
                         }
@@ -2647,18 +2704,21 @@ def get_dashboard_html_template(json_data):
 
             // 8. Actualizar Gráfico de Cobertura por Género (Especialidades)
             chartInstances.estudiosSexo.data.datasets[0].data = [
-                studySexCounts.Femenino.inbody,
                 studySexCounts.Femenino.ekg,
                 studySexCounts.Femenino.espirometria,
                 studySexCounts.Femenino.odontograma
             ];
             chartInstances.estudiosSexo.data.datasets[1].data = [
-                studySexCounts.Masculino.inbody,
                 studySexCounts.Masculino.ekg,
                 studySexCounts.Masculino.espirometria,
                 studySexCounts.Masculino.odontograma
             ];
             chartInstances.estudiosSexo.update();
+
+            // 8a. Actualizar Gráfico de Cobertura por Género (InBody)
+            chartInstances.estudiosSexoInBody.data.datasets[0].data = [studySexCounts.Femenino.inbody];
+            chartInstances.estudiosSexoInBody.data.datasets[1].data = [studySexCounts.Masculino.inbody];
+            chartInstances.estudiosSexoInBody.update();
 
             // 8b. Actualizar Gráfico de Cobertura por Género (Laboratorios)
             chartInstances.estudiosSexoLab.data.datasets[0].data = [
