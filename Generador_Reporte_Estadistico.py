@@ -267,11 +267,19 @@ def main():
             }
         })
 
+    # Cargar logo de Sanofi en Base64 para autonomía total
+    logo_path = os.path.join(base_dir, "sanofi_logo_white.png")
+    logo_base64 = "sanofi_logo_white.png"
+    if os.path.exists(logo_path):
+        import base64
+        with open(logo_path, "rb") as img_file:
+            logo_base64 = "data:image/png;base64," + base64.b64encode(img_file.read()).decode("utf-8")
+
     # 1. Serializar datos a JSON (Confidencial con nombres reales)
     json_data = json.dumps(patients_data, indent=2, ensure_ascii=False)
     
     # Crear contenido HTML confidencial
-    html_template = get_dashboard_html_template(json_data)
+    html_template = get_dashboard_html_template(json_data, logo_base64)
     
     print(f"Escribiendo dashboard interactivo final (Confidencial) en: {output_path}...")
     with open(output_path, 'w', encoding='utf-8') as f:
@@ -287,7 +295,7 @@ def main():
         patients_data_public.append(p_public_dict)
         
     json_data_public = json.dumps(patients_data_public, indent=2, ensure_ascii=False)
-    html_template_public = get_dashboard_html_template(json_data_public)
+    html_template_public = get_dashboard_html_template(json_data_public, logo_base64)
     
     public_output_path = os.path.join(base_dir, "index.html")
     print(f"Escribiendo dashboard público (Anonimizado) en: {public_output_path}...")
@@ -296,7 +304,7 @@ def main():
         
     print("¡Generación de dashboards completada con éxito total (local confidencial e index.html público)!")
 
-def get_dashboard_html_template(json_data):
+def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
     # Retorna la plantilla HTML completa del dashboard inyectando el RAW_DATA
     template = """<!DOCTYPE html>
 <html lang="es">
@@ -1028,7 +1036,7 @@ def get_dashboard_html_template(json_data):
         <!-- BARRA LATERAL IZQUIERDA CON FILTROS E INFORMACIÓN -->
         <aside class="sidebar">
             <div class="sidebar-logo">
-                <img src="sanofi_logo_white.png" alt="SANOFI Logo">
+                <img src="LOGO_SANOFI_PLACEHOLDER" alt="SANOFI Logo">
             </div>
             
             <div class="sidebar-campaign">
@@ -2786,7 +2794,7 @@ def get_dashboard_html_template(json_data):
     </script>
 </body>
 </html>"""
-    return template.replace("<!-- DATA_PLACEHOLDER -->", json_data)
+    return template.replace("<!-- DATA_PLACEHOLDER -->", json_data).replace("LOGO_SANOFI_PLACEHOLDER", logo_base64)
 
 if __name__ == "__main__":
     main()
