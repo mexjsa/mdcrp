@@ -1194,8 +1194,8 @@ def get_dashboard_html_template(json_data):
                                     <span style="font-size: 10px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-top: 2px; display: block;">En línea</span>
                                 </div>
                             </div>
-                            <!-- Leyenda Custom con fuentes optimizadas -->
-                            <div style="width: 52%; display: flex; flex-direction: column; gap: 8px; font-size: 10px; justify-content: center;">
+                            <!-- Leyenda Custom con fuentes optimizadas y sin redundancia -->
+                            <div style="width: 52%; display: flex; flex-direction: column; gap: 10px; font-size: 10px; justify-content: center;">
                                 <div style="border-left: 3px solid #3b82f6; padding-left: 8px; line-height: 1.15;">
                                     <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Registros en Línea</span>
                                     <strong style="color: #3b82f6; font-size: 13px; font-family: 'Outfit', sans-serif;">177</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 91.24%</span>
@@ -1207,10 +1207,6 @@ def get_dashboard_html_template(json_data):
                                 <div style="border-left: 3px solid #64748b; padding-left: 8px; line-height: 1.15; margin-top: 4px;">
                                     <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Total Registros</span>
                                     <strong style="color: white; font-size: 13px; font-family: 'Outfit', sans-serif;">194</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 100%</span>
-                                </div>
-                                <div style="border-left: 3px solid #10b981; padding-left: 8px; line-height: 1.15;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Consentimientos Firmados</span>
-                                    <strong style="color: #10b981; font-size: 13px; font-family: 'Outfit', sans-serif;">17</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 8.76%</span>
                                 </div>
                                 <div style="border-left: 3px solid #a855f7; padding-left: 8px; line-height: 1.15;">
                                     <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Con Registro / Sin Estudios</span>
