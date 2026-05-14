@@ -1243,19 +1243,19 @@ def get_dashboard_html_template(json_data):
                 </p>
             </div>
 
-            <!-- Gráfico: Cobertura InBody por Género -->
-            <div class="dashboard-card" style="margin-top: 15px; margin-bottom: 20px;">
-                <div class="card-header">
-                    <h3><i class="fa-solid fa-chart-bar" style="color: var(--primary-accent)"></i> Cobertura de Estudio InBody por Género</h3>
+            <!-- Gráficos InBody: Cobertura e IMC en paralelo -->
+            <div class="dashboard-grid-2" style="margin-top: 15px; margin-bottom: 20px;">
+                <!-- Cobertura InBody -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-chart-bar" style="color: var(--primary-accent)"></i> Cobertura de Estudio InBody por Género</h3>
+                    </div>
+                    <div class="chart-container" style="height: 240px;">
+                        <canvas id="chart-estudios-sexo-inbody"></canvas>
+                    </div>
                 </div>
-                <div class="chart-container" style="height: 240px;">
-                    <canvas id="chart-estudios-sexo-inbody"></canvas>
-                </div>
-            </div>
-
-            <!-- Gráficos InBody -->
-            <div class="dashboard-grid-2">
-                <div class="dashboard-card" style="flex: 1.3;">
+                <!-- Distribución de IMC -->
+                <div class="dashboard-card">
                     <div class="card-header">
                         <h3><i class="fa-solid fa-chart-bar" style="color: var(--primary-accent)"></i> Distribución de IMC (Índice de Masa Corporal)</h3>
                     </div>
@@ -1263,43 +1263,45 @@ def get_dashboard_html_template(json_data):
                         <canvas id="chart-imc"></canvas>
                     </div>
                 </div>
-                <div class="dashboard-card" style="flex: 0.7;">
-                    <div class="card-header">
-                        <h3><i class="fa-solid fa-list-check" style="color: var(--primary-accent)"></i> Medias Poblacionales (InBody)</h3>
-                    </div>
-                    <div class="table-wrapper">
-                        <table class="premium-table">
-                            <thead>
-                                <tr>
-                                    <th>Indicador InBody</th>
-                                    <th>Media Muestra</th>
-                                    <th>Estado Poblacional</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Peso Corporal</td>
-                                    <td id="td-peso">72.8 kg</td>
-                                    <td>Rango Medio</td>
-                                </tr>
-                                <tr>
-                                    <td>Masa Musculoesquelética</td>
-                                    <td id="td-musculo">27.4 kg</td>
-                                    <td>Adecuado</td>
-                                </tr>
-                                <tr>
-                                    <td>Masa Grasa Corporal</td>
-                                    <td id="td-grasa">23.6 kg</td>
-                                    <td style="color: var(--danger-accent); font-weight: 600;">Elevado</td>
-                                </tr>
-                                <tr>
-                                    <td>Agua Corporal Total</td>
-                                    <td id="td-agua">39.2 L</td>
-                                    <td>Normohidratado</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            </div>
+
+            <!-- Tabla de Medias Poblacionales -->
+            <div class="dashboard-card" style="max-width: 900px; margin: 0 auto 20px auto;">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-list-check" style="color: var(--primary-accent)"></i> Medias Poblacionales (InBody)</h3>
+                </div>
+                <div class="table-wrapper">
+                    <table class="premium-table">
+                        <thead>
+                            <tr>
+                                <th>Indicador InBody</th>
+                                <th>Media Muestra</th>
+                                <th>Estado Poblacional</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Peso Corporal</td>
+                                <td id="td-peso">72.8 kg</td>
+                                <td>Rango Medio</td>
+                            </tr>
+                            <tr>
+                                <td>Masa Musculoesquelética</td>
+                                <td id="td-musculo">27.4 kg</td>
+                                <td>Adecuado</td>
+                            </tr>
+                            <tr>
+                                <td>Masa Grasa Corporal</td>
+                                <td id="td-grasa">23.6 kg</td>
+                                <td style="color: var(--danger-accent); font-weight: 600;">Elevado</td>
+                            </tr>
+                            <tr>
+                                <td>Agua Corporal Total</td>
+                                <td id="td-agua">39.2 L</td>
+                                <td>Normohidratado</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
