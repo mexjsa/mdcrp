@@ -1184,33 +1184,33 @@ def get_dashboard_html_template(json_data):
                     <div class="card-header">
                         <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary-accent)"></i> Participación</h3>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 10px; flex: 1; justify-content: center; padding-top: 10px;">
-                        <div class="chart-container" style="display: flex; align-items: center; gap: 15px; height: 185px;">
-                            <div style="width: 48%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
+                    <div style="display: flex; flex-direction: column; flex: 1; justify-content: center;">
+                        <div class="chart-container" style="display: flex; align-items: center; gap: 20px; height: 190px;">
+                            <div style="width: 45%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
                                 <canvas id="chart-participacion" style="max-height: 100% !important; max-width: 100% !important;"></canvas>
                                 <!-- Texto en el centro de la dona (Aumentado para máxima presencia) -->
                                 <div style="position: absolute; text-align: center; pointer-events: none; top: 52%; left: 50%; transform: translate(-50%, -50%);">
-                                    <span style="font-size: 24px; font-weight: 800; color: white; display: block; line-height: 1; font-family: 'Outfit', sans-serif;">91.24%</span>
-                                    <span style="font-size: 10px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-top: 2px; display: block;">En línea</span>
+                                    <span style="font-size: 26px; font-weight: 800; color: white; display: block; line-height: 1; font-family: 'Outfit', sans-serif;">91.24%</span>
+                                    <span style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-top: 2px; display: block;">En línea</span>
                                 </div>
                             </div>
-                            <!-- Leyenda Custom con fuentes optimizadas y sin redundancia -->
-                            <div style="width: 52%; display: flex; flex-direction: column; gap: 10px; font-size: 10px; justify-content: center;">
-                                <div style="border-left: 3px solid #3b82f6; padding-left: 8px; line-height: 1.15;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Registros en Línea</span>
-                                    <strong style="color: #3b82f6; font-size: 13px; font-family: 'Outfit', sans-serif;">177</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 91.24%</span>
+                            <!-- Leyenda Custom con fuentes premium y sin redundancia -->
+                            <div style="width: 55%; display: flex; flex-direction: column; gap: 14px; justify-content: center;">
+                                <div style="border-left: 4px solid #3b82f6; padding-left: 10px; line-height: 1.2;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Registros en Línea</span>
+                                    <strong style="color: #3b82f6; font-size: 16px; font-family: 'Outfit', sans-serif;">177</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 91.24%</span>
                                 </div>
-                                <div style="border-left: 3px solid #f97316; padding-left: 8px; line-height: 1.15;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Registros Manuales</span>
-                                    <strong style="color: #f97316; font-size: 13px; font-family: 'Outfit', sans-serif;">17</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 8.76%</span>
+                                <div style="border-left: 4px solid #f97316; padding-left: 10px; line-height: 1.2;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Registros Manuales</span>
+                                    <strong style="color: #f97316; font-size: 16px; font-family: 'Outfit', sans-serif;">17</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 8.76%</span>
                                 </div>
-                                <div style="border-left: 3px solid #64748b; padding-left: 8px; line-height: 1.15; margin-top: 4px;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Total Registros</span>
-                                    <strong style="color: white; font-size: 13px; font-family: 'Outfit', sans-serif;">194</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 100%</span>
+                                <div style="border-left: 4px solid #64748b; padding-left: 10px; line-height: 1.2; margin-top: 2px;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Total Registros</span>
+                                    <strong style="color: white; font-size: 16px; font-family: 'Outfit', sans-serif;">194</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 100%</span>
                                 </div>
-                                <div style="border-left: 3px solid #a855f7; padding-left: 8px; line-height: 1.15;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Con Registro / Sin Estudios</span>
-                                    <strong style="color: #a855f7; font-size: 13px; font-family: 'Outfit', sans-serif;">15</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 7.73%</span>
+                                <div style="border-left: 4px solid #a855f7; padding-left: 10px; line-height: 1.2;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Con HRA</span>
+                                    <strong style="color: #a855f7; font-size: 16px; font-family: 'Outfit', sans-serif;">15</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 7.73%</span>
                                 </div>
                             </div>
                         </div>
