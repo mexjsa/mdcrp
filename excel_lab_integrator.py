@@ -106,6 +106,28 @@ def process_all_studies(base_dir):
                             except Exception as e:
                                 flush_print(f"    [ERROR] No se pudo unir las imágenes del EKG para {filename}: {e}")
                     
+                    # --- GENERACION DE IMAGEN PARA ESPIROMETRIA ---
+                    if record.get('Tipo_Estudio') == "ESPIROMETRIA":
+                        img_name = os.path.splitext(filename)[0] + ".png"
+                        img_output_path = os.path.join(study_path, img_name)
+                        # Forzar regeneración con recorte para evitar el solapamiento del pie de página ndd
+                        if True:
+                            flush_print(f"    [IMG] Generando imagen de espirometría (recortada) para: {img_name}")
+                            try:
+                                doc = fitz.open(pdf_file)
+                                if len(doc) >= 1:
+                                    page = doc[0]
+                                    rect = page.rect
+                                    # Recortar el margen inferior (8%) para eliminar el pie de página de ndd original y evitar solapamientos
+                                    crop_rect = fitz.Rect(0, 0, rect.width, rect.height * 0.92)
+                                    page.set_cropbox(crop_rect)
+                                    pix = page.get_pixmap(dpi=200)
+                                    img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                                    img.save(img_output_path, "PNG")
+                                doc.close()
+                            except Exception as e:
+                                flush_print(f"    [ERROR] No se pudo generar imagen de espirometría para {filename}: {e}")
+                    
                     # Guardar progreso incrementalmente
                     try:
                         with open(progress_file, 'w', encoding='utf-8') as f:

@@ -334,8 +334,141 @@
         .odontograma-summary .summary-lbl {
             font-size: 0.6rem; font-weight: 700; text-transform: uppercase; color: var(--text-mut); margin-top: 2px; letter-spacing: 0.5px;
         }
-        .odontograma-summary .summary-det {
-            font-size: 0.55rem; color: var(--brand-red); margin-top: 2px; font-weight: 600; text-transform: uppercase; max-width: 250px; line-height: 1.1;
+        /* INBODY PREMIUM CLINICAL DASHBOARD */
+        .ib-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .ib-card {
+            border: 2px solid var(--brand-navy);
+            background: #ffffff;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+        .ib-card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: white;
+            background: var(--brand-navy);
+            padding: 4px 8px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Bar Chart: Weight - Muscle - Fat */
+        .ib-bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .ib-bar-row {
+            display: grid;
+            grid-template-columns: 90px 1fr 55px;
+            align-items: center;
+            gap: 10px;
+        }
+        .ib-bar-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--brand-navy);
+            text-transform: uppercase;
+        }
+        .ib-bar-container {
+            height: 16px;
+            background: #e2e8f0;
+            position: relative;
+            border-left: 2px solid var(--brand-navy);
+        }
+        .ib-bar-fill {
+            height: 100%;
+            background: var(--brand-primary);
+        }
+        .ib-bar-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-align: right;
+            color: var(--brand-navy);
+        }
+        
+        /* Segmental Lean Grid */
+        .ib-seg-body {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 140px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        .ib-seg-man {
+            position: absolute;
+            height: 90%;
+            opacity: 0.15;
+            object-fit: contain;
+        }
+        .ib-seg-box {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--brand-navy);
+            padding: 2px 4px;
+            text-align: center;
+            min-width: 55px;
+        }
+        .ib-seg-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--brand-navy);
+        }
+        .ib-seg-label {
+            font-size: 0.45rem;
+            font-weight: 700;
+            color: var(--text-mut);
+            text-transform: uppercase;
+        }
+        
+        /* Gauges / Progress arcs */
+        .ib-gauge-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .ib-gauge-box {
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            padding: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .ib-gauge-title {
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: var(--text-mut);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .ib-gauge-val {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--brand-primary);
+        }
+        .ib-gauge-lbl {
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            margin-top: 2px;
         }
     </style>
 </head>
@@ -368,7 +501,7 @@
                 </div>
                 <div class="kpi-cell">
                     <div class="kc-val" id="kpi-alert" style="color:var(--brand-red)">0</div>
-                    <div class="kc-lab">Anillos Rojos</div>
+                    <div class="kc-lab">Focos de Atención</div>
                 </div>
             </section>
 
@@ -426,9 +559,44 @@
             const r = INCOMING_DATA.resumen;
             const img = INCOMING_DATA.imagenes;
 
+            // Extract InBody parameters dynamically
+            const ibStudy = INCOMING_DATA.estudios.find(e => e.titulo.toUpperCase().includes('INBODY') || e.titulo.toUpperCase().includes('COMPOSICIÓN CORPORAL') || e.titulo.toUpperCase().includes('COMPOSICION CORPORAL'));
+            const ibData = {};
+            if (ibStudy) {
+                ibStudy.parametros.forEach(p => {
+                    const k = p.nombre.toUpperCase();
+                    if (k.includes('PESO')) ibData.peso = p.resultado;
+                    else if (k.includes('AGUA')) ibData.agua = p.resultado;
+                    else if (k.includes('MASA GRASA') && !k.includes('PORCENTAJE')) ibData.grasa = p.resultado;
+                    else if (k.includes('MUSCULOESQUELETICA')) ibData.musculo = p.resultado;
+                    else if (k.includes('LIBRE DE GRASA')) ibData.libre = p.resultado;
+                    else if (k.includes('IMC')) ibData.imc = p.resultado;
+                    else if (k.includes('PMG') || k.includes('PORCENTAJE DE MASA GRASA')) ibData.pmg = p.resultado;
+                    else if (k.includes('BRAZO DERECHO')) ibData.brazoDer = p.resultado;
+                    else if (k.includes('BRAZO IZQUIERDO')) ibData.brazoIzq = p.resultado;
+                    else if (k.includes('TRONCO')) ibData.tronco = p.resultado;
+                    else if (k.includes('PIERNA DERECHA')) ibData.piernaDer = p.resultado;
+                    else if (k.includes('PIERNA IZQUIERDA')) ibData.piernaIzq = p.resultado;
+                    else if (k.includes('AIC/AEC')) ibData.aic_aec = p.resultado;
+                    else if (k.includes('PUNTAJE')) ibData.puntaje = p.resultado;
+                    else if (k.includes('TMB')) ibData.tmb = p.resultado;
+                });
+            }
+
             // 1. Calcular total de páginas físicas del dossier (Paginación Dinámica de Parámetros)
             const paginatedEstudios = [];
             INCOMING_DATA.estudios.forEach(est => {
+                // Excluir InBody y Espirometría de las tablas estándar ya que tienen su propio panel o página dedicada
+                const titleUpper = est.titulo.toUpperCase();
+                if (titleUpper.includes('INBODY') || 
+                    titleUpper.includes('COMPOSICIÓN CORPORAL') || 
+                    titleUpper.includes('COMPOSICION CORPORAL') ||
+                    titleUpper.includes('ESPIROMETRÍA') ||
+                    titleUpper.includes('ESPIROMETRIA') ||
+                    titleUpper.includes('FUNCIÓN PULMONAR') ||
+                    titleUpper.includes('FUNCION PULMONAR')) {
+                    return;
+                }
                 const maxParamsPerPage = 14;
                 if (est.parametros.length <= maxParamsPerPage) {
                     paginatedEstudios.push(est);
@@ -449,6 +617,17 @@
             let totalPages = 1; // Página 1 (Resumen) es obligatoria
             totalPages += paginatedEstudios.length; // Cada sub-estudio va en su propia página
             
+            const hasInbody = !!ibStudy;
+            if (hasInbody) {
+                totalPages += 1; // Página de Composición Corporal dedicada
+            }
+
+            let espiroPageIdx = 0;
+            if (img.espirometria) {
+                totalPages += 1; // Página de trazo de espirometría
+                espiroPageIdx = totalPages;
+            }
+
             let ekgPageIdx = 0;
             let ekgWaveformPageIdx = 0;
             if (img.electrocardiograma || img.electrocardiograma_datos) {
@@ -637,6 +816,210 @@
                     </div>
                 `;
             });
+
+            // 5.2 Renderizar Página de Composición Corporal (InBody)
+            if (hasInbody) {
+                currentPage++;
+                const isMale = String(p.sexo || '').toLowerCase() in { h: 1, hombre: 1, masculino: 1 };
+                const pmgVal = parseFloat(ibData.pmg);
+                let pmgDiagnostico = 'Normal';
+                if (!isNaN(pmgVal)) {
+                    if (isMale) {
+                        if (pmgVal < 10) pmgDiagnostico = 'Bajo';
+                        else if (pmgVal <= 20) pmgDiagnostico = 'Normal';
+                        else if (pmgVal <= 25) pmgDiagnostico = 'L. Elevado';
+                        else pmgDiagnostico = 'Alto';
+                    } else {
+                        if (pmgVal < 18) pmgDiagnostico = 'Bajo';
+                        else if (pmgVal <= 28) pmgDiagnostico = 'Normal';
+                        else if (pmgVal <= 33) pmgDiagnostico = 'L. Elevado';
+                        else pmgDiagnostico = 'Alto';
+                    }
+                }
+                
+                const imcVal = parseFloat(ibData.imc);
+                let imcDiagnostico = 'Normal';
+                if (!isNaN(imcVal)) {
+                    if (imcVal < 18.5) imcDiagnostico = 'Bajo Peso';
+                    else if (imcVal < 25.0) imcDiagnostico = 'Normal';
+                    else if (imcVal < 30.0) imcDiagnostico = 'Sobrepeso';
+                    else imcDiagnostico = 'Obesidad';
+                }
+
+                const segDerB = ibData.brazoDer || '-';
+                const segIzqB = ibData.brazoIzq || '-';
+                const segTr = ibData.tronco || '-';
+                const segDerP = ibData.piernaDer || '-';
+                const segIzqP = ibData.piernaIzq || '-';
+
+                const weightPct = Math.min(100, Math.max(10, (parseFloat(ibData.peso) || 70) * 0.9));
+                const musclePct = Math.min(100, Math.max(10, (parseFloat(ibData.musculo) || 30) * 1.8));
+                const fatPct = Math.min(100, Math.max(10, (parseFloat(ibData.grasa) || 15) * 2.5));
+
+                contentHTML += `
+                    <div class="print-page">
+                        <div class="page-content-wrapper">
+                            <div class="page-header-print">
+                                <span class="print-title">Reporte Clínico • Med&Corp</span>
+                                <span class="print-subtitle">Composición Corporal</span>
+                            </div>
+                            
+                            <div class="study-header-container">
+                                <div class="s-title">ANÁLISIS DE COMPOSICIÓN CORPORAL (INBODY)</div>
+                                <div class="method-badge">Análisis por Bioimpedancia Eléctrica</div>
+                            </div>
+                            
+                            <div class="ib-grid">
+                                <!-- Columna Izquierda: Gráficos de Peso, Músculo y Grasa -->
+                                <div class="ib-card">
+                                    <div class="ib-card-title">Composición Peso / Músculo / Grasa</div>
+                                    <div class="ib-bar-chart" style="margin-top: 10px; margin-bottom: 10px;">
+                                        <div class="ib-bar-row">
+                                            <span class="ib-bar-label">Peso</span>
+                                            <div class="ib-bar-container">
+                                                <div class="ib-bar-fill" style="width: ${weightPct}%; background-color: var(--brand-primary);"></div>
+                                            </div>
+                                            <span class="ib-bar-val">${ibData.peso || '-'}</span>
+                                        </div>
+                                        <div class="ib-bar-row">
+                                            <span class="ib-bar-label">Músculo SMM</span>
+                                            <div class="ib-bar-container">
+                                                <div class="ib-bar-fill" style="width: ${musclePct}%; background-color: var(--stat-norm);"></div>
+                                            </div>
+                                            <span class="ib-bar-val">${ibData.musculo || '-'} kg</span>
+                                        </div>
+                                        <div class="ib-bar-row">
+                                            <span class="ib-bar-label">Grasa BFM</span>
+                                            <div class="ib-bar-container">
+                                                <div class="ib-bar-fill" style="width: ${fatPct}%; background-color: var(--brand-red);"></div>
+                                            </div>
+                                            <span class="ib-bar-val">${ibData.grasa || '-'} kg</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="ib-card-title">Diagnóstico de Masa e Índices</div>
+                                    <div class="ib-gauge-row" style="margin-top: 5px;">
+                                        <div class="ib-gauge-box">
+                                            <span class="ib-gauge-title">Índice Masa Corporal (IMC)</span>
+                                            <span class="ib-gauge-val" style="color: var(--brand-primary);">${ibData.imc || '-'}</span>
+                                            <span class="ib-gauge-lbl" style="color: var(--text-dark);">${imcDiagnostico}</span>
+                                        </div>
+                                        <div class="ib-gauge-box">
+                                            <span class="ib-gauge-title">% Grasa Corporal (PMG)</span>
+                                            <span class="ib-gauge-val" style="color: var(--brand-red);">${ibData.pmg || '-'} %</span>
+                                            <span class="ib-gauge-lbl" style="color: var(--text-dark);">${pmgDiagnostico}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Columna Derecha: Análisis Segmental y Agua -->
+                                <div class="ib-card">
+                                    <div class="ib-card-title">Análisis Segmental de Masa Muscular</div>
+                                    <div class="ib-seg-body">
+                                        <img src="${p.silueta_b64 || ''}" class="ib-seg-man" style="left: calc(50% - 40px); width: 80px;">
+                                        <!-- Brazo Izquierdo -->
+                                        <div class="ib-seg-box" style="top: 15px; left: 15px;">
+                                            <div class="ib-seg-val">${segIzqB} kg</div>
+                                            <div class="ib-seg-label">B. Izq</div>
+                                        </div>
+                                        <!-- Brazo Derecho -->
+                                        <div class="ib-seg-box" style="top: 15px; right: 15px;">
+                                            <div class="ib-seg-val">${segDerB} kg</div>
+                                            <div class="ib-seg-label">B. Der</div>
+                                        </div>
+                                        <!-- Tronco -->
+                                        <div class="ib-seg-box" style="top: 50px; left: calc(50% - 27px);">
+                                            <div class="ib-seg-val">${segTr} kg</div>
+                                            <div class="ib-seg-label">Tronco</div>
+                                        </div>
+                                        <!-- Pierna Izquierda -->
+                                        <div class="ib-seg-box" style="bottom: 15px; left: 25px;">
+                                            <div class="ib-seg-val">${segIzqP} kg</div>
+                                            <div class="ib-seg-label">P. Izq</div>
+                                        </div>
+                                        <!-- Pierna Derecho -->
+                                        <div class="ib-seg-box" style="bottom: 15px; right: 25px;">
+                                            <div class="ib-seg-val">${segDerP} kg</div>
+                                            <div class="ib-seg-label">P. Der</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="ib-gauge-row" style="margin-top: 10px;">
+                                        <div class="ib-gauge-box">
+                                            <span class="ib-gauge-title">Agua Corporal Total</span>
+                                            <span class="ib-gauge-val" style="color: #0284c7; font-size: 1.2rem;">${ibData.agua || '-'} L</span>
+                                        </div>
+                                        <div class="ib-gauge-box">
+                                            <span class="ib-gauge-title">Metabolismo Basal (TMB)</span>
+                                            <span class="ib-gauge-val" style="color: #0d9488; font-size: 1.2rem;">${ibData.tmb || '-'} kcal</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Tabla de Resumen de Parámetros -->
+                            <table class="hard-table" style="font-size: 0.75rem; margin-top: 5px; margin-bottom: 0;">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 5px; font-size: 0.55rem;">Parámetro InBody</th>
+                                        <th style="padding: 5px; font-size: 0.55rem; text-align: center;">Masa Libre Grasa</th>
+                                        <th style="padding: 5px; font-size: 0.55rem; text-align: center;">Relación AIC/AEC</th>
+                                        <th style="padding: 5px; font-size: 0.55rem; text-align: center;">Puntaje InBody</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 5px; font-weight: 600;">Medición Clínica</td>
+                                        <td style="padding: 5px; text-align: center; font-weight: 700;" class="technical-num">${ibData.libre || '-'} kg</td>
+                                        <td style="padding: 5px; text-align: center; font-weight: 700;" class="technical-num">${ibData.aic_aec || '-'}</td>
+                                        <td style="padding: 5px; text-align: center; font-weight: 700;" class="technical-num">${ibData.puntaje || '-'} / 100</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <footer class="page-footer">
+                            <p>Este informe es propiedad de Med&Corp y el paciente. Los datos están protegidos por la Ley Federal de Protección de Datos Personales.</p>
+                            <div class="footer-bottom">
+                                <span>Med&Corp © 2026</span>
+                                <span class="page-num">Página ${currentPage} de ${totalPages}</span>
+                            </div>
+                        </footer>
+                    </div>
+                `;
+            }
+
+            // 5.3 Renderizar Página de Espirometría (si existe imagen)
+            if (img.espirometria) {
+                currentPage++;
+                contentHTML += `
+                    <div class="print-page">
+                        <div class="page-content-wrapper" style="display: flex; flex-direction: column; height: 100%;">
+                            <div class="page-header-print">
+                                <span class="print-title">Reporte Clínico • Med&Corp</span>
+                                <span class="print-subtitle">Función Pulmonar</span>
+                            </div>
+                            
+                            <div class="study-header-container">
+                                <div class="s-title">Reporte de Espirometría</div>
+                                <div class="method-badge">Espirometría ndd EasyOne</div>
+                            </div>
+                            
+                            <div class="img-container" style="flex: 1; margin: 15px 0; display: flex; justify-content: center; align-items: center; max-height: 680px;">
+                                <img src="${img.espirometria}" alt="Reporte Espirometría Completo" style="max-width: 100%; max-height: 100%; object-fit: contain; border: 1px solid var(--brand-silver); box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 6px;">
+                            </div>
+                        </div>
+                        
+                        <footer class="page-footer" style="margin-top: auto;">
+                            <p>Este informe es propiedad de Med&Corp y el paciente. Los datos están protegidos por la Ley Federal de Protección de Datos Personales.</p>
+                            <div class="footer-bottom">
+                                <span>Med&Corp © 2026</span>
+                                <span class="page-num">Página ${currentPage} de ${totalPages}</span>
+                            </div>
+                        </footer>
+                    </div>
+                `;
+            }
 
             // 6. Renderizar Páginas de Electrocardiograma (si existen datos)
             if (img.electrocardiograma || img.electrocardiograma_datos) {

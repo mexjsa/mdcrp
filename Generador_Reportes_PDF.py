@@ -258,7 +258,20 @@ def build_patient_data(row, silhouette_b64, df_chopo_vert=None):
         for col in inbody_cols:
             val = row[col]
             name = clean_inbody_col_name(col)
-            unit = 'kg' if 'MASA' in name.upper() or 'PESO' in name.upper() else ''
+            
+            unit = ''
+            uname = name.upper()
+            if 'IMC' in uname:
+                unit = 'kg/m²'
+            elif 'PMG' in uname or 'PORCENTAJE' in uname:
+                unit = '%'
+            elif 'AGUA' in uname:
+                unit = 'L'
+            elif 'TMB' in uname or 'METABOLICA' in uname:
+                unit = 'kcal'
+            elif any(x in uname for x in ['MASA', 'PESO', 'MUSCULO', 'TRONCO', 'BRAZO', 'PIERNA', 'LIBRE']):
+                unit = 'kg'
+                
             params_inbody.append({ "nombre": name, "resultado": str(val), "unidad": unit, "min": "-", "max": "-", "formato": "text" })
         estudios.append({
             "titulo": "ANÁLISIS DE COMPOSICIÓN CORPORAL (INBODY)",
@@ -334,6 +347,11 @@ def build_patient_data(row, silhouette_b64, df_chopo_vert=None):
         b64 = get_base64_image(path)
         if b64: imagenes['electrocardiograma'] = b64
 
+    if 'ESPIROMETRIA_Imagen_Path' in row and pd.notna(row['ESPIROMETRIA_Imagen_Path']) and str(row['ESPIROMETRIA_Imagen_Path']).strip() != '':
+        path = str(row['ESPIROMETRIA_Imagen_Path']).strip()
+        b64 = get_base64_image(path)
+        if b64: imagenes['espirometria'] = b64
+
     return {
         "paciente": paciente,
         "estudios": estudios,
@@ -374,28 +392,61 @@ async def main():
     print(f"Iniciando generación de {len(df)} reportes PDF con SILUETAS OFICIALES...")
     pbar = ProgressBar(total=len(df), prefix='Generando PDFs', length=25)
     
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True, args=['--allow-file-access-from-files'])
+    sem = asyncio.Semaphore(5)  # Procesar hasta 5 reportes en paralelo para máxima velocidad y estabilidad
+    completed_count = 0
+    
+    async def process_patient(index, row, browser):
+        nonlocal completed_count
+        nombre = str(row.get('nombre', f'Paciente_{index}'))
         
-        for index, row in df.iterrows():
-            nombre = str(row.get('nombre', f'Paciente_{index}'))
-            pbar.update(index, nombre)
-            data_json = build_patient_data(row, silhouette_b64, df_chopo_vert)
-            json_str = json.dumps(data_json)
-            script_inject = f"<script>window.INCOMING_DATA = {json_str};</script>"
-            html_final = html_template.replace("</head>", f"{script_inject}\n</head>")
-            safe_name = "".join(c if c.isalnum() else "_" for c in nombre)
-            pdf_filename = f"REPORTE_MEDCORP_{safe_name}_V2.pdf" if filter_name else f"REPORTE_MEDCORP_{safe_name}.pdf"
-            pdf_path = os.path.join(out_dir, pdf_filename)
+        # Verificar consentimiento para compartir
+        compartir = str(row.get('Compartir', 'SI')).strip().upper()
+        if compartir == 'NO':
+            print(f"\n[PRIVACIDAD] Omitiendo generación de reporte para '{nombre}' (Compartir = 'NO')")
+            completed_count += 1
+            pbar.update(completed_count, f"Confidencial: {nombre}")
+            return
             
+        data_json = build_patient_data(row, silhouette_b64, df_chopo_vert)
+        json_str = json.dumps(data_json)
+        script_inject = f"<script>window.INCOMING_DATA = {json_str};</script>"
+        html_final = html_template.replace("</head>", f"{script_inject}\n</head>")
+        safe_name = "".join(c if c.isalnum() else "_" for c in nombre)
+        pdf_filename = f"REPORTE_MEDCORP_{safe_name}_V3.pdf" if filter_name else f"REPORTE_MEDCORP_{safe_name}.pdf"
+        pdf_path = os.path.join(out_dir, pdf_filename)
+        
+        async with sem:
             page = await browser.new_page()
             await generate_pdf(page, html_final, pdf_path)
             await page.close()
             
+        completed_count += 1
+        pbar.update(completed_count, nombre)
+
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True, args=['--allow-file-access-from-files'])
+        tasks = [process_patient(idx, row, browser) for idx, row in df.iterrows()]
+        await asyncio.gather(*tasks)
         await browser.close()
         
     pbar.update(len(df), "¡Completado!")
     print("¡Generación Masiva Finalizada!")
+
+    # Limpieza de base de datos final (solo en ejecución completa sin filtros)
+    if not filter_name:
+        try:
+            print("\n[LIMPIEZA DE BASE DE DATOS] Removiendo columnas de soporte local del Excel consolidado final...")
+            df_clean = pd.read_excel(master_path)
+            cols_to_drop = ['ODONTOGRAMA_Imagen_Path', 'ELECTROCARDIOGRAMA_Imagen_Path', 'ESPIROMETRIA_Imagen_Path']
+            existing_cols = [c for c in cols_to_drop if c in df_clean.columns]
+            if existing_cols:
+                df_clean = df_clean.drop(columns=existing_cols)
+                df_clean.to_excel(master_path, index=False)
+                print(f"  [ÉXITO] Columnas de soporte local eliminadas: {existing_cols}")
+            else:
+                print("  [INFO] No se encontraron columnas de soporte local por remover.")
+        except Exception as e:
+            print(f"  [ERROR] No se pudo limpiar el archivo Excel maestro: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main())

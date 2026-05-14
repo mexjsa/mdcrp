@@ -173,9 +173,10 @@ for folder in individual_folders:
             df_ind = df_ind.drop_duplicates(subset=['p10'])
             df_master = pd.merge(df_master, df_ind, on='p10', how='left')
 
-# 5. Add Image paths for Odonto and EKG
+# 5. Add Image paths for Odonto, EKG, and Espiro
 df_master['ODONTOGRAMA_Imagen_Path'] = ''
 df_master['ELECTROCARDIOGRAMA_Imagen_Path'] = ''
+df_master['ESPIROMETRIA_Imagen_Path'] = ''
 
 # Search for images in ODONTOGRAMA
 individual_key_mapping = {
@@ -206,6 +207,16 @@ for img in ekg_imgs:
     if len(idx) > 0:
         df_master.loc[idx, 'ELECTROCARDIOGRAMA_Imagen_Path'] = img
 
+# Search for images in ESPIROMETRIA
+espiro_imgs = glob.glob(os.path.join(base_dir, "ESTUDIOS INDIVIDUALES", "ESPIROMETRIA", "*.png"))
+for img in espiro_imgs:
+    basename = os.path.basename(img).replace(".png", "")
+    p10_img = basename.strip().upper()
+    p10_img_mapped = individual_key_mapping.get(p10_img, p10_img)
+    idx = df_master[df_master['p10'] == p10_img_mapped].index
+    if len(idx) > 0:
+        df_master.loc[idx, 'ESPIROMETRIA_Imagen_Path'] = img
+
 # Restore original p10 values if needed, or drop temp columns
 df_master = df_master.drop(columns=['p10_orig'])
 
@@ -229,6 +240,8 @@ print(f"Matches ODONTOGRAMA: {matched_odonto}")
 
 img_ekg_count = (df_master['ELECTROCARDIOGRAMA_Imagen_Path'] != '').sum()
 img_odonto_count = (df_master['ODONTOGRAMA_Imagen_Path'] != '').sum()
+img_espiro_count = (df_master['ESPIROMETRIA_Imagen_Path'] != '').sum()
 print(f"Rutas de imagen EKG insertadas: {img_ekg_count}")
 print(f"Rutas de imagen ODONTO insertadas: {img_odonto_count}")
+print(f"Rutas de imagen ESPIROMETRIA insertadas: {img_espiro_count}")
 

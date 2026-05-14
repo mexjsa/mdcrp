@@ -884,40 +884,37 @@
                     <div class="card-header">
                         <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary-accent)"></i> Participación</h3>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 12px; flex: 1; justify-content: space-between; padding-top: 5px;">
-                        <div style="font-size: 11.5px; font-weight: 700; color: #10b981; text-align: center; margin-bottom: 2px;">
-                            Se alcanzó un 91.24% de registros en línea
-                        </div>
-                        <div class="chart-container" style="display: flex; align-items: center; gap: 12px; height: 180px;">
+                    <div style="display: flex; flex-direction: column; gap: 10px; flex: 1; justify-content: center; padding-top: 10px;">
+                        <div class="chart-container" style="display: flex; align-items: center; gap: 15px; height: 185px;">
                             <div style="width: 48%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
                                 <canvas id="chart-participacion" style="max-height: 100% !important; max-width: 100% !important;"></canvas>
-                                <!-- Texto en el centro de la dona -->
+                                <!-- Texto en el centro de la dona (Aumentado para máxima presencia) -->
                                 <div style="position: absolute; text-align: center; pointer-events: none; top: 52%; left: 50%; transform: translate(-50%, -50%);">
-                                    <span style="font-size: 16px; font-weight: 800; color: white; display: block; line-height: 1;">91.24%</span>
-                                    <span style="font-size: 8px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">En línea</span>
+                                    <span style="font-size: 24px; font-weight: 800; color: white; display: block; line-height: 1; font-family: 'Outfit', sans-serif;">91.24%</span>
+                                    <span style="font-size: 10px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-top: 2px; display: block;">En línea</span>
                                 </div>
                             </div>
-                            <!-- Leyenda Custom con los bloques que emulan la primera imagen -->
-                            <div style="width: 52%; display: flex; flex-direction: column; gap: 5px; font-size: 9.5px; justify-content: center;">
-                                <div style="border-left: 2px solid #64748b; padding-left: 6px; line-height: 1.15;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 7.5px; display: block; font-weight: 600;">Total Registros</span>
-                                    <strong style="color: white; font-size: 11px;">194</strong> <span style="color: var(--text-secondary); font-size: 9px;">| 100%</span>
+                            <!-- Leyenda Custom con fuentes optimizadas -->
+                            <div style="width: 52%; display: flex; flex-direction: column; gap: 8px; font-size: 10px; justify-content: center;">
+                                <div style="border-left: 3px solid #3b82f6; padding-left: 8px; line-height: 1.15;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Registros en Línea</span>
+                                    <strong style="color: #3b82f6; font-size: 13px; font-family: 'Outfit', sans-serif;">177</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 91.24%</span>
                                 </div>
-                                <div style="border-left: 2px solid #3b82f6; padding-left: 6px; line-height: 1.15;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 7.5px; display: block; font-weight: 600;">Registros en Línea</span>
-                                    <strong style="color: #3b82f6; font-size: 11px;">177</strong> <span style="color: var(--text-secondary); font-size: 9px;">| 91.24%</span>
+                                <div style="border-left: 3px solid #f97316; padding-left: 8px; line-height: 1.15;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Registros Manuales</span>
+                                    <strong style="color: #f97316; font-size: 13px; font-family: 'Outfit', sans-serif;">17</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 8.76%</span>
                                 </div>
-                                <div style="border-left: 2px solid #f97316; padding-left: 6px; line-height: 1.15;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 7.5px; display: block; font-weight: 600;">Registros Manuales</span>
-                                    <strong style="color: #f97316; font-size: 11px;">17</strong> <span style="color: var(--text-secondary); font-size: 9px;">| 8.76%</span>
+                                <div style="border-left: 3px solid #64748b; padding-left: 8px; line-height: 1.15; margin-top: 4px;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Total Registros</span>
+                                    <strong style="color: white; font-size: 13px; font-family: 'Outfit', sans-serif;">194</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 100%</span>
                                 </div>
-                                <div style="border-left: 2px solid #10b981; padding-left: 6px; line-height: 1.15;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 7.5px; display: block; font-weight: 600;">Consentamientos Firmados</span>
-                                    <strong style="color: #10b981; font-size: 11px;">17</strong> <span style="color: var(--text-secondary); font-size: 9px;">| 8.76%</span>
+                                <div style="border-left: 3px solid #10b981; padding-left: 8px; line-height: 1.15;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Consentimientos Firmados</span>
+                                    <strong style="color: #10b981; font-size: 13px; font-family: 'Outfit', sans-serif;">17</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 8.76%</span>
                                 </div>
-                                <div style="border-left: 2px solid #a855f7; padding-left: 6px; line-height: 1.15;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 7.5px; display: block; font-weight: 600;">Con Registro / Sin Estudios</span>
-                                    <strong style="color: #a855f7; font-size: 11px;">16</strong> <span style="color: var(--text-secondary); font-size: 9px;">| 8.25%</span>
+                                <div style="border-left: 3px solid #a855f7; padding-left: 8px; line-height: 1.15;">
+                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 8.5px; display: block; font-weight: 600;">Con Registro / Sin Estudios</span>
+                                    <strong style="color: #a855f7; font-size: 13px; font-family: 'Outfit', sans-serif;">15</strong> <span style="color: var(--text-secondary); font-size: 10px;">| 7.73%</span>
                                 </div>
                             </div>
                         </div>
@@ -1186,76 +1183,76 @@
                 <span class="print-subtitle">Página 5 de 5<br>Estrategia Wellness y Hábitos</span>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <h2 style="font-size: 24px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px;">
+            <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
+                <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
                     5. Hábitos de Vida, Estrés y Estrategias Corporativas de Bienestar
                 </h2>
-                <p style="color: var(--text-secondary); font-size: 14px;">
+                <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
                     Análisis cruzado de los factores conductuales declarados por los colaboradores de SANOFI en las encuestas de salud para proponer iniciativas y estrategias preventivas de alto rendimiento.
                 </p>
             </div>
 
             <!-- Gráficos de Encuestas -->
-            <div class="dashboard-grid-2">
-                <div class="dashboard-card" style="padding: 15px;">
-                    <div class="card-header" style="padding-bottom: 6px;">
-                        <h3><i class="fa-solid fa-brain" style="color: var(--primary-accent)"></i> Estrés Percibido (Escala 1 a 5)</h3>
+            <div class="dashboard-grid-2" style="gap: 12px; margin-bottom: 12px;">
+                <div class="dashboard-card" style="padding: 10px 14px;">
+                    <div class="card-header" style="padding-bottom: 2px; margin-bottom: 2px;">
+                        <h3 style="font-size: 11px;"><i class="fa-solid fa-brain" style="color: var(--primary-accent)"></i> Estrés Percibido (Escala 1 a 5)</h3>
                     </div>
-                    <div class="chart-container" style="height: 160px;">
+                    <div class="chart-container" style="height: 125px;">
                         <canvas id="chart-estres"></canvas>
                     </div>
                 </div>
-                <div class="dashboard-card" style="padding: 15px;">
-                    <div class="card-header" style="padding-bottom: 6px;">
-                        <h3><i class="fa-solid fa-smoking" style="color: var(--primary-accent)"></i> Hábitos de Riesgo (Tabaquismo / Alcohol)</h3>
+                <div class="dashboard-card" style="padding: 10px 14px;">
+                    <div class="card-header" style="padding-bottom: 2px; margin-bottom: 2px;">
+                        <h3 style="font-size: 11px;"><i class="fa-solid fa-smoking" style="color: var(--primary-accent)"></i> Hábitos de Riesgo (Tabaquismo / Alcohol)</h3>
                     </div>
-                    <div class="chart-container" style="height: 160px;">
+                    <div class="chart-container" style="height: 125px;">
                         <canvas id="chart-tabaco"></canvas>
                     </div>
                 </div>
-                <div class="dashboard-card" style="padding: 15px;">
-                    <div class="card-header" style="padding-bottom: 6px;">
-                        <h3><i class="fa-solid fa-person-running" style="color: var(--primary-accent)"></i> Disposición al Cambio (Etapas Prochaska)</h3>
+                <div class="dashboard-card" style="padding: 10px 14px;">
+                    <div class="card-header" style="padding-bottom: 2px; margin-bottom: 2px;">
+                        <h3 style="font-size: 11px;"><i class="fa-solid fa-person-running" style="color: var(--primary-accent)"></i> Disposición al Cambio (Etapas Prochaska)</h3>
                     </div>
-                    <div class="chart-container" style="height: 160px;">
+                    <div class="chart-container" style="height: 125px;">
                         <canvas id="chart-disposicion-cambio"></canvas>
                     </div>
                 </div>
-                <div class="dashboard-card" style="padding: 15px;">
-                    <div class="card-header" style="padding-bottom: 6px;">
-                        <h3><i class="fa-solid fa-gauge-high" style="color: var(--primary-accent)"></i> Hábitos: Confianza e Importancia (Nivel Alto)</h3>
+                <div class="dashboard-card" style="padding: 10px 14px;">
+                    <div class="card-header" style="padding-bottom: 2px; margin-bottom: 2px;">
+                        <h3 style="font-size: 11px;"><i class="fa-solid fa-gauge-high" style="color: var(--primary-accent)"></i> Hábitos: Confianza e Importancia (Nivel Alto)</h3>
                     </div>
-                    <div class="chart-container" style="height: 160px;">
+                    <div class="chart-container" style="height: 125px;">
                         <canvas id="chart-confianza-importancia"></canvas>
                     </div>
                 </div>
             </div>
 
             <!-- Plan de Acción Wellness Recomendado -->
-            <div class="recommendation-list" style="margin-top: 5px;">
-                <h3 style="font-size: 16px; color: var(--text-primary); margin-bottom: 5px; font-family: 'Outfit', sans-serif;"><i class="fa-solid fa-bullseye" style="color: var(--primary-accent)"></i> Propuestas Wellness Estratégicas para Recursos Humanos:</h3>
+            <div class="recommendation-list" style="margin-top: 5px; display: flex; flex-direction: column; gap: 6px;">
+                <h3 style="font-size: 15px; color: var(--text-primary); margin-bottom: 2px; font-family: 'Outfit', sans-serif;"><i class="fa-solid fa-bullseye" style="color: var(--primary-accent)"></i> Propuestas Wellness Estratégicas para Recursos Humanos:</h3>
                 
-                <div class="rec-item">
+                <div class="rec-item" style="padding: 6px 12px; margin-bottom: 0;">
                     <div class="rec-num">1</div>
                     <div class="rec-content">
-                        <h5>Campaña Nutricional Integrada "Reto InBody SANOFI"</h5>
-                        <p>Dado que el 59.4% de los colaboradores presenta sobrepeso u obesidad, recomendamos implementar consultas de asesoría nutricional individual en las oficinas junto con un desafío corporativo mensual de pérdida de grasa corporal.</p>
+                        <h5 style="margin-bottom: 1px; font-size: 11px;">Campaña Nutricional Integrada "Reto InBody SANOFI"</h5>
+                        <p style="font-size: 10px; margin: 0; line-height: 1.3;">Dado que el 59.4% de los colaboradores presenta sobrepeso u obesidad, recomendamos implementar consultas de asesoría nutricional individual en las oficinas junto con un desafío corporativo mensual de pérdida de grasa corporal.</p>
                     </div>
                 </div>
                 
-                <div class="rec-item">
+                <div class="rec-item" style="padding: 6px 12px; margin-bottom: 0;">
                     <div class="rec-num">2</div>
                     <div class="rec-content">
-                        <h5>Programa Cardiovascular "Corazón SANOFI"</h5>
-                        <p>Considerando que el 44.9% de los evaluados presenta hipercolesterolemia, se sugiere implementar la sustitución de snacks procesados en las máquinas expendedoras corporativas por opciones cardiosaludables (nueces, fruta fresca) y pláticas de prevención metabólica.</p>
+                        <h5 style="margin-bottom: 1px; font-size: 11px;">Programa Cardiovascular "Corazón SANOFI"</h5>
+                        <p style="font-size: 10px; margin: 0; line-height: 1.3;">Considerando que el 44.9% de los evaluados presenta hipercolesterolemia, se sugiere implementar la sustitución de snacks procesados en las máquinas expendedoras corporativas por opciones cardiosaludables (nueces, fruta fresca) y pláticas de prevención metabólica.</p>
                     </div>
                 </div>
                 
-                <div class="rec-item">
+                <div class="rec-item" style="padding: 6px 12px; margin-bottom: 0;">
                     <div class="rec-num">3</div>
                     <div class="rec-content">
-                        <h5>Campaña de Prevención Dental y Convenios Clínicos</h5>
-                        <p>Con un promedio de 2.8 dientes con caries activas por colaborador, recomendamos facilitar el acceso a limpiezas y tratamientos preventivos mediante convenios directos de descuento con redes odontológicas locales.</p>
+                        <h5 style="margin-bottom: 1px; font-size: 11px;">Campaña de Prevención Dental y Convenios Clínicos</h5>
+                        <p style="font-size: 10px; margin: 0; line-height: 1.3;">Con un promedio de 2.8 dientes con caries activas por colaborador, recomendamos facilitar el acceso a limpiezas y tratamientos preventivos mediante convenios directos de descuento con redes odontológicas locales.</p>
                     </div>
                 </div>
             </div>
@@ -14860,7 +14857,7 @@
 
             // 8. El Gráfico de Consentimiento para Compartir Información se maneja como barra horizontal HTML nativa por estética
 
-            // 9. Gráfico de Cobertura de Estudios por Género (Especialidades - Stacked vertical)
+            // 9. Gráfico de Cobertura de Estudios por Género (Especialidades - Barras Agrupadas Premium)
             const ctxEstudiosSexo = document.getElementById('chart-estudios-sexo').getContext('2d');
             chartInstances.estudiosSexo = new Chart(ctxEstudiosSexo, {
                 type: 'bar',
@@ -14877,13 +14874,13 @@
                             label: 'Femenino',
                             data: [0, 0, 0, 0],
                             backgroundColor: '#db2777',
-                            borderRadius: 4
+                            borderRadius: 6
                         },
                         {
                             label: 'Masculino',
                             data: [0, 0, 0, 0],
                             backgroundColor: '#3b82f6',
-                            borderRadius: 4
+                            borderRadius: 6
                         }
                     ]
                 },
@@ -14894,9 +14891,10 @@
                         legend: { display: true, position: 'bottom' },
                         datalabels: {
                             display: true,
-                            anchor: 'center',
-                            align: 'center',
-                            color: '#ffffff',
+                            anchor: 'end',
+                            align: 'end',
+                            offset: 2,
+                            color: '#f8fafc',
                             font: {
                                 weight: '600',
                                 size: 10,
@@ -14906,13 +14904,13 @@
                         }
                     },
                     scales: {
-                        x: { stacked: true, grid: { display: false } },
-                        y: { stacked: true, beginAtZero: true, grace: '10%', grid: { color: 'rgba(255,255,255,0.04)' } }
+                        x: { grid: { display: false } },
+                        y: { beginAtZero: true, grace: '15%', grid: { color: 'rgba(255,255,255,0.04)' } }
                     }
                 }
             });
 
-            // 9b. Gráfico de Cobertura de Estudios por Género (Laboratorios - Stacked vertical)
+            // 9b. Gráfico de Cobertura de Estudios por Género (Laboratorios - Barras Agrupadas Premium)
             const ctxEstudiosSexoLab = document.getElementById('chart-estudios-sexo-lab').getContext('2d');
             chartInstances.estudiosSexoLab = new Chart(ctxEstudiosSexoLab, {
                 type: 'bar',
@@ -14929,13 +14927,13 @@
                             label: 'Femenino',
                             data: [0, 0, 0, 0],
                             backgroundColor: '#db2777',
-                            borderRadius: 4
+                            borderRadius: 6
                         },
                         {
                             label: 'Masculino',
                             data: [0, 0, 0, 0],
                             backgroundColor: '#3b82f6',
-                            borderRadius: 4
+                            borderRadius: 6
                         }
                     ]
                 },
@@ -14946,9 +14944,10 @@
                         legend: { display: true, position: 'bottom' },
                         datalabels: {
                             display: true,
-                            anchor: 'center',
-                            align: 'center',
-                            color: '#ffffff',
+                            anchor: 'end',
+                            align: 'end',
+                            offset: 2,
+                            color: '#f8fafc',
                             font: {
                                 weight: '600',
                                 size: 10,
@@ -14958,8 +14957,8 @@
                         }
                     },
                     scales: {
-                        x: { stacked: true, grid: { display: false } },
-                        y: { stacked: true, beginAtZero: true, grace: '10%', grid: { color: 'rgba(255,255,255,0.04)' } }
+                        x: { grid: { display: false } },
+                        y: { beginAtZero: true, grace: '15%', grid: { color: 'rgba(255,255,255,0.04)' } }
                     }
                 }
             });
@@ -14969,10 +14968,10 @@
             chartInstances.participacion = new Chart(ctxParticipacion, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Registros en Línea', 'Registros Manuales', 'Consentimientos Firmados', 'Con Registro / Sin Estudios'],
+                    labels: ['Registros en Línea', 'Registros Manuales'],
                     datasets: [{
-                        data: [177, 17, 17, 16],
-                        backgroundColor: ['#3b82f6', '#f97316', '#10b981', '#a855f7'],
+                        data: [177, 17],
+                        backgroundColor: ['#3b82f6', '#f97316'],
                         borderWidth: 0,
                         cutout: '75%'
                     }]
