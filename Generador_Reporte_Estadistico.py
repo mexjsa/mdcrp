@@ -553,7 +553,8 @@ def get_dashboard_html_template(json_data):
             pointer-events: none; /* No interactivo */
             position: absolute; /* Sacado del flujo normal para sobreponer pestañas */
             width: 100%;
-            padding-right: 5px;
+            padding-right: 22px; /* Margen de separación premium respecto a la barra de scroll en Windows */
+            padding-bottom: 25px; /* Respiro inferior elegante al llegar al final del scroll */
         }
 
         .tab-pane.active {
