@@ -17,7 +17,7 @@ def normalize_name(name):
     parts = sorted(name.split())
     return ' '.join(parts)
 
-base_dir = r"C:\Users\Juan\Dropbox\Proyectos 2026\Med&Corp\CheckUp"
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
 # 1. Load Master
 master_files = glob.glob(os.path.join(base_dir, "PERSONAL SANOFI", "check_up_med&corp*.xlsx"))
@@ -45,7 +45,7 @@ if df_master['p10'].duplicated().any():
     print(f"  [Depuración SANOFI] Listado maestro depurado. Total de registros SANOFI únicos: {len(df_master)}")
 
 # 2. Load Chopo (Wide Format)
-chopo_files = glob.glob(os.path.join(base_dir, "ESTUDIOS AGREGADOS", "ESTUDIOS CHOPO", "*.xlsx"))
+chopo_files = glob.glob(os.path.join(base_dir, "ESTUDIOS AGREGADOS", "ESTUDIOS CHOPO", "**", "*.xlsx"), recursive=True)
 chopo_files = [f for f in chopo_files if not os.path.basename(f).startswith("~$")]
 wide_chopo_files = []
 for f in chopo_files:
@@ -57,11 +57,7 @@ for f in chopo_files:
         pass
 
 if wide_chopo_files:
-    latest_chopo = max(wide_chopo_files, key=os.path.getmtime)
-    print(f"Cargando archivo CHOPO: {latest_chopo}")
-    df_chopo = pd.read_excel(latest_chopo, header=3)
-    
-    chopo_col = 'P10' if 'P10' in df_chopo.columns else 'p10'
+    print(f"Archivos CHOPO en formato ancho detectados: {len(wide_chopo_files)}")
     
     # Pre-calcular nombres normalizados en el listado maestro SANOFI
     df_master['norm_name'] = df_master['nombre'].apply(normalize_name)
@@ -76,44 +72,84 @@ if wide_chopo_files:
         'ISDD841129': 'DEVD841129', # David Issac Delgado
         'RAMN760609': 'NMRM760609'  # Nadia Marcela Ramirez Mungia (Mungia vs Munguia)
     }
+
+    all_chopo_dfs = []
     
-    # Crear un mapeo dinámico basado en nombres para corregir errores de dedo en RFC de CHOPO
-    chopo_key_mapping = chopo_manual_mapping.copy()
-    for idx, row in df_chopo.iterrows():
-        raw_p10 = str(row.get(chopo_col, '')).strip().upper()
-        if raw_p10 in master_p10_set or raw_p10 in chopo_key_mapping:
-            continue  # Coincidencia perfecta de RFC o ya mapeado manualmente
+    for chopo_file in wide_chopo_files:
+        df_chopo = pd.read_excel(chopo_file, header=3)
+        if 'P10' in df_chopo.columns:
+            chopo_col = 'P10'
+        elif 'p10' in df_chopo.columns:
+            chopo_col = 'p10'
+        else:
+            chopo_col = 'p10'
+            df_chopo['p10'] = None # Create it empty so the next logic reconstructs it
             
-        first = str(row.get("Nombre", "")).strip()
-        p_last = str(row.get("Apellido paterno", "")).strip()
-        m_last = str(row.get("Apellido materno", "")).strip()
-        chopo_name = normalize_name(f"{first} {p_last} {m_last}")
+        # If the P10 column is mostly empty/NaN
+        if df_chopo[chopo_col].isna().sum() > len(df_chopo) * 0.5:
+            def reconstruct_rfc(row):
+                first = str(row.get('Nombre', '')).strip().upper()
+                p_last = str(row.get('Apellido paterno', '')).strip().upper()
+                m_last = str(row.get('Apellido materno', '')).strip().upper()
+                dob = row.get('Fecha de nacimiento')
+                
+                p_part = p_last[:2] if len(p_last) >= 2 else (p_last + 'XX')[:2]
+                m_part = m_last[:1] if m_last and pd.notna(m_last) else 'X'
+                f_part = first[:1] if first and pd.notna(first) else 'X'
+                
+                letters = f"{p_part}{m_part}{f_part}"
+                letters = (letters + 'X' * 4)[:4]  # Pad to 4 chars
+                
+                if pd.notna(dob):
+                    try:
+                        dob_dt = pd.to_datetime(dob)
+                        date_str = dob_dt.strftime("%y%m%d")
+                    except:
+                        date_str = "000000"
+                else:
+                    date_str = "000000"
+                    
+                return f"{letters}{date_str}"
+                
+            df_chopo[chopo_col] = df_chopo.apply(reconstruct_rfc, axis=1)
+
+        chopo_key_mapping = chopo_manual_mapping.copy()
+        for idx, row in df_chopo.iterrows():
+            raw_p10 = str(row.get(chopo_col, '')).strip().upper()
+            if raw_p10 in master_p10_set or raw_p10 in chopo_key_mapping:
+                continue
+                
+            first = str(row.get("Nombre", "")).strip()
+            p_last = str(row.get("Apellido paterno", "")).strip()
+            m_last = str(row.get("Apellido materno", "")).strip()
+            chopo_name = normalize_name(f"{first} {p_last} {m_last}")
+            
+            parts = [p for p in chopo_name.split() if len(p) > 2]
+            if not parts:
+                continue
+                
+            match = df_master[df_master['norm_name'].apply(lambda x: all(p in x for p in parts))]
+            if not match.empty:
+                matched_p10 = match.iloc[0]['p10']
+                chopo_key_mapping[raw_p10] = matched_p10
+                
+        df_chopo['p10_key'] = df_chopo[chopo_col].astype(str).str.strip().str.upper()
+        df_chopo['p10_key_mapped'] = df_chopo['p10_key'].map(chopo_key_mapping).fillna(df_chopo['p10_key'])
         
-        parts = [p for p in chopo_name.split() if len(p) > 2]
-        if not parts:
-            continue
-            
-        # Buscar en SANOFI un nombre que contenga todas las partes
-        match = df_master[df_master['norm_name'].apply(lambda x: all(p in x for p in parts))]
-        if not match.empty:
-            matched_p10 = match.iloc[0]['p10']
-            chopo_key_mapping[raw_p10] = matched_p10
-            print(f"  [Auto-Corrección CHOPO] Mapeando {raw_p10} a {matched_p10} por coincidencia de nombre: '{first} {p_last} {m_last}'")
-            
-    # Aplicar el mapeo dinámico a CHOPO
-    df_chopo['p10_key'] = df_chopo[chopo_col].astype(str).str.strip().str.upper()
-    df_chopo['p10_key_mapped'] = df_chopo['p10_key'].map(chopo_key_mapping).fillna(df_chopo['p10_key'])
-    
-    # Eliminar columnas que no necesitamos y que causarían conflictos
-    cols_to_drop = [c for c in ['Nombre', 'Apellido paterno', 'Apellido materno', 'Edad', 'Gnero', 'Gero', 'Gényero', 'Fecha de nacimiento', 'p10', 'P10', 'ao', 'mes', 'dia', 'ao'] if c in df_chopo.columns]
-    df_chopo = df_chopo.drop(columns=cols_to_drop)
-    
-    df_chopo = df_chopo.add_prefix('CHOPO_')
-    df_chopo['p10'] = df_chopo['CHOPO_p10_key_mapped']
-    df_chopo = df_chopo.drop(columns=['CHOPO_p10_key', 'CHOPO_p10_key_mapped'])
-    
-    df_chopo = df_chopo.groupby('p10', as_index=False).first()
-    df_master = pd.merge(df_master, df_chopo, on='p10', how='left')
+        cols_to_drop = [c for c in ['Nombre', 'Apellido paterno', 'Apellido materno', 'Edad', 'Gnero', 'Gero', 'Gényero', 'Fecha de nacimiento', 'p10', 'P10', 'ao', 'mes', 'dia', 'ao'] if c in df_chopo.columns]
+        df_chopo = df_chopo.drop(columns=cols_to_drop)
+        
+        df_chopo = df_chopo.add_prefix('CHOPO_')
+        df_chopo['p10'] = df_chopo['CHOPO_p10_key_mapped']
+        df_chopo = df_chopo.drop(columns=['CHOPO_p10_key', 'CHOPO_p10_key_mapped'])
+        
+        all_chopo_dfs.append(df_chopo)
+
+    if all_chopo_dfs:
+        df_chopo_combined = pd.concat(all_chopo_dfs, ignore_index=True)
+        # Combine duplicates by taking the first non-null value for each column
+        df_chopo_combined = df_chopo_combined.groupby('p10', as_index=False).first()
+        df_master = pd.merge(df_master, df_chopo_combined, on='p10', how='left')
     
     # Limpiar columnas auxiliares del master
     if 'norm_name' in df_master.columns:
