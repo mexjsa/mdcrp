@@ -281,6 +281,7 @@ def main():
     # porque tiene compartir=NO, pero sí suma al total de estudios de espirometría.
     patients_data.append({
         "nombre": "Ajuste Espirometria (Verificado Clienta)",
+        "es_ajuste": True,
         "sexo": "Femenino",
         "rango_edad": "Desconocido",
         "area": "Desconocido",
@@ -2251,7 +2252,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             });
 
             // 3. Inicializar variables de acumulación estadística
-            let total = filteredData.length;
+            let total = filteredData.filter(p => !p.es_ajuste).length;
             let sumPeso = 0, countPeso = 0;
             let sumGr = 0, countGr = 0;
             let sumMu = 0, countMu = 0;
@@ -2325,24 +2326,30 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 if (p.odontograma.medido) estudiosPersona++;
                 if (p.cardio_respiratorio.ekg_medido) estudiosPersona++;
                 if (p.cardio_respiratorio.espiro_medido) estudiosPersona++;
-                sumEstudios += estudiosPersona;
+                if (!p.es_ajuste) {
+                    sumEstudios += estudiosPersona;
+                }
 
                 // Conteo de edad por género
-                let ageIdx = 4;
-                if (p.rango_edad === "21-30 años") ageIdx = 0;
-                else if (p.rango_edad === "31-40 años") ageIdx = 1;
-                else if (p.rango_edad === "41-50 años") ageIdx = 2;
-                else if (p.rango_edad === "Más de 50 años") ageIdx = 3;
+                if (!p.es_ajuste) {
+                    let ageIdx = 4;
+                    if (p.rango_edad === "21-30 años") ageIdx = 0;
+                    else if (p.rango_edad === "31-40 años") ageIdx = 1;
+                    else if (p.rango_edad === "41-50 años") ageIdx = 2;
+                    else if (p.rango_edad === "Más de 50 años") ageIdx = 3;
 
-                let sexKey = "Desconocido";
-                if (p.sexo === "Femenino") sexKey = "Femenino";
-                else if (p.sexo === "Masculino") sexKey = "Masculino";
+                    let sexKey = "Desconocido";
+                    if (p.sexo === "Femenino") sexKey = "Femenino";
+                    else if (p.sexo === "Masculino") sexKey = "Masculino";
 
-                ageGroupGender[sexKey][ageIdx]++;
+                    ageGroupGender[sexKey][ageIdx]++;
+                }
 
                 // Conteo de Consentimiento para compartir información
-                if (p.compartir === "SI") countCompartirSI++;
-                else countCompartirNO++;
+                if (!p.es_ajuste) {
+                    if (p.compartir === "SI") countCompartirSI++;
+                    else countCompartirNO++;
+                }
 
                 // Conteo de Cobertura de Estudios Realizados
                 if (p.estudios_realizados) {
@@ -2438,15 +2445,17 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 }
 
                 // Demografía
-                if (p.sexo === "Femenino") sexCounts[0]++;
-                else if (p.sexo === "Masculino") sexCounts[1]++;
-                else sexCounts[2]++;
+                if (!p.es_ajuste) {
+                    if (p.sexo === "Femenino") sexCounts[0]++;
+                    else if (p.sexo === "Masculino") sexCounts[1]++;
+                    else sexCounts[2]++;
 
-                if (p.rango_edad === "21-30 años") ageCounts[0]++;
-                else if (p.rango_edad === "31-40 años") ageCounts[1]++;
-                else if (p.rango_edad === "41-50 años") ageCounts[2]++;
-                else if (p.rango_edad === "Más de 50 años") ageCounts[3]++;
-                else ageCounts[4]++;
+                    if (p.rango_edad === "21-30 años") ageCounts[0]++;
+                    else if (p.rango_edad === "31-40 años") ageCounts[1]++;
+                    else if (p.rango_edad === "41-50 años") ageCounts[2]++;
+                    else if (p.rango_edad === "Más de 50 años") ageCounts[3]++;
+                    else ageCounts[4]++;
+                }
 
                 // InBody
                 if (p.inbody.medido) {
