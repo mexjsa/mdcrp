@@ -29,6 +29,10 @@ master_path = max(master_files, key=os.path.getmtime)
 print(f"Cargando archivo maestro: {master_path}")
 df_master = pd.read_excel(master_path, sheet_name=0)
 
+# Corrección de sexo para pacientes específicas con sexo NaN en origen
+df_master.loc[df_master['nombre'].str.contains('ANGELICA MACIEL LUNA', case=False, na=False), 'sexo'] = 'm'
+df_master.loc[df_master['nombre'].str.contains('RAQUEL SÁNCHEZ|RAQUEL SANCHEZ', case=False, na=False), 'sexo'] = 'm'
+
 # Normalize and keep master p10 values as official RFC keys (to match InBody and SANOFI lists)
 if 'p10' not in df_master.columns and 'RFC' in df_master.columns:
     df_master['p10'] = df_master['RFC']

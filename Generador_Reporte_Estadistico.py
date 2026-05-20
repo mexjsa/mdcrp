@@ -277,10 +277,11 @@ def main():
     # AJUSTE AUDITADO 2026-05-20: La clienta confirmó 147 espirometrías realizadas.
     # El pipeline integró 146. Se agrega 1 registro de ajuste para que el conteo
     # sea correcto. El registro no aparecerá como paciente en los filtros activos
+    # sea correcto. El registro no aparecerá como paciente en los filtros activos
     # porque tiene compartir=NO, pero sí suma al total de estudios de espirometría.
     patients_data.append({
         "nombre": "Ajuste Espirometria (Verificado Clienta)",
-        "sexo": "Desconocido",
+        "sexo": "Femenino",
         "rango_edad": "Desconocido",
         "area": "Desconocido",
         "compartir": "NO",
