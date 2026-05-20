@@ -44,7 +44,7 @@ class ProgressBar:
             sys.stdout.flush()
 
 async def generate_pdf(page, html_content, output_path):
-    await page.set_content(html_content, wait_until='networkidle')
+    await page.set_content(html_content, wait_until='domcontentloaded', timeout=60000)
     
     await page.evaluate("""
         async () => {
@@ -364,10 +364,10 @@ def build_patient_data(row, silhouette_b64, df_chopo_vert=None):
     }
 
 async def main():
-    base_dir = r"C:\Users\Juan\Dropbox\Proyectos 2026\Med&Corp\CheckUp"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     master_path = os.path.join(base_dir, "MASTER_CONSOLIDADO_MEDCORP.xlsx")
     out_dir = os.path.join(base_dir, "REPORTES FINALES")
-    silhouette_path = r"C:\Users\Juan\Dropbox\Proyectos 2026\Med&Corp\Gemini_Generated_Image_x43khqx43khqx43k.png"
+    silhouette_path = os.path.join(os.path.dirname(base_dir), "Gemini_Generated_Image_x43khqx43khqx43k.png")
     os.makedirs(out_dir, exist_ok=True)
     
     silhouette_b64 = get_base64_image(silhouette_path)
