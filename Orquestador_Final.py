@@ -42,7 +42,7 @@ def run_script(script_name, base_dir):
     return True
 
 def main():
-    base_dir = r"C:\Users\Juan\Dropbox\Proyectos 2026\Med&Corp\CheckUp"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     
     flush_print("="*70)
     flush_print("MED&CORP PIPELINE INTEGRADO DE ALTO RENDIMIENTO")
