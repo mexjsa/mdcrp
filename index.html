@@ -14772,9 +14772,9 @@
             chartInstances.puntajeInBody = new Chart(ctxPuntajeInBody, {
                 type: 'bar',
                 data: {
-                    labels: ['<50', '50-60', '61-65', '66-70', '71-75', '76-80', '81-85', '>86'],
+                    labels: ['Menos de 50', '50-60', '61-65', '66-70', '71-75', '76-80', '81-85', 'Más de 86'],
                     datasets: [
-                        { label: 'Femenino', data: [1, 10, 20, 25, 18, 12, 8, 1], backgroundColor: '#e11d48', borderRadius: 4 },
+                        { label: 'Femenino', data: [1, 10, 20, 25, 18, 12, 8, 1], backgroundColor: '#db2777', borderRadius: 4 },
                         { label: 'Masculino', data: [0, 5, 9, 17, 12, 9, 5, 1], backgroundColor: '#3b82f6', borderRadius: 4 }
                     ]
                 },
@@ -14795,7 +14795,7 @@
                 data: {
                     labels: ['40-50', '51-60', '61-70', '71-80', '81-90', '91-99', '>100'],
                     datasets: [
-                        { label: 'Femenino', data: [0,0,0,0,0,0,0], backgroundColor: '#e11d48', borderRadius: 4 },
+                        { label: 'Femenino', data: [0,0,0,0,0,0,0], backgroundColor: '#db2777', borderRadius: 4 },
                         { label: 'Masculino', data: [0,0,0,0,0,0,0], backgroundColor: '#3b82f6', borderRadius: 4 }
                     ]
                 },
@@ -14825,6 +14825,7 @@
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: { padding: { left: 15, right: 15 } },
                     plugins: {
                         legend: { display: false }
                     },
@@ -15760,7 +15761,7 @@
             chartInstances.estudios.update();
 
             chartInstances.imc.data.datasets[0].data = imcCats;
-            chartInstances.imc.update();
+            chartInstances.imc.update();\n            chartInstances.rangosPeso.data.datasets[0].data = pesoF;\n            chartInstances.rangosPeso.data.datasets[1].data = pesoM;\n            chartInstances.rangosPeso.update();
 
             chartInstances.alertas.data.datasets[0].data = [
                 rateColesterol.toFixed(1),
