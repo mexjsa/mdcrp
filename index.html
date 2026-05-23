@@ -15106,22 +15106,56 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: { padding: { left: 10, right: 10, top: 10, bottom: 10 } },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            bodyFont: { size: 11, family: 'Outfit' },
+                            padding: 6,
+                            caretPadding: 4,
                             callbacks: {
                                 label: (context) => {
                                     const val = context.raw;
                                     const pct = ((val / 194) * 100).toFixed(2);
-                                    return ` ${context.label}: ${val} (${pct}%)`;
+                                    return [`${context.label}:`, ` ${val} (${pct}%)`];
                                 }
                             }
                         },
-                        datalabels: {
-                            color: 'black',
-                            font: { size: 16, weight: 'bold', family: 'Outfit' },
-                            formatter: (value) => value
-                        }
+                        datalabels: { display: false }
+                    }
+                }
+            });
+
+            const ctxParticipacionSub = document.getElementById('chart-participacion-sub').getContext('2d');
+            chartInstances.participacionSub = new Chart(ctxParticipacionSub, {
+                type: 'pie',
+                data: {
+                    labels: ['Con HRA / Sin estudios', 'Con Estudios'],
+                    datasets: [{
+                        data: [15, 162],
+                        backgroundColor: ['#a855f7', '#0ea5e9'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: { left: 10, right: 10, top: 10, bottom: 10 } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            bodyFont: { size: 10, family: 'Outfit' },
+                            padding: 6,
+                            caretPadding: 4,
+                            callbacks: {
+                                label: (context) => {
+                                    const val = context.raw;
+                                    const pct = ((val / 177) * 100).toFixed(2);
+                                    return [`${context.label}:`, ` ${val} (${pct}%)`];
+                                }
+                            }
+                        },
+                        datalabels: { display: false }
                     }
                 }
             });
