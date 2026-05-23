@@ -15159,40 +15159,6 @@
                     }
                 }
             });
-
-            const ctxParticipacionSub = document.getElementById('chart-participacion-sub').getContext('2d');
-            chartInstances.participacionSub = new Chart(ctxParticipacionSub, {
-                type: 'pie',
-                data: {
-                    labels: ['Con HRA / Sin estudios', 'Con Estudios'],
-                    datasets: [{
-                        data: [15, 162],
-                        backgroundColor: ['#a855f7', '#0ea5e9'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => {
-                                    const val = context.raw;
-                                    const pct = ((val / 177) * 100).toFixed(2);
-                                    return ` ${context.label}: ${val} (${pct}%)`;
-                                }
-                            }
-                        },
-                        datalabels: {
-                            color: 'black',
-                            font: { size: 14, weight: 'bold', family: 'Outfit' },
-                            formatter: (value) => value
-                        }
-                    }
-                }
-            });
         }
 
         function updateDashboard() {
