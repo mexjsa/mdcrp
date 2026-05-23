@@ -886,38 +886,36 @@
                         <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary-accent)"></i> Participación</h3>
                     </div>
                     <div style="display: flex; flex-direction: column; flex: 1; justify-content: center;">
-                        <div class="chart-container" style="display: flex; align-items: center; gap: 20px; height: 190px;">
-                            <div style="width: 65%; height: 100%; position: relative; display: flex; align-items: center; justify-content: space-between;">
-                                <div style="width: 55%; height: 100%; position: relative; z-index: 2;">
+                        <div class="chart-container" style="display: flex; flex-direction: column; align-items: center; gap: 10px; height: 190px; justify-content: center;">
+                            <!-- Gráfico Doble (Pie of Pie) -->
+                            <div style="width: 100%; height: 75%; position: relative; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                                <div style="width: 45%; height: 100%; position: relative; z-index: 2;">
                                     <canvas id="chart-participacion-main"></canvas>
                                 </div>
                                 <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;" preserveAspectRatio="none">
-                                    <line x1="45%" y1="20%" x2="70%" y2="25%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
-                                    <line x1="45%" y1="80%" x2="70%" y2="75%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
+                                    <line x1="45%" y1="20%" x2="55%" y2="25%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
+                                    <line x1="45%" y1="80%" x2="55%" y2="75%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
                                 </svg>
-                                <div style="width: 40%; height: 75%; position: relative; z-index: 2;">
+                                <div style="width: 35%; height: 75%; position: relative; z-index: 2;">
                                     <canvas id="chart-participacion-sub"></canvas>
                                 </div>
                             </div>
-                            <div style="width: 35%; display: flex; flex-direction: column; gap: 10px; justify-content: center;">
-                                <div style="border-left: 4px solid #3b82f6; padding-left: 10px; line-height: 1.2;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Registros en Línea</span>
-                                    <strong style="color: #3b82f6; font-size: 16px; font-family: 'Outfit', sans-serif;">177</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 91.24%</span>
+                            
+                            <!-- Leyenda Inferior -->
+                            <div style="width: 100%; display: flex; gap: 20px; justify-content: center; align-items: center; margin-top: 5px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 18px; height: 10px; background-color: #64748b; border-radius: 2px;"></div>
+                                    <span style="color: var(--text-secondary); font-size: 11px; font-weight: 500;">Total Registros</span>
+                                    <strong style="color: white; font-size: 13px; font-family: 'Outfit', sans-serif;">194</strong> <span style="color: var(--text-secondary); font-size: 11px;">| 100%</span>
                                 </div>
-                                <div style="border-left: 4px solid #f97316; padding-left: 10px; line-height: 1.2;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Registros Manuales</span>
-                                    <strong style="color: #f97316; font-size: 16px; font-family: 'Outfit', sans-serif;">17</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 8.76%</span>
-                                </div>
-                                <div style="border-left: 4px solid #64748b; padding-left: 10px; line-height: 1.2; margin-top: 2px;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Total Registros</span>
-                                    <strong style="color: white; font-size: 16px; font-family: 'Outfit', sans-serif;">194</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 100%</span>
-                                </div>
-                                <div style="border-left: 4px solid #a855f7; padding-left: 10px; line-height: 1.2;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 9.5px; display: block; font-weight: 600; letter-spacing: 0.5px;">Con HRA / Sin estudios</span>
-                                    <strong style="color: #a855f7; font-size: 16px; font-family: 'Outfit', sans-serif;">15</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 7.73%</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 18px; height: 10px; background-color: #a855f7; border-radius: 2px;"></div>
+                                    <span style="color: var(--text-secondary); font-size: 11px; font-weight: 500;">Con HRA / Sin estudios</span>
+                                    <strong style="color: #a855f7; font-size: 13px; font-family: 'Outfit', sans-serif;">15</strong> <span style="color: var(--text-secondary); font-size: 11px;">| 7.73%</span>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -15121,7 +15119,11 @@
                                 }
                             }
                         },
-                        datalabels: { display: false }
+                        datalabels: {
+                            color: 'white',
+                            font: { size: 12, weight: 'bold', family: 'Outfit' },
+                            formatter: (value) => value
+                        }
                     }
                 }
             });
@@ -15155,7 +15157,11 @@
                                 }
                             }
                         },
-                        datalabels: { display: false }
+                        datalabels: {
+                            color: 'white',
+                            font: { size: 12, weight: 'bold', family: 'Outfit' },
+                            formatter: (value) => value
+                        }
                     }
                 }
             });
