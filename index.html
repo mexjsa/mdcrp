@@ -887,16 +887,19 @@
                     </div>
                     <div style="display: flex; flex-direction: column; flex: 1; justify-content: center;">
                         <div class="chart-container" style="display: flex; align-items: center; gap: 20px; height: 190px;">
-                            <div style="width: 45%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
-                                <canvas id="chart-participacion" style="max-height: 100% !important; max-width: 100% !important;"></canvas>
-                                <!-- Texto en el centro de la dona (Aumentado para máxima presencia) -->
-                                <div style="position: absolute; text-align: center; pointer-events: none; top: 52%; left: 50%; transform: translate(-50%, -50%);">
-                                    <span style="font-size: 26px; font-weight: 800; color: white; display: block; line-height: 1; font-family: 'Outfit', sans-serif;">91.24%</span>
-                                    <span style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-top: 2px; display: block;">En línea</span>
+                            <div style="width: 65%; height: 100%; position: relative; display: flex; align-items: center; justify-content: space-between;">
+                                <div style="width: 55%; height: 100%; position: relative; z-index: 2;">
+                                    <canvas id="chart-participacion-main"></canvas>
+                                </div>
+                                <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;" preserveAspectRatio="none">
+                                    <line x1="45%" y1="20%" x2="70%" y2="25%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
+                                    <line x1="45%" y1="80%" x2="70%" y2="75%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
+                                </svg>
+                                <div style="width: 40%; height: 75%; position: relative; z-index: 2;">
+                                    <canvas id="chart-participacion-sub"></canvas>
                                 </div>
                             </div>
-                            <!-- Leyenda Custom con fuentes premium y sin redundancia -->
-                            <div style="width: 55%; display: flex; flex-direction: column; gap: 14px; justify-content: center;">
+                            <div style="width: 35%; display: flex; flex-direction: column; gap: 10px; justify-content: center;">
                                 <div style="border-left: 4px solid #3b82f6; padding-left: 10px; line-height: 1.2;">
                                     <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Registros en Línea</span>
                                     <strong style="color: #3b82f6; font-size: 16px; font-family: 'Outfit', sans-serif;">177</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 91.24%</span>
@@ -15088,17 +15091,16 @@
                 }
             });
 
-            // 10. Gráfico de Participación (Doughnut)
-            const ctxParticipacion = document.getElementById('chart-participacion').getContext('2d');
-            chartInstances.participacion = new Chart(ctxParticipacion, {
-                type: 'doughnut',
+            // 10. Grafico de Participacion Doble (Pie of Pie)
+            const ctxParticipacionMain = document.getElementById('chart-participacion-main').getContext('2d');
+            chartInstances.participacionMain = new Chart(ctxParticipacionMain, {
+                type: 'pie',
                 data: {
-                    labels: ['Registros en Línea', 'Registros Manuales'],
+                    labels: ['Registros Manuales', 'Registros en Línea'],
                     datasets: [{
-                        data: [177, 17],
-                        backgroundColor: ['#3b82f6', '#f97316'],
-                        borderWidth: 0,
-                        cutout: '75%'
+                        data: [17, 177],
+                        backgroundColor: ['#1e40af', '#22c55e'],
+                        borderWidth: 0
                     }]
                 },
                 options: {
@@ -15114,6 +15116,45 @@
                                     return ` ${context.label}: ${val} (${pct}%)`;
                                 }
                             }
+                        },
+                        datalabels: {
+                            color: 'black',
+                            font: { size: 16, weight: 'bold', family: 'Outfit' },
+                            formatter: (value) => value
+                        }
+                    }
+                }
+            });
+
+            const ctxParticipacionSub = document.getElementById('chart-participacion-sub').getContext('2d');
+            chartInstances.participacionSub = new Chart(ctxParticipacionSub, {
+                type: 'pie',
+                data: {
+                    labels: ['Con HRA / Sin estudios', 'Con Estudios'],
+                    datasets: [{
+                        data: [15, 162],
+                        backgroundColor: ['#a855f7', '#0ea5e9'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const val = context.raw;
+                                    const pct = ((val / 177) * 100).toFixed(2);
+                                    return ` ${context.label}: ${val} (${pct}%)`;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: 'black',
+                            font: { size: 14, weight: 'bold', family: 'Outfit' },
+                            formatter: (value) => value
                         }
                     }
                 }
