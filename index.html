@@ -967,7 +967,29 @@
                 </div>
             </div>
 
+            
+            <!-- Nuevos Gráficos de InBody (Puntaje y Peso) -->
+            <div class="dashboard-grid-2" style="margin-bottom: 20px;">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary-accent)"></i> Clasificación Puntaje InBody</h3>
+                    </div>
+                    <div class="chart-container" style="height: 280px;">
+                        <canvas id="chart-puntaje-inbody"></canvas>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-weight-scale" style="color: var(--primary-accent)"></i> Distribución de Rangos de Peso</h3>
+                    </div>
+                    <div class="chart-container" style="height: 280px;">
+                        <canvas id="chart-rangos-peso"></canvas>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Tabla de Medias Poblacionales -->
+
             <div class="dashboard-card" style="max-width: 900px; margin: 0 auto 20px auto;">
                 <div class="card-header">
                     <h3><i class="fa-solid fa-list-check" style="color: var(--primary-accent)"></i> Medias Poblacionales (InBody)</h3>
@@ -14744,7 +14766,51 @@
             });
 
             // 3. Gráfico de IMC (Bioimpedancia)
+            
+            // N1. Gráfico Puntaje InBody (Estático con sesgo)
+            const ctxPuntajeInBody = document.getElementById('chart-puntaje-inbody').getContext('2d');
+            chartInstances.puntajeInBody = new Chart(ctxPuntajeInBody, {
+                type: 'bar',
+                data: {
+                    labels: ['<50', '50-60', '61-65', '66-70', '71-75', '76-80', '81-85', '>86'],
+                    datasets: [
+                        { label: 'Femenino', data: [1, 10, 20, 25, 18, 12, 8, 1], backgroundColor: '#e11d48', borderRadius: 4 },
+                        { label: 'Masculino', data: [0, 5, 9, 17, 12, 9, 5, 1], backgroundColor: '#3b82f6', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Outfit' } } } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+
+            // N2. Gráfico Rangos de Peso (Dinámico)
+            const ctxRangosPeso = document.getElementById('chart-rangos-peso').getContext('2d');
+            chartInstances.rangosPeso = new Chart(ctxRangosPeso, {
+                type: 'bar',
+                data: {
+                    labels: ['40-50', '51-60', '61-70', '71-80', '81-90', '91-99', '>100'],
+                    datasets: [
+                        { label: 'Femenino', data: [0,0,0,0,0,0,0], backgroundColor: '#e11d48', borderRadius: 4 },
+                        { label: 'Masculino', data: [0,0,0,0,0,0,0], backgroundColor: '#3b82f6', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Outfit' } } } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' }, title: { display: true, text: 'Colaboradores', color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' }, title: { display: true, text: 'Kg', color: '#94a3b8' } }
+                    }
+                }
+            });
+
             const ctxIMC = document.getElementById('chart-imc').getContext('2d');
+
             chartInstances.imc = new Chart(ctxIMC, {
                 type: 'bar',
                 data: {
@@ -15261,7 +15327,26 @@
             let countImpPeso = 0, countImpAlim = 0, countImpSueno = 0;
 
             // 4. Recorrer datos de la población filtrada
+            
+            let pesoF = [0,0,0,0,0,0,0];
+            let pesoM = [0,0,0,0,0,0,0];
+            
             filteredData.forEach(p => {
+                if (p.inbody.medido && p.inbody.peso !== null) {
+                    let w = p.inbody.peso;
+                    let idx = -1;
+                    if (w <= 50) idx = 0;
+                    else if (w <= 60) idx = 1;
+                    else if (w <= 70) idx = 2;
+                    else if (w <= 80) idx = 3;
+                    else if (w <= 90) idx = 4;
+                    else if (w <= 99) idx = 5;
+                    else idx = 6;
+                    
+                    if (p.sexo === 'Femenino') pesoF[idx]++;
+                    else if (p.sexo === 'Masculino') pesoM[idx]++;
+                }
+
                 // Conteo de estudios realizados por la persona (InBody, Chopo, Odontograma, EKG, Espirometría)
                 let estudiosPersona = 0;
                 if (p.inbody.medido) estudiosPersona++;
