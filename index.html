@@ -796,6 +796,9 @@
                 <button class="tab-button" onclick="switchTab('page-5')">
                     <i class="fa-solid fa-brain"></i> 5. Estrategia y Hábitos
                 </button>
+                <button class="tab-button" onclick="switchTab('page-6')">
+                    <i class="fa-solid fa-lightbulb"></i> 6. Hallazgos y Recom.
+                </button>
             </div>
 
             <!-- CONTENEDORES DE LAS PESTAÑAS (En pantalla solo se muestra el .active) -->
@@ -1288,6 +1291,85 @@
                 </div>
             </div>
         </section>
+
+                <!-- ============================================================= -->
+                <!-- PÁGINA 6: HALLAZGOS Y RECOMENDACIONES -->
+                <section class="tab-pane" id="page-6">
+                    <div class="page-header-print">
+                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – SANOFI 2026</span>
+                        <span class="print-subtitle">Página 6 de 6<br>Hallazgos y Recomendaciones</span>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
+                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
+                            6. Hallazgos y Recomendaciones
+                        </h2>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
+                            Conclusiones integrales derivadas del análisis epidemiológico y recomendaciones estratégicas para la mejora continua del bienestar corporativo.
+                        </p>
+                    </div>
+
+                    <div class="dashboard-grid-2" style="gap: 20px; margin-bottom: 25px;">
+                        
+                        <!-- Tarjeta INBODY -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-weight-scale" style="color: var(--primary-accent)"></i> Composición Corporal (INBODY)</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Resumen Ejecutivo:</strong> 153 colaboradores evaluados. Perfil metabólico favorable en población de 25 a 40 años.</li>
+                                        <li><strong>Población Joven:</strong> Alto nivel de actividad física y hábitos saludables consolidados.</li>
+                                        <li><strong>Áreas de Oportunidad:</strong> Riesgo de pérdida muscular en colaboradores mayores de 40 años. Riesgo temprano de sarcopenia detectado.</li>
+                                        <li><strong>Puntaje INBODY:</strong> La mayoría se concentra entre 66 y 75 puntos. Existe margen importante de mejora en recomposición corporal.</li>
+                                        <li><strong>Rangos de Peso:</strong> Concentración principal entre 61 y 80 kg. La composición corporal permite evaluar músculo, grasa y agua más allá del peso aislado.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Meta Recomendada:</strong> Mantener puntajes INBODY superiores a 75.</li>
+                                        <li><strong>Enfoque Prioritario:</strong> Especial atención en mayores de 40 años, bajo tratamiento GLP-1, con pérdida muscular o indicadores metabólicos alterados.</li>
+                                        <li><strong>Estrategia:</strong> Implementar mediciones periódicas 2 o 3 veces por año para monitorear evolución de masa muscular y grasa.</li>
+                                        <li><strong>Seguimiento Anual:</strong> 1. Diagnóstico inicial, 2. Seguimiento a 4-6 meses, 3. Consolidación anual.</li>
+                                        <li><strong>Conclusión Ejecutiva:</strong> Bases favorables de salud metabólica con una oportunidad importante de intervención preventiva.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjetas Pendientes -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-flask" style="color: var(--primary-accent)"></i> Laboratorios Clínicos (CHOPO)</h3>
+                            </div>
+                            <div style="display: flex; justify-content: center; align-items: center; height: 100%; min-height: 100px; color: #475569; font-size: 13px; font-style: italic;">
+                                Pendiente de análisis...
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-lungs" style="color: var(--primary-accent)"></i> Especialidades</h3>
+                            </div>
+                            <div style="display: flex; justify-content: center; align-items: center; height: 100%; min-height: 100px; color: #475569; font-size: 13px; font-style: italic;">
+                                Pendiente de análisis...
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-brain" style="color: var(--primary-accent)"></i> Estrategia Wellness y Hábitos</h3>
+                            </div>
+                            <div style="display: flex; justify-content: center; align-items: center; height: 100%; min-height: 100px; color: #475569; font-size: 13px; font-style: italic;">
+                                Pendiente de análisis...
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
 
             </div> <!-- Fin .tabs-container -->
         </main> <!-- Fin .main-content -->
