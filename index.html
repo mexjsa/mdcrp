@@ -15761,7 +15761,10 @@
             chartInstances.estudios.update();
 
             chartInstances.imc.data.datasets[0].data = imcCats;
-            chartInstances.imc.update();\n            chartInstances.rangosPeso.data.datasets[0].data = pesoF;\n            chartInstances.rangosPeso.data.datasets[1].data = pesoM;\n            chartInstances.rangosPeso.update();
+            chartInstances.imc.update();
+            chartInstances.rangosPeso.data.datasets[0].data = pesoF;
+            chartInstances.rangosPeso.data.datasets[1].data = pesoM;
+            chartInstances.rangosPeso.update();
 
             chartInstances.alertas.data.datasets[0].data = [
                 rateColesterol.toFixed(1),
