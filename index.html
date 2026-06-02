@@ -1231,7 +1231,7 @@
 
             <div class="conclusion-box">
                 <h4><i class="fa-solid fa-circle-info" style="color: var(--primary-accent)"></i> Diagnóstico Odontológico:</h4>
-                <p>En el área buco-dental, el colaborador promedio de SANOFI cuenta con <strong>27.1 dientes saludables</strong> y sanos de los 32 permanentes, mientras que presenta un promedio de <strong>2.8 dientes que requieren atención clínica inmediata</strong> (caries activas severas, reconstrucción, coronas o restos radiculares). Esto constituye una alta prevalencia de caries asintomática de bajo nivel que afecta la salud gastrointestinal y el ausentismo laboral preventivo.</p>
+                <p>En el área buco-dental, el <strong>57.5% de los colaboradores evaluados (65 personas)</strong> presenta una dentadura completamente sana y libre de padecimientos. Por otro lado, el <strong>42.5% de la población (48 personas)</strong> requiere atención clínica inmediata en una o más piezas dentales (caries activas severas, reconstrucción, coronas o restos radiculares). Esto constituye una importante prevalencia de caries asintomática que afecta la salud gastrointestinal y el ausentismo laboral preventivo.</p>
             </div>
         </section>
 
@@ -15610,7 +15610,7 @@
             let sumUrea = 0, countUrea = 0, alertUrea = 0;
             let sumAcidoUrico = 0, countAcidoUrico = 0, alertAcidoUrico = 0;
 
-            let sumDientesSanos = 0, sumDientesAtencion = 0, countDental = 0;
+            let sumDientesSanos = 0, sumDientesAtencion = 0, countDental = 0, countPersonasSanas = 0, countPersonasCaries = 0;
 
             let countEstres = [0, 0, 0, 0, 0];
             let fumaCounts = [0, 0]; // No, Si
@@ -15828,6 +15828,11 @@
                 if (p.odontograma.medido) {
                     sumDientesSanos += p.odontograma.sanos;
                     sumDientesAtencion += p.odontograma.atencion;
+                    if (p.odontograma.atencion === 0) {
+                        countPersonasSanas++;
+                    } else {
+                        countPersonasCaries++;
+                    }
                     countDental++;
                 }
 
@@ -16104,7 +16109,7 @@
 
             const avgSanos = countDental > 0 ? (sumDientesSanos / countDental) : 27.1;
             const avgAtencion = countDental > 0 ? (sumDientesAtencion / countDental) : 2.8;
-            chartInstances.dental.data.datasets[0].data = [avgSanos.toFixed(1), avgAtencion.toFixed(1)];
+            chartInstances.dental.data.datasets[0].data = [countPersonasSanas, countPersonasCaries];
             chartInstances.dental.update();
 
             chartInstances.estres.data.datasets[0].data = countEstres;
