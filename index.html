@@ -905,17 +905,43 @@
                                 </div>
                             </div>
                             
-                            <!-- Leyenda Inferior -->
-                            <div style="width: 100%; display: flex; gap: 20px; justify-content: center; align-items: center; margin-top: 5px;">
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <div style="width: 18px; height: 10px; background-color: #3b82f6; border-radius: 2px;"></div>
-                                    <span style="color: var(--text-secondary); font-size: 11px; font-weight: 500; text-transform: uppercase;">Registros en Línea</span>
-                                    <strong style="color: #3b82f6; font-size: 13px; font-family: 'Outfit', sans-serif;">177</strong> <span style="color: var(--text-secondary); font-size: 11px;">| 91.24%</span>
+                            <!-- Leyenda Inferior (Doble) -->
+                            <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-start; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; gap: 15px;">
+                                <!-- Columna Izquierda: Tipo de Registro -->
+                                <div style="display: flex; flex-direction: column; gap: 5px; width: 50%;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'Outfit', sans-serif;">
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <div style="width: 12px; height: 12px; background-color: #3b82f6; border-radius: 3px;"></div>
+                                            <span style="color: var(--text-secondary); font-weight: 500;">En Línea</span>
+                                        </div>
+                                        <span style="color: white; font-weight: 600;">177 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(91.2%)</span></span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'Outfit', sans-serif;">
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <div style="width: 12px; height: 12px; background-color: #f97316; border-radius: 3px;"></div>
+                                            <span style="color: var(--text-secondary); font-weight: 500;">Manuales</span>
+                                        </div>
+                                        <span style="color: white; font-weight: 600;">17 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(8.8%)</span></span>
+                                    </div>
                                 </div>
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <div style="width: 18px; height: 10px; background-color: #f97316; border-radius: 2px;"></div>
-                                    <span style="color: var(--text-secondary); font-size: 11px; font-weight: 500; text-transform: uppercase;">Registros Manuales</span>
-                                    <strong style="color: #f97316; font-size: 13px; font-family: 'Outfit', sans-serif;">17</strong> <span style="color: var(--text-secondary); font-size: 11px;">| 8.76%</span>
+                                <!-- Línea Divisoria Vertical -->
+                                <div style="width: 1px; background-color: rgba(255,255,255,0.06); align-self: stretch;"></div>
+                                <!-- Columna Derecha: Desglose en Línea -->
+                                <div style="display: flex; flex-direction: column; gap: 5px; width: 50%;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'Outfit', sans-serif;">
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <div style="width: 12px; height: 12px; background-color: #0ea5e9; border-radius: 3px;"></div>
+                                            <span style="color: var(--text-secondary); font-weight: 500;">Con Estudios</span>
+                                        </div>
+                                        <span style="color: white; font-weight: 600;">162 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(91.5%)</span></span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'Outfit', sans-serif;">
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <div style="width: 12px; height: 12px; background-color: #a855f7; border-radius: 3px;"></div>
+                                            <span style="color: var(--text-secondary); font-weight: 500;">HRA Sin Est.</span>
+                                        </div>
+                                        <span style="color: white; font-weight: 600;">15 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(8.5%)</span></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -15425,16 +15451,17 @@
                 }
             });
 
-            // 10. Grafico de Participacion Doble (Pie of Pie)
+            // 10. Grafico de Participacion Doble (Pie of Pie / Donut of Donut)
             const ctxParticipacionMain = document.getElementById('chart-participacion-main').getContext('2d');
             chartInstances.participacionMain = new Chart(ctxParticipacionMain, {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     labels: ['Registros Manuales', 'Registros en Línea'],
                     datasets: [{
                         data: [17, 177],
                         backgroundColor: ['#f97316', '#3b82f6'],
-                        borderWidth: 0
+                        borderWidth: 0,
+                        cutout: '65%'
                     }]
                 },
                 options: {
@@ -15457,7 +15484,7 @@
                         },
                         datalabels: {
                             color: 'white',
-                            font: { size: 12, weight: 'bold', family: 'Outfit' },
+                            font: { size: 10, weight: 'bold', family: 'Outfit' },
                             formatter: (value) => value
                         }
                     }
@@ -15466,13 +15493,14 @@
 
             const ctxParticipacionSub = document.getElementById('chart-participacion-sub').getContext('2d');
             chartInstances.participacionSub = new Chart(ctxParticipacionSub, {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
-                    labels: ['Con HRA / Sin estudios', 'Con Estudios'],
+                    labels: ['Con HRA sin estudios', 'Con Estudios'],
                     datasets: [{
                         data: [15, 162],
                         backgroundColor: ['#a855f7', '#0ea5e9'],
-                        borderWidth: 0
+                        borderWidth: 0,
+                        cutout: '65%'
                     }]
                 },
                 options: {
@@ -15495,7 +15523,7 @@
                         },
                         datalabels: {
                             color: 'white',
-                            font: { size: 12, weight: 'bold', family: 'Outfit' },
+                            font: { size: 10, weight: 'bold', family: 'Outfit' },
                             formatter: (value) => value
                         }
                     }
