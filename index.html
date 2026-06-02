@@ -897,10 +897,10 @@
                                     <canvas id="chart-participacion-main"></canvas>
                                 </div>
                                 <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;" preserveAspectRatio="none">
-                                    <line x1="45%" y1="20%" x2="55%" y2="25%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
-                                    <line x1="45%" y1="80%" x2="55%" y2="75%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
+                                    <line x1="45%" y1="20%" x2="55%" y2="20%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
+                                    <line x1="45%" y1="80%" x2="55%" y2="80%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
                                 </svg>
-                                <div style="width: 35%; height: 75%; position: relative; z-index: 2;">
+                                <div style="width: 45%; height: 100%; position: relative; z-index: 2;">
                                     <canvas id="chart-participacion-sub"></canvas>
                                 </div>
                             </div>
@@ -931,16 +931,16 @@
                                     <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'Outfit', sans-serif;">
                                         <div style="display: flex; align-items: center; gap: 6px;">
                                             <div style="width: 12px; height: 12px; background-color: #0ea5e9; border-radius: 3px;"></div>
-                                            <span style="color: var(--text-secondary); font-weight: 500;">Con Estudios</span>
+                                            <span style="color: var(--text-secondary); font-weight: 500;">Uno o más estudios</span>
                                         </div>
-                                        <span style="color: white; font-weight: 600;">162 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(91.5%)</span></span>
+                                        <span style="color: white; font-weight: 600;">184 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(94.8%)</span></span>
                                     </div>
                                     <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'Outfit', sans-serif;">
                                         <div style="display: flex; align-items: center; gap: 6px;">
                                             <div style="width: 12px; height: 12px; background-color: #a855f7; border-radius: 3px;"></div>
-                                            <span style="color: var(--text-secondary); font-weight: 500;">HRA Sin Est.</span>
+                                            <span style="color: var(--text-secondary); font-weight: 500;">Sin estudios, solo HRA</span>
                                         </div>
-                                        <span style="color: white; font-weight: 600;">15 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(8.5%)</span></span>
+                                        <span style="color: white; font-weight: 600;">10 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(5.2%)</span></span>
                                     </div>
                                 </div>
                             </div>
@@ -15495,9 +15495,9 @@
             chartInstances.participacionSub = new Chart(ctxParticipacionSub, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Con HRA sin estudios', 'Con Estudios'],
+                    labels: ['Sin estudios, solo HRA', 'Uno o más estudios'],
                     datasets: [{
-                        data: [15, 162],
+                        data: [10, 184],
                         backgroundColor: ['#a855f7', '#0ea5e9'],
                         borderWidth: 0,
                         cutout: '65%'
