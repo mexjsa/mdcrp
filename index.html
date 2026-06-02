@@ -1340,34 +1340,220 @@
                             </div>
                         </div>
 
-                        <!-- Tarjetas Pendientes -->
-                        <div class="dashboard-card">
+                                                <!-- Tarjeta Biometría Hemática -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
                             <div class="card-header">
-                                <h3><i class="fa-solid fa-flask" style="color: var(--primary-accent)"></i> Laboratorios Clínicos (CHOPO)</h3>
+                                <h3><i class="fa-solid fa-flask" style="color: var(--primary-accent)"></i> Biometría Hemática (CHOPO)</h3>
                             </div>
-                            <div style="display: flex; justify-content: center; align-items: center; height: 100%; min-height: 100px; color: #475569; font-size: 13px; font-style: italic;">
-                                Pendiente de análisis...
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Prevalencia en Mujeres:</strong> Alta prevalencia de anemia leve a moderada en mujeres en edad reproductiva, frecuentemente asociada al periodo menstrual o déficit nutricional según entrevistas.</li>
+                                        <li><strong>Hemoconcentración en Varones:</strong> Casos aislados de hemoglobina, hematocrito y volumen eritrocitario elevados en hombres, correlacionados con deshidratación leve a moderada o tabaquismo.</li>
+                                        <li><strong>Procesos Alérgicos/Inflamatorios:</strong> Múltiples episodios de eosinofilia que sugieren procesos alérgicos activos o inflamación aguda de las vías respiratorias.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Confirmación Diagnóstica:</strong> Programar la repetición de la biometría hemática en un periodo menor a 6 meses para correlación clínica y descarte de variaciones transitorias.</li>
+                                        <li><strong>Perfil de Anemia:</strong> En pacientes con Hemoglobina baja, complementar con pruebas de ferritina, hierro sérico, VCM, CHCM y reticulocitos para determinar la causa subyacente.</li>
+                                        <li><strong>Seguimiento de Hallazgos:</strong> Correlacionar la eosinofilia con la sintomatología actual. En casos de Hb elevada, realizar la prueba bajo condiciones adecuadas de hidratación.</li>
+                                        <li><strong>Intervenciones Poblacionales:</strong> Implementar programas de educación nutricional, cribado dirigido a mujeres en edad fértil y promoción de hábitos de hidratación saludables.</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="dashboard-card">
+                        <!-- Tarjeta Química Sanguínea -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
                             <div class="card-header">
-                                <h3><i class="fa-solid fa-lungs" style="color: var(--primary-accent)"></i> Especialidades</h3>
+                                <h3><i class="fa-solid fa-droplet" style="color: var(--primary-accent)"></i> Química Sanguínea (CHOPO)</h3>
                             </div>
-                            <div style="display: flex; justify-content: center; align-items: center; height: 100%; min-height: 100px; color: #475569; font-size: 13px; font-style: italic;">
-                                Pendiente de análisis...
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Perfil de Dislipidemia:</strong> Identificación de 72 registros con colesterol total ≥200 mg/dL y 45 con triglicéridos en rango límite a moderadamente elevado, indicando un riesgo cardiovascular relevante.</li>
+                                        <li><strong>Riesgo Glucémico:</strong> Detección de 19 alteraciones glucémicas en ayuno que requieren estudios adicionales para confirmar resistencia a la insulina o alteración metabólica.</li>
+                                        <li><strong>Hiperuricemia y Función Renal:</strong> Presencia de 28 episodios aislados de ácido úrico elevado (hiperuricemia) y variaciones en creatinina consistentes con deshidratación.</li>
+                                        <li><strong>Distribución por Grupos:</strong> Mayor concentración de riesgo metabólico en adultos de 35 a 60 años, observándose mayor colesterol en mujeres y mayor ácido úrico en hombres.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Repetición en Ayuno:</strong> Confirmar resultados anormales mediante un perfil lipídico completo (colesterol total, LDL, HDL, triglicéridos), glucosa, HbA1c y ácido úrico en ayuno de 12 horas.</li>
+                                        <li><strong>Modificación del Estilo de Vida:</strong> Diseñar planes alimenticios personalizados (dieta hipolipemiante, restricción de azúcares simples y alcohol) y fomento de actividad física moderada.</li>
+                                        <li><strong>Abordaje Terapéutico:</strong> Valorar el inicio de tratamiento farmacológico (estatinas, hipoglucemiantes orales, uratosúricos) conforme al riesgo cardiovascular global de cada colaborador.</li>
+                                        <li><strong>Ruta de Cuidado:</strong> Establecer un canal ágil de derivación hacia especialidades de Medicina Interna o Endocrinología en casos confirmados con alto riesgo metabólico.</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        
+
+                        <!-- Tarjeta Examen General de Orina -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-microscope" style="color: var(--primary-accent)"></i> Examen General de Orina (CHOPO)</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Sospecha de Infección Urinaria:</strong> Presencia recurrente de leucocitos, bacterias, esterasa leucocitaria positiva y nitritos variables, predominantemente en mujeres (casos subclínicos en telemedicina).</li>
+                                        <li><strong>Riesgo de Litiasis:</strong> Reporte frecuente de cristales de fosfato/oxalato amorfo y sedimento activo en la muestra urinaria, aumentando la susceptibilidad a litiasis renal.</li>
+                                        <li><strong>Indicadores de Deshidratación:</strong> Fluctuaciones en la densidad urinaria y el urobilinógeno compatibles con deshidratación relativa o desbalance en la ingesta de líquidos.</li>
+                                        <li><strong>Hallazgos Aislados:</strong> Casos muy puntuales con presencia de cilindros o redes mucoides, que requieren evaluación para descartar compromiso obstructivo o funcional.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Muestra Estandarizada:</strong> Repetir el EGO en un lapso de 6 a 12 meses, asegurando condiciones óptimas de higiene y recolección (primera orina de la mañana, chorro medio).</li>
+                                        <li><strong>Prevención de Cálculos:</strong> En pacientes con cristales constantes, realizar tipificación y medición de pH para sugerir pautas dietéticas específicas que inhiban la cristaluria.</li>
+                                        <li><strong>Valoración Renal:</strong> En casos de densidad urinaria elevada persistente o presencia de cilindros, evaluar la tasa de filtración glomerular y derivar a nefrología/urología.</li>
+                                        <li><strong>Acciones Preventivas:</strong> Difundir pautas de higiene urogenital, promover el consumo estructurado de agua y protocolizar tratamientos guiados por urocultivo.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Antígeno Prostático Específico -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-user-doctor" style="color: var(--primary-accent)"></i> Antígeno Prostático Específico (CHOPO)</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Distribución Esperada:</strong> La gran mayoría de los varones evaluados presentan valores de PSA total dentro de los límites de referencia normales para su edad.</li>
+                                        <li><strong>Casos de Alerta:</strong> Identificación de 3 casos con elevaciones de PSA clínicamente relevantes y 3 casos adicionales en la zona límite superior.</li>
+                                        <li><strong>Patrones de Edad:</strong> Las elevaciones se concentran principalmente en el grupo de ≥50 años, con variaciones en el rango de 40 a 49 años asociables a hiperplasia benigna o prostatitis.</li>
+                                        <li><strong>Interferencias Posibles:</strong> Presencia de registros atípicos que requieren descartar factores biológicos transitorios (eyaculación reciente, tacto rectal previo, ejercicio intenso).</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Protocolo de Confirmación:</strong> Repetir la prueba de PSA total y libre en 4 a 6 semanas, instruyendo al paciente a evitar actividades estimulantes o eyaculación 48 horas antes.</li>
+                                        <li><strong>Derivación de Criterio:</strong> Referir al servicio de Urología a aquellos pacientes con PSA > 4 ng/mL o con un incremento de velocidad anual acelerado para descartar malignidad.</li>
+                                        <li><strong>Monitoreo Poblacional:</strong> Establecer un protocolo de cribado anual preventivo en hombres de más de 50 años (o de más de 45 años si tienen antecedentes familiares de primer grado).</li>
+                                        <li><strong>Educación Sintomática:</strong> Promover el autocuidado metabólico y capacitar a la población masculina en el reconocimiento temprano de síntomas obstructivos urinarios.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Electrocardiograma -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary-accent)"></i> Electrocardiograma (EKG)</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Bradicardia Sinusal:</strong> Detección de bradicardia en el 26.7% de las pruebas (predominio en hombres con 38.5%). Catalogados como benignos y asociados a tono vagal o buena condición física.</li>
+                                        <li><strong>Bloqueos de Conducción:</strong> Identificación de 3 casos con bloqueo auriculoventricular (AV) de primer grado que requieren seguimiento básico de conducción cardíaca.</li>
+                                        <li><strong>Riesgo Isquémico Crítico:</strong> 1 caso con alteraciones del segmento ST en paciente con antecedente de infarto previo, representando un riesgo cardiovascular muy alto.</li>
+                                        <li><strong>Implicaciones Laborales:</strong> Riesgos asociados en tareas críticas por posibilidad de síncope o mareos en colaboradores con bradicardias sintomáticas o pausas.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Atención Inmediata:</strong> Derivar a cardiología a pacientes con bradicardias sintomáticas, FC <40 lpm, pausas >3 segundos o bloqueos AV asociados a síntomas de hipoperfusión.</li>
+                                        <li><strong>Evaluación de Medicamentos:</strong> Revisar la lista de fármacos activos que influyen en el cronotropismo cardíaco (como betabloqueantes y calcioantagonistas) y corregir si aplica.</li>
+                                        <li><strong>Monitoreo y Extensión:</strong> Indicar Holter de 24 horas y ecocardiograma en bradicardias persistentes no asociadas a entrenamiento físico de alto rendimiento.</li>
+                                        <li><strong>Seguridad Ocupacional:</strong> Establecer restricciones laborales temporales para tareas de alto riesgo (alturas, conducción) hasta contar con la valoración del especialista.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Espirometría -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-lungs" style="color: var(--primary-accent)"></i> Espirometría</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Calidad de la Prueba:</strong> 95% de los estudios se clasificaron con calidad "A" y 5% en calidad "B", garantizando alta reproducibilidad conforme a criterios de la ATS.</li>
+                                        <li><strong>Técnica Espiratoria:</strong> Detección de 35 hombres y 37 mujeres con valores por debajo del predicho, lo que sugiere un esfuerzo espiratorio subóptimo en la maniobra.</li>
+                                        <li><strong>Casos Obstructivos/Restrictivos:</strong> Hallazgo de 2 hombres con obstrucción moderada, 1 mujer con obstrucción leve y 1 mujer con posible patrón restrictivo leve.</li>
+                                        <li><strong>Ausencia de Síntomas:</strong> La gran mayoría de los colaboradores con variaciones espirométricas se encontraban asintomáticos, con solo un caso con seguimiento neumológico activo.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Control del Calidad:</strong> Repetir la espirometría con maniobras de esfuerzo supervisadas estrictamente para descartar falsos positivos por técnica de soplado deficiente.</li>
+                                        <li><strong>Derivación Neumológica:</strong> Enviar a consulta médica o de neumología a colaboradores con obstrucción moderada/grave o con patrón restrictivo confirmado.</li>
+                                        <li><strong>Control de Contaminantes:</strong> Evaluar y reducir la exposición a humo de tabaco, vapores o polvos industriales; aplicar restricciones y uso estricto de EPP en puestos con riesgo.</li>
+                                        <li><strong>Campañas Respiratorias:</strong> Implementar programas de cese de tabaco corporativos, vacunación anual contra influenza y neumococo, y talleres de higiene pulmonar.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Odontograma -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-tooth" style="color: var(--primary-accent)"></i> Odontograma</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Afectación Transversal:</strong> El 85.8% de los evaluados presenta antecedentes de patología dental activa o periodontal, con incidencia similar en mujeres (86.2%) y hombres (85.4%).</li>
+                                        <li><strong>Carga de Caries:</strong> Promedio de 2.8 dientes con caries activa por colaborador, lo que denota una necesidad urgente de intervenciones correctivas directas.</li>
+                                        <li><strong>Ausencia de Salud Bucal:</strong> Únicamente el 14.2% de la muestra total evaluada se encuentra completamente sana y libre de patologías en piezas dentales.</li>
+                                        <li><strong>Impacto de Productividad:</strong> La alta prevalencia de dolor, sarro y caries incrementa el riesgo de ausentismo laboral por emergencias dentales y disminuye el bienestar de la plantilla.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Campaña de Profilaxis:</strong> Organizar jornadas de profilaxis dental colectiva (limpieza profunda) y aplicación de selladores directamente en las sedes corporativas.</li>
+                                        <li><strong>Talleres de Higiene:</strong> Diseñar pláticas sobre técnicas correctas de cepillado, uso de hilo dental y reducción en la ingesta diaria de azúcares refinados.</li>
+                                        <li><strong>Convenios de Red Dental:</strong> Establecer convenios de descuento y financiamiento flexible con clínicas odontológicas locales para facilitar tratamientos correctivos de caries.</li>
+                                        <li><strong>Indicadores de Vigilancia:</strong> Monitorear de forma anual mediante odontograma digital y registrar el porcentaje de colaboradores que reciben atención dental integral.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Estrategia Wellness y Hábitos -->
                         <div class="dashboard-card" style="grid-column: span 2;">
                             <div class="card-header">
                                 <h3><i class="fa-solid fa-brain" style="color: var(--primary-accent)"></i> Estrategia Wellness y Hábitos</h3>
                             </div>
-                            <div style="display: flex; justify-content: center; align-items: center; height: 100%; min-height: 100px; color: #475569; font-size: 13px; font-style: italic;">
-                                Pendiente de análisis...
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Sobrepeso y Obesidad:</strong> El 59.4% de los colaboradores de SANOFI presenta sobrepeso u obesidad en la evaluación antropométrica/InBody.</li>
+                                        <li><strong>Hipercolesterolemia:</strong> El 44.9% de la población evaluada cuenta con niveles elevados de colesterol en sangre, representando el principal riesgo cardiovascular detectado.</li>
+                                        <li><strong>Salud Bucodental Crónica:</strong> Un promedio transversal de 2.8 piezas dentales con caries activas por colaborador requiere atención correctiva.</li>
+                                        <li><strong>Hábitos Conductuales:</strong> Identificación de áreas de mejora en el nivel de estrés autopercibido, consumo de tabaco y alcohol, y disposición declarada al cambio de hábitos.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Reto Nutricional InBody:</strong> Iniciar el desafío corporativo mensual de pérdida de grasa corporal con asesorías individuales de nutriología clínica en sitio.</li>
+                                        <li><strong>Iniciativa "Corazón SANOFI":</strong> Reemplazar botanas procesadas por opciones cardiosaludables (frutos secos, fruta fresca) en comedores y máquinas expendedoras.</li>
+                                        <li><strong>Acceso a Cuidado Dental:</strong> Diseñar esquemas de horarios flexibles y alianzas con redes de dentistas para que el personal atienda caries activas de forma oportuna.</li>
+                                        <li><strong>Gestión del Estrés:</strong> Fomentar pausas activas durante la jornada y pláticas preventivas sobre higiene de sueño, manejo de la ansiedad y resiliencia laboral.</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </section>
 
