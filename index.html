@@ -503,7 +503,21 @@
         }
 
         @media print {
+            /* Sobrescribir variables de diseño para version de impresion (Fondo blanco / Letra oscura) */
+            :root {
+                --bg-main: #ffffff !important;
+                --bg-card: #ffffff !important;
+                --border-card: #cbd5e1 !important;
+                --text-primary: #0f172a !important;
+                --text-secondary: #475569 !important;
+            }
+
             body {
+                --bg-main: #ffffff !important;
+                --bg-card: #ffffff !important;
+                --border-card: #cbd5e1 !important;
+                --text-primary: #0f172a !important;
+                --text-secondary: #475569 !important;
                 background-color: white !important;
                 color: #0f172a !important;
                 -webkit-print-color-adjust: exact !important;
