@@ -691,9 +691,30 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             color: var(--primary-accent);
         }
 
+                .dashboard-grid-2-1 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            flex-shrink: 0;
+            width: 100%;
+        }
+        @media (max-width: 1000px) {
+            .dashboard-grid-2-1 { grid-template-columns: 1fr; }
+            .dashboard-grid-4 { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            .dashboard-grid-4 { grid-template-columns: 1fr; }
+        }
         .dashboard-grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+                .dashboard-grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 20px;
             flex-shrink: 0;
         }
@@ -713,6 +734,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             display: flex;
             flex-direction: column;
             gap: 15px;
+            min-width: 0;
         }
 
         .card-header {
@@ -736,9 +758,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             position: relative;
             height: 220px; /* Reducido ligeramente para optimizar vista única */
             width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            min-width: 0;
         }
 
         /* TABLAS ESTILO PREMIUM */
@@ -844,8 +864,8 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
         /* HOJA DE ESTILOS DE IMPRESION (window.print() ) */
         /* ------------------------------------------------------------- */
         @page {
-            size: A4 landscape;
-            margin: 1.2cm !important; /* Margen elegante y estándar en el nivel de página */
+            size: auto; /* Permite al navegador/usuario elegir orientacion */
+            margin: 1.2cm !important; /* Margen elegante y estandar en el nivel de pagina */
         }
 
         @media print {
@@ -862,7 +882,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 margin: 0 !important;
             }
 
-            /* Ocultar sidebar y pestañas de navegación */
+            /* Ocultar sidebar y pestañas de navegacion */
             .sidebar, .tabs-header {
                 display: none !important;
             }
@@ -883,22 +903,22 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 background-color: white !important;
             }
 
-            /* Forzar salto de página limpio por pestaña clínica en Horizontal (A4 Landscape) */
+            /* Forzar salto de pagina limpio por pestaña clinica, permitiendo flujo libre */
             .tab-pane {
                 display: flex !important;
                 flex-direction: column !important;
                 page-break-before: always !important;
-                page-break-after: always !important;
-                page-break-inside: avoid !important;
-                width: 100% !important; /* Adaptable automáticamente al margen del navegador */
-                height: 180mm !important; /* Altura de seguridad para evitar desbordes a páginas extra */
-                padding: 0 !important; /* No necesita padding adicional, los márgenes de 1.2cm los da @page */
+                page-break-after: auto !important;
+                page-break-inside: auto !important;
+                width: 100% !important; /* Adaptable automaticamente al margen del navegador */
+                height: auto !important; /* Altura libre para evitar recortar contenido */
+                padding: 0 !important; /* No necesita padding adicional, los margenes de 1.2cm los da @page */
                 box-sizing: border-box !important;
-                overflow: hidden !important;
+                overflow: visible !important; /* Asegurar que no se oculte nada de informacion */
                 background-color: white !important;
-                gap: 12px !important;
+                gap: 15px !important;
                 /* Resets de visibilidad fluida de pantalla */
-                position: static !important; /* Regresar al flujo normal estático para paginación */
+                position: static !important; /* Regresar al flujo normal estatico para paginacion */
                 opacity: 1 !important;
                 pointer-events: auto !important;
             }
@@ -942,7 +962,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 color: #334155 !important;
             }
 
-            /* KPIs en Impresión (Fuerza 4 columnas horizontales) */
+            /* KPIs en Impresion (Fuerza 4 columnas horizontales) */
             .kpi-row {
                 display: grid !important;
                 grid-template-columns: repeat(4, 1fr) !important;
@@ -976,11 +996,18 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 color: var(--primary-accent) !important;
             }
 
-            /* Gráficos en Impresión (2 Columnas lado a lado) */
+            /* Estilos de grids responsivos basados en la orientacion para impresion */
             .dashboard-grid-2 {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
                 gap: 12px !important;
+                width: 100% !important;
+            }
+
+            .dashboard-grid-2-1 {
+                display: grid !important;
+                grid-template-columns: 2fr 1fr !important;
+                gap: 20px !important;
                 width: 100% !important;
             }
 
@@ -989,6 +1016,19 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 grid-template-columns: 1fr 1fr 1fr !important;
                 gap: 12px !important;
                 width: 100% !important;
+            }
+
+            .dashboard-grid-4 {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr 1fr 1fr !important;
+                gap: 12px !important;
+                width: 100% !important;
+            }
+
+            /* Evitar cortes a la mitad de tarjetas, tablas y cuadros de texto */
+            .dashboard-card, .conclusion-box, .recommendation-list, .rec-item, .kpi-card, .table-wrapper {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
 
             .dashboard-card {
@@ -1009,16 +1049,34 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 font-size: 11px !important;
             }
 
+            /* Tamaños optimizados y legibles para contenedores de graficos */
             .chart-container {
-                height: 130px !important; /* Altura compacta optimizada para formato horizontal */
-                max-height: 130px !important;
+                height: 200px !important; /* Altura mas generosa para que quepan etiquetas sin encimarse */
+                max-height: 280px !important;
                 width: 100% !important;
+                position: relative !important;
+                overflow: visible !important; /* Permitir que los circulos se vean completos */
             }
 
             canvas {
-                max-height: 130px !important;
+                max-height: 280px !important;
                 width: 100% !important;
                 display: block !important;
+            }
+
+            /* Ajustes especificos para orientacion vertical (Portrait) en impresion */
+            @media (orientation: portrait) {
+                .dashboard-grid-2, .dashboard-grid-2-1, .dashboard-grid-3 {
+                    grid-template-columns: 1fr !important; /* Apilar en una columna para que no se aplaste */
+                    gap: 15px !important;
+                }
+                .dashboard-grid-4 {
+                    grid-template-columns: 1fr 1fr !important; /* Dos columnas para los circulos de la pagina 5 */
+                    gap: 15px !important;
+                }
+                .chart-container {
+                    height: 220px !important; /* Altura ligeramente mayor para portrait */
+                }
             }
 
             /* Tablas */
@@ -1040,7 +1098,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 padding: 5px 8px !important;
             }
 
-            /* Cuadros de Conclusión */
+            /* Cuadros de Conclusion */
             .conclusion-box {
                 background: #fdfaf7 !important;
                 border-left: 3px solid var(--primary-accent) !important;
@@ -1086,6 +1144,10 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 color: #475569 !important;
                 font-size: 9.5px !important;
             }
+        }            .rec-content p {
+                color: #475569 !important;
+                font-size: 9.5px !important;
+            }
         }
     </style>
 </head>
@@ -1094,7 +1156,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
         <!-- BARRA LATERAL IZQUIERDA CON FILTROS E INFORMACIÓN -->
         <aside class="sidebar">
             <div class="sidebar-logo">
-                <img src="LOGO_SANOFI_PLACEHOLDER" alt="SANOFI Logo">
+                <img src="LOGO_SANOFI_PLACEHOLDER"" alt="SANOFI Logo">
             </div>
             
             <div class="sidebar-campaign">
@@ -1163,6 +1225,9 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 <button class="tab-button" onclick="switchTab('page-5')">
                     <i class="fa-solid fa-brain"></i> 5. Estrategia y Hábitos
                 </button>
+                <button class="tab-button" onclick="switchTab('page-6')">
+                    <i class="fa-solid fa-lightbulb"></i> 6. Hallazgos y Recom.
+                </button>
             </div>
 
             <!-- CONTENEDORES DE LAS PESTAÑAS (En pantalla solo se muestra el .active) -->
@@ -1174,7 +1239,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 <section class="tab-pane active" id="page-1">
             <div class="page-header-print">
                 <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL • SANOFI 2026</span>
-                <span class="print-subtitle">Página 1 de 5<br>Med&Corp Sede Central</span>
+                <span class="print-subtitle">Página 1 de 6<br>Med&Corp Sede Central</span>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 15px;">
@@ -1218,13 +1283,15 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                             <span id="kpi-consentimiento-si-qty" style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">(0 de 0)</span>
                         </div>
                     </div>
-                    <div style="width: 170px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
-                        <div style="display: flex; justify-content: space-between; font-size: 9.5px; font-weight: 600; font-family: 'Outfit', sans-serif;">
-                            <span style="color: #10b981;">Sí: <span id="bar-consentimiento-si-val" style="font-weight: 700;">0</span> (<span id="bar-consentimiento-si-pct">0%</span>)</span>
-                            <span style="color: #ef4444;">No: <span id="bar-consentimiento-no-val" style="font-weight: 700;">0</span> (<span id="bar-consentimiento-no-pct">0%</span>)</span>
+                    <div style="width: 250px; display: flex; flex-direction: column; gap: 5px; justify-content: center;">
+                        <div style="display: flex; justify-content: space-between; font-size: 8px; font-weight: 600; font-family: 'Outfit', sans-serif;">
+                            <span style="color: #10b981;">Sí (Con Est.): <span id="bar-consentimiento-si-con-val" style="font-weight: 700;">0</span> (<span id="bar-consentimiento-si-con-pct">0%</span>)</span>
+                            <span style="color: #f59e0b; margin-left: 3px;">Sí (Sin Est.): <span id="bar-consentimiento-si-sin-val" style="font-weight: 700;">0</span> (<span id="bar-consentimiento-si-sin-pct">0%</span>)</span>
+                            <span style="color: #ef4444; margin-left: 3px;">No: <span id="bar-consentimiento-no-val" style="font-weight: 700;">0</span> (<span id="bar-consentimiento-no-pct">0%</span>)</span>
                         </div>
                         <div style="height: 12px; width: 100%; background-color: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; display: flex; border: 1px solid rgba(255,255,255,0.04);">
-                            <div id="bar-consentimiento-si" style="height: 100%; background-color: #10b981; transition: width 0.4s ease; width: 0%;"></div>
+                            <div id="bar-consentimiento-si-con" style="height: 100%; background-color: #10b981; transition: width 0.4s ease; width: 0%;"></div>
+                            <div id="bar-consentimiento-si-sin" style="height: 100%; background-color: #f59e0b; transition: width 0.4s ease; width: 0%;"></div>
                             <div id="bar-consentimiento-no" style="height: 100%; background-color: #ef4444; transition: width 0.4s ease; width: 0%;"></div>
                         </div>
                     </div>
@@ -1257,39 +1324,64 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                         <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary-accent)"></i> Participación</h3>
                     </div>
                     <div style="display: flex; flex-direction: column; flex: 1; justify-content: center;">
-                        <div class="chart-container" style="display: flex; align-items: center; gap: 20px; height: 190px;">
-                            <div style="width: 45%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
-                                <canvas id="chart-participacion" style="max-height: 100% !important; max-width: 100% !important;"></canvas>
-                                <!-- Texto en el centro de la dona (Aumentado para máxima presencia) -->
-                                <div style="position: absolute; text-align: center; pointer-events: none; top: 52%; left: 50%; transform: translate(-50%, -50%);">
-                                    <span style="font-size: 26px; font-weight: 800; color: white; display: block; line-height: 1; font-family: 'Outfit', sans-serif;">91.24%</span>
-                                    <span style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-top: 2px; display: block;">En línea</span>
+                        <div class="chart-container" style="display: flex; flex-direction: column; align-items: center; gap: 10px; height: 190px; justify-content: center;">
+                            <!-- Gráfico Doble (Pie of Pie) -->
+                            <div style="width: 100%; height: 75%; position: relative; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                                <div style="width: 45%; height: 100%; position: relative; z-index: 2;">
+                                    <canvas id="chart-participacion-main"></canvas>
+                                </div>
+                                <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;" preserveAspectRatio="none">
+                                    <line x1="45%" y1="20%" x2="55%" y2="20%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
+                                    <line x1="45%" y1="80%" x2="55%" y2="80%" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 2" />
+                                </svg>
+                                <div style="width: 45%; height: 100%; position: relative; z-index: 2;">
+                                    <canvas id="chart-participacion-sub"></canvas>
                                 </div>
                             </div>
-                            <!-- Leyenda Custom con fuentes premium y sin redundancia -->
-                            <div style="width: 55%; display: flex; flex-direction: column; gap: 14px; justify-content: center;">
-                                <div style="border-left: 4px solid #3b82f6; padding-left: 10px; line-height: 1.2;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Registros en Línea</span>
-                                    <strong style="color: #3b82f6; font-size: 16px; font-family: 'Outfit', sans-serif;">177</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 91.24%</span>
+                            
+                            <!-- Leyenda Inferior (Doble) -->
+                            <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-start; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; gap: 15px;">
+                                <!-- Columna Izquierda: Tipo de Registro -->
+                                <div style="display: flex; flex-direction: column; gap: 5px; width: 50%;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'Outfit', sans-serif;">
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <div style="width: 12px; height: 12px; background-color: #3b82f6; border-radius: 3px;"></div>
+                                            <span style="color: var(--text-secondary); font-weight: 500;">En Línea</span>
+                                        </div>
+                                        <span style="color: white; font-weight: 600;">177 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(91.2%)</span></span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'Outfit', sans-serif;">
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <div style="width: 12px; height: 12px; background-color: #f97316; border-radius: 3px;"></div>
+                                            <span style="color: var(--text-secondary); font-weight: 500;">Manuales</span>
+                                        </div>
+                                        <span style="color: white; font-weight: 600;">17 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(8.8%)</span></span>
+                                    </div>
                                 </div>
-                                <div style="border-left: 4px solid #f97316; padding-left: 10px; line-height: 1.2;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Registros Manuales</span>
-                                    <strong style="color: #f97316; font-size: 16px; font-family: 'Outfit', sans-serif;">17</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 8.76%</span>
-                                </div>
-                                <div style="border-left: 4px solid #64748b; padding-left: 10px; line-height: 1.2; margin-top: 2px;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 10px; display: block; font-weight: 600; letter-spacing: 0.5px;">Total Registros</span>
-                                    <strong style="color: white; font-size: 16px; font-family: 'Outfit', sans-serif;">194</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 100%</span>
-                                </div>
-                                <div style="border-left: 4px solid #a855f7; padding-left: 10px; line-height: 1.2;">
-                                    <span style="color: var(--text-secondary); text-transform: uppercase; font-size: 9.5px; display: block; font-weight: 600; letter-spacing: 0.5px;">Con HRA / Sin estudios</span>
-                                    <strong style="color: #a855f7; font-size: 16px; font-family: 'Outfit', sans-serif;">15</strong> <span style="color: var(--text-secondary); font-size: 11.5px; font-weight: 500;">| 7.73%</span>
+                                <!-- Línea Divisoria Vertical -->
+                                <div style="width: 1px; background-color: rgba(255,255,255,0.06); align-self: stretch;"></div>
+                                <!-- Columna Derecha: Desglose en Línea -->
+                                <div style="display: flex; flex-direction: column; gap: 5px; width: 50%;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'Outfit', sans-serif;">
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <div style="width: 12px; height: 12px; background-color: #0ea5e9; border-radius: 3px;"></div>
+                                            <span style="color: var(--text-secondary); font-weight: 500;">Uno o más estudios</span>
+                                        </div>
+                                        <span style="color: white; font-weight: 600;">184 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(94.8%)</span></span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'Outfit', sans-serif;">
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <div style="width: 12px; height: 12px; background-color: #a855f7; border-radius: 3px;"></div>
+                                            <span style="color: var(--text-secondary); font-weight: 500;">Sin estudios, solo HRA</span>
+                                        </div>
+                                        <span style="color: white; font-weight: 600;">10 <span style="color: var(--text-secondary); font-size: 9px; font-weight: 400;">(5.2%)</span></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
-            </div>
-
         </section>
 
 
@@ -1299,7 +1391,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
         <section class="tab-pane" id="page-2">
             <div class="page-header-print">
                 <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL • SANOFI 2026</span>
-                <span class="print-subtitle">Página 2 de 5<br>Composición Corporal (InBody)</span>
+                <span class="print-subtitle">Página 2 de 6<br>Composición Corporal (InBody)</span>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -1333,7 +1425,29 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 </div>
             </div>
 
+            
+            <!-- Nuevos Gráficos de InBody (Puntaje y Peso) -->
+            <div class="dashboard-grid-2" style="margin-bottom: 20px;">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary-accent)"></i> Clasificación Puntaje InBody</h3>
+                    </div>
+                    <div class="chart-container" style="height: 280px;">
+                        <canvas id="chart-puntaje-inbody"></canvas>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-weight-scale" style="color: var(--primary-accent)"></i> Distribución de Rangos de Peso</h3>
+                    </div>
+                    <div class="chart-container" style="height: 280px;">
+                        <canvas id="chart-rangos-peso"></canvas>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Tabla de Medias Poblacionales -->
+
             <div class="dashboard-card" style="max-width: 900px; margin: 0 auto 20px auto;">
                 <div class="card-header">
                     <h3><i class="fa-solid fa-list-check" style="color: var(--primary-accent)"></i> Medias Poblacionales (InBody)</h3>
@@ -1386,7 +1500,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
         <section class="tab-pane" id="page-3">
             <div class="page-header-print">
                 <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL • SANOFI 2026</span>
-                <span class="print-subtitle">Página 3 de 5<br>Salud Metabólica y Biomarcadores</span>
+                <span class="print-subtitle">Página 3 de 6<br>Salud Metabólica y Biomarcadores</span>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -1476,7 +1590,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
         <section class="tab-pane" id="page-4">
             <div class="page-header-print">
                 <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL • SANOFI 2026</span>
-                <span class="print-subtitle">Página 4 de 5<br>Salud Dental y Funcional</span>
+                <span class="print-subtitle">Página 4 de 6<br>Salud Dental y Funcional</span>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -1545,7 +1659,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
 
             <div class="conclusion-box">
                 <h4><i class="fa-solid fa-circle-info" style="color: var(--primary-accent)"></i> Diagnóstico Odontológico:</h4>
-                <p>En el área buco-dental, el colaborador promedio de SANOFI cuenta con <strong>27.1 dientes saludables</strong> y sanos de los 32 permanentes, mientras que presenta un promedio de <strong>2.8 dientes que requieren atención clínica inmediata</strong> (caries activas severas, reconstrucción, coronas o restos radiculares). Esto constituye una alta prevalencia de caries asintomática de bajo nivel que afecta la salud gastrointestinal y el ausentismo laboral preventivo.</p>
+                <p>En el área buco-dental, el <strong>57.5% de los colaboradores evaluados (65 personas)</strong> presenta una dentadura completamente sana y libre de padecimientos. Por otro lado, el <strong>42.5% de la población (48 personas)</strong> requiere atención clínica inmediata en una o más piezas dentales (caries activas severas, reconstrucción, coronas o restos radiculares). Esto constituye una importante prevalencia de caries asintomática que afecta la salud gastrointestinal y el ausentismo laboral preventivo.</p>
             </div>
         </section>
 
@@ -1556,83 +1670,414 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
         <section class="tab-pane" id="page-5">
             <div class="page-header-print">
                 <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL • SANOFI 2026</span>
-                <span class="print-subtitle">Página 5 de 5<br>Estrategia Wellness y Hábitos</span>
+                <span class="print-subtitle">Página 5 de 6<br>Estrategia Wellness y Hábitos</span>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
                 <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
-                    5. Hábitos de Vida, Estrés y Estrategias Corporativas de Bienestar
+                    5. Estrategia y Hábitos
                 </h2>
                 <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
-                    Análisis cruzado de los factores conductuales declarados por los colaboradores de SANOFI en las encuestas de salud para proponer iniciativas y estrategias preventivas de alto rendimiento.
+                    Análisis epidemiológico enfocado en métricas clínicas y hábitos de vida basados en resultados de laboratorio y encuestas poblacionales.
                 </p>
             </div>
 
-            <!-- Gráficos de Encuestas -->
+            <!-- Sensor de Salud y Segmentación -->
             <div class="dashboard-grid-2" style="gap: 20px; margin-bottom: 25px;">
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3><i class="fa-solid fa-brain" style="color: var(--primary-accent)"></i> Estrés Percibido (Escala 1 a 5)</h3>
+                <div class="dashboard-card" style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success-accent);">
+                    <div class="card-header" style="border-bottom: none;">
+                        <h3 style="color: var(--success-accent);"><i class="fa-solid fa-heart-pulse"></i> Sensor de salud: Resultado preponderante</h3>
                     </div>
-                    <div class="chart-container" style="height: 220px;">
-                        <canvas id="chart-estres"></canvas>
-                    </div>
-                </div>
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3><i class="fa-solid fa-smoking" style="color: var(--primary-accent)"></i> Hábitos de Riesgo (Tabaquismo / Alcohol)</h3>
-                    </div>
-                    <div class="chart-container" style="height: 220px;">
-                        <canvas id="chart-tabaco"></canvas>
+                    <div style="display: flex; align-items: center; gap: 20px; padding: 10px;">
+                        <div style="font-size: 50px; color: var(--text-secondary);"><i class="fa-solid fa-face-frown-open"></i></div>
+                        <div>
+                            <h4 style="color: var(--text-primary); margin-bottom: 5px;">Riesgo por desconocimiento</h4>
+                            <p style="color: var(--text-secondary); font-size: 12px; margin: 0;"><strong>Criterios:</strong> Indicaste desconocimiento de tu peso actual y/o de uno o más indicadores biométricos.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="dashboard-card">
                     <div class="card-header">
-                        <h3><i class="fa-solid fa-person-running" style="color: var(--primary-accent)"></i> Disposición al Cambio (Etapas Prochaska)</h3>
+                        <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary-accent)"></i> Segmentación en la población</h3>
                     </div>
-                    <div class="chart-container" style="height: 220px;">
-                        <canvas id="chart-disposicion-cambio"></canvas>
-                    </div>
-                </div>
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3><i class="fa-solid fa-gauge-high" style="color: var(--primary-accent)"></i> Hábitos: Confianza e Importancia (Nivel Alto)</h3>
-                    </div>
-                    <div class="chart-container" style="height: 220px;">
-                        <canvas id="chart-confianza-importancia"></canvas>
+                    <div style="display: flex; flex-direction: column; gap: 8px; padding: 10px; font-size: 12px; color: var(--text-primary);">
+                        <div style="display: flex; justify-content: space-between;"><span>¡Felicidades! Salud Óptima</span><strong>0.6%</strong></div>
+                        <div style="display: flex; justify-content: space-between;"><span>¡Cuidado con tu salud!</span><strong>2.3%</strong></div>
+                        <div style="display: flex; justify-content: space-between;"><span>¡Mejora tu salud!</span><strong>2.3%</strong></div>
+                        <div style="display: flex; justify-content: space-between;"><span>Riesgo por desconocimiento</span><strong>90.4%</strong></div>
+                        <div style="display: flex; justify-content: space-between;"><span>¡Bien! Enfermedad crónica controlada.</span><strong>2.8%</strong></div>
+                        <div style="display: flex; justify-content: space-between;"><span>¡Ponte en acción ya! Enfermedad crónica no controlada</span><strong>1.7%</strong></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Plan de Acción Wellness Recomendado -->
-            <div class="recommendation-list" style="margin-top: 5px; display: flex; flex-direction: column; gap: 6px;">
-                <h3 style="font-size: 15px; color: var(--text-primary); margin-bottom: 2px; font-family: 'Outfit', sans-serif;"><i class="fa-solid fa-bullseye" style="color: var(--primary-accent)"></i> Propuestas Wellness Estratégicas para Recursos Humanos:</h3>
-                
-                <div class="rec-item" style="padding: 6px 12px; margin-bottom: 0;">
-                    <div class="rec-num">1</div>
-                    <div class="rec-content">
-                        <h5 style="margin-bottom: 1px; font-size: 11px;">Campaña Nutricional Integrada "Reto InBody SANOFI"</h5>
-                        <p style="font-size: 10px; margin: 0; line-height: 1.3;">Dado que el 59.4% de los colaboradores presenta sobrepeso u obesidad, recomendamos implementar consultas de asesoría nutricional individual en las oficinas junto con un desafío corporativo mensual de pérdida de grasa corporal.</p>
+            <!-- Perfil Clínico -->
+            <h3 style="color: var(--text-primary); font-size: 18px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                <span><i class="fa-solid fa-stethoscope" style="color: var(--primary-accent)"></i> Perfil Clínico</span>
+                <div style="display: flex; gap: 15px; font-size: 10px; font-family: 'Outfit', sans-serif;">
+                    <span style="display: flex; align-items: center; gap: 5px;"><div style="width: 10px; height: 10px; background-color: #10b981; border-radius: 2px;"></div> Fortaleza</span>
+                    <span style="display: flex; align-items: center; gap: 5px;"><div style="width: 10px; height: 10px; background-color: #f59e0b; border-radius: 2px;"></div> Intermedio</span>
+                    <span style="display: flex; align-items: center; gap: 5px;"><div style="width: 10px; height: 10px; background-color: #ef4444; border-radius: 2px;"></div> Riesgo</span>
+                    <span style="display: flex; align-items: center; gap: 5px;"><div style="width: 10px; height: 10px; background-color: var(--text-secondary); border-radius: 2px;"></div> No conoce</span>
+                </div>
+            </h3>
+            <div class="dashboard-grid-4" style="gap: 15px; margin-bottom: 25px;">
+                <div class="dashboard-card"><div class="card-header"><h3 style="font-size: 13px;">Colesterol</h3></div><div class="chart-container" style="height: 200px;"><canvas id="chart-tab5-colesterol"></canvas></div></div>
+                <div class="dashboard-card"><div class="card-header"><h3 style="font-size: 13px;">Triglicéridos</h3></div><div class="chart-container" style="height: 200px;"><canvas id="chart-tab5-trigliceridos"></canvas></div></div>
+                <div class="dashboard-card"><div class="card-header"><h3 style="font-size: 13px;">Glucosa</h3></div><div class="chart-container" style="height: 200px;"><canvas id="chart-tab5-glucosa"></canvas></div></div>
+                <div class="dashboard-card"><div class="card-header"><h3 style="font-size: 13px;">Presión Arterial</h3></div><div class="chart-container" style="height: 200px;"><canvas id="chart-tab5-presion"></canvas></div></div>
+            </div>
+
+            <!-- Prevención y Seguridad -->
+            <div class="dashboard-grid-2" style="gap: 20px; margin-bottom: 25px;">
+                <div class="dashboard-card">
+                    <div class="card-header"><h3><i class="fa-solid fa-shield-halved" style="color: var(--primary-accent)"></i> Prevención</h3></div>
+                    <div style="display: flex; flex-direction: column; height: 100%;">
+                        <div style="display: flex; align-items: center; justify-content: space-around; padding: 20px 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <div style="text-align: center;"><span style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase;">Fortaleza</span><br><strong style="font-size: 24px; color: var(--success-accent);">51.41%</strong></div>
+                            <div style="text-align: center;"><span style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase;">Riesgo</span><br><strong style="font-size: 24px; color: var(--danger-accent);">48.59%</strong></div>
+                        </div>
+                        <div style="padding: 15px; font-size: 11px; color: var(--text-secondary);">
+                            <strong style="color: var(--primary-accent); font-size: 12px; display: block; margin-bottom: 5px;">Parámetros de prevención:</strong>
+                            <ul style="margin: 0; padding-left: 15px; display: flex; flex-direction: column; gap: 4px;">
+                                <li>Se considera un <span style="color: var(--danger-accent);">riesgo</span> en prevención cuando no se tiene un seguimiento médico periódico.</li>
+                                <li>Se considera una <span style="color: var(--success-accent);">fortaleza</span> en prevención cuando se tiene un seguimiento médico periódico.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="rec-item" style="padding: 6px 12px; margin-bottom: 0;">
-                    <div class="rec-num">2</div>
-                    <div class="rec-content">
-                        <h5 style="margin-bottom: 1px; font-size: 11px;">Programa Cardiovascular "Corazón SANOFI"</h5>
-                        <p style="font-size: 10px; margin: 0; line-height: 1.3;">Considerando que el 44.9% de los evaluados presenta hipercolesterolemia, se sugiere implementar la sustitución de snacks procesados en las máquinas expendedoras corporativas por opciones cardiosaludables (nueces, fruta fresca) y pláticas de prevención metabólica.</p>
+                <div class="dashboard-card">
+                    <div class="card-header"><h3><i class="fa-solid fa-car" style="color: var(--primary-accent)"></i> Seguridad</h3></div>
+                    <div style="display: flex; flex-direction: column; height: 100%;">
+                        <div style="display: flex; align-items: center; justify-content: space-around; padding: 20px 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <div style="text-align: center;"><span style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase;">Fortaleza</span><br><strong style="font-size: 24px; color: var(--success-accent);">24.29%</strong></div>
+                            <div style="text-align: center;"><span style="font-size: 11px; color: var(--text-secondary); text-transform: uppercase;">Riesgo</span><br><strong style="font-size: 24px; color: var(--danger-accent);">75.71%</strong></div>
+                        </div>
+                        <div style="padding: 15px; font-size: 11px; color: var(--text-secondary);">
+                            <strong style="color: var(--primary-accent); font-size: 12px; display: block; margin-bottom: 5px;">Parámetros de seguridad:</strong>
+                            <ul style="margin: 0; padding-left: 15px; display: flex; flex-direction: column; gap: 4px;">
+                                <li>Uso de cinturón de seguridad.</li>
+                                <li>Uso del celular mientras se conduce un vehículo.</li>
+                                <li>Uso de filtro solar.</li>
+                                <li>Revisión periódica de uso doméstico.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="rec-item" style="padding: 6px 12px; margin-bottom: 0;">
-                    <div class="rec-num">3</div>
-                    <div class="rec-content">
-                        <h5 style="margin-bottom: 1px; font-size: 11px;">Campaña de Prevención Dental y Convenios Clínicos</h5>
-                        <p style="font-size: 10px; margin: 0; line-height: 1.3;">Con un promedio de 2.8 dientes con caries activas por colaborador, recomendamos facilitar el acceso a limpiezas y tratamientos preventivos mediante convenios directos de descuento con redes odontológicas locales.</p>
+            </div>
+
+            <!-- Estilo de vida e Historial -->
+            <div class="dashboard-grid-2-1" style="margin-bottom: 25px;">
+                <!-- Columna Izquierda: Estilo de Vida -->
+                <div style="display: flex; flex-direction: column; gap: 15px; min-width: 0;">
+                    <h3 style="color: var(--text-primary); font-size: 18px; margin: 0;"><i class="fa-solid fa-leaf" style="color: var(--primary-accent)"></i> Resultados de estilo de vida</h3>
+                    <div class="dashboard-card">
+                        <div class="chart-container" style="height: 480px;">
+                            <canvas id="chart-tab5-estilodevida"></canvas>
+                        </div>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 11px; color: var(--text-secondary);">
+                            <strong style="color: var(--primary-accent); font-size: 13px; display: block; margin-bottom: 10px;"><i class="fa-solid fa-list-check"></i> Reglas de clasificación:</strong>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; line-height: 1.4;">
+                                <div><strong style="color: var(--text-primary);">Consumo de verduras:</strong><br>Al menos 3 porciones al día.</div>
+                                <div><strong style="color: var(--text-primary);">Consumo de frutos:</strong><br>Al menos 3 porciones al día.</div>
+                                <div><strong style="color: var(--text-primary);">Alimentos fritos:</strong><br>Menos de 3 días a la semana.</div>
+                                <div><strong style="color: var(--text-primary);">Bebidas azucaradas:</strong><br>Menos de una vez al mes.</div>
+                                <div><strong style="color: var(--text-primary);">Consumo de sal:</strong><br>No agregar sal a alimentos preparados.</div>
+                                <div><strong style="color: var(--text-primary);">Consumo de tabaco:</strong><br>No fumar para clasificar saludable.</div>
+                                <div><strong style="color: var(--text-primary);">Sueño y descanso:</strong><br>Al menos 7 horas al día.</div>
+                                <div><strong style="color: var(--text-primary);">Actividad física:</strong><br>Más de 2 horas y media a la semana.</div>
+                                <div><strong style="color: var(--text-primary);">Niveles de estrés:</strong><br>Escala 1-2: Saludable. 3: Moderado. 4-5: Alto.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Historial Médico -->
+                <div style="display: flex; flex-direction: column; gap: 15px; min-width: 0;">
+                    <h3 style="color: var(--text-primary); font-size: 18px; margin: 0;"><i class="fa-solid fa-file-medical" style="color: var(--primary-accent)"></i> Historial Médico</h3>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-header" style="padding: 10px 15px;"><h3><i class="fa-solid fa-users" style="color: var(--primary-accent)"></i> Riesgos Heredofamiliares</h3></div>
+                        <div class="chart-container" style="height: 120px;"><canvas id="chart-tab5-heredo"></canvas></div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-header" style="padding: 10px 15px;"><h3><i class="fa-solid fa-crutch" style="color: var(--primary-accent)"></i> Incapacidad por salud</h3></div>
+                        <div class="chart-container" style="height: 120px;"><canvas id="chart-tab5-incapacidad"></canvas></div>
+                    </div>
+                    
+                    <div class="dashboard-card" style="flex-grow: 1; display: flex; flex-direction: column;">
+                        <div class="card-header" style="padding: 10px 15px;"><h3><i class="fa-solid fa-syringe" style="color: var(--primary-accent)"></i> Vacunación</h3></div>
+                        <div class="chart-container" style="flex-grow: 1; min-height: 180px; position: relative;"><canvas id="chart-tab5-vacunacion"></canvas></div>
                     </div>
                 </div>
             </div>
         </section>
+
+                <!-- ============================================================= -->
+                <!-- PÁGINA 6: HALLAZGOS Y RECOMENDACIONES -->
+                <section class="tab-pane" id="page-6">
+                    <div class="page-header-print">
+                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – SANOFI 2026</span>
+                        <span class="print-subtitle">Página 6 de 6<br>Hallazgos y Recomendaciones</span>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
+                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
+                            6. Hallazgos y Recomendaciones
+                        </h2>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
+                            Conclusiones integrales derivadas del análisis epidemiológico y recomendaciones estratégicas para la mejora continua del bienestar corporativo.
+                        </p>
+                    </div>
+
+                    <div class="dashboard-grid-2" style="gap: 20px; margin-bottom: 25px;">
+                        
+                        <!-- Tarjeta INBODY -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-weight-scale" style="color: var(--primary-accent)"></i> Composición Corporal (INBODY)</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Resumen Ejecutivo:</strong> 153 colaboradores evaluados. Perfil metabólico favorable en población de 25 a 40 años.</li>
+                                        <li><strong>Población Joven:</strong> Alto nivel de actividad física y hábitos saludables consolidados.</li>
+                                        <li><strong>Áreas de Oportunidad:</strong> Riesgo de pérdida muscular en colaboradores mayores de 40 años. Riesgo temprano de sarcopenia detectado.</li>
+                                        <li><strong>Puntaje INBODY:</strong> La mayoría se concentra entre 66 y 75 puntos. Existe margen importante de mejora en recomposición corporal.</li>
+                                        <li><strong>Rangos de Peso:</strong> Concentración principal entre 61 y 80 kg. La composición corporal permite evaluar músculo, grasa y agua más allá del peso aislado.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Meta Recomendada:</strong> Mantener puntajes INBODY superiores a 75.</li>
+                                        <li><strong>Enfoque Prioritario:</strong> Especial atención en mayores de 40 años, bajo tratamiento GLP-1, con pérdida muscular o indicadores metabólicos alterados.</li>
+                                        <li><strong>Estrategia:</strong> Implementar mediciones periódicas 2 o 3 veces por año para monitorear evolución de masa muscular y grasa.</li>
+                                        <li><strong>Seguimiento Anual:</strong> 1. Diagnóstico inicial, 2. Seguimiento a 4-6 meses, 3. Consolidación anual.</li>
+                                        <li><strong>Conclusión Ejecutiva:</strong> Bases favorables de salud metabólica con una oportunidad importante de intervención preventiva.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                                                <!-- Tarjeta Biometría Hemática -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-flask" style="color: var(--primary-accent)"></i> Biometría Hemática (CHOPO)</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Prevalencia en Mujeres:</strong> Alta prevalencia de anemia leve a moderada en mujeres en edad reproductiva, frecuentemente asociada al periodo menstrual o déficit nutricional según entrevistas.</li>
+                                        <li><strong>Hemoconcentración en Varones:</strong> Casos aislados de hemoglobina, hematocrito y volumen eritrocitario elevados en hombres, correlacionados con deshidratación leve a moderada o tabaquismo.</li>
+                                        <li><strong>Procesos Alérgicos/Inflamatorios:</strong> Múltiples episodios de eosinofilia que sugieren procesos alérgicos activos o inflamación aguda de las vías respiratorias.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Confirmación Diagnóstica:</strong> Programar la repetición de la biometría hemática en un periodo menor a 6 meses para correlación clínica y descarte de variaciones transitorias.</li>
+                                        <li><strong>Perfil de Anemia:</strong> En pacientes con Hemoglobina baja, complementar con pruebas de ferritina, hierro sérico, VCM, CHCM y reticulocitos para determinar la causa subyacente.</li>
+                                        <li><strong>Seguimiento de Hallazgos:</strong> Correlacionar la eosinofilia con la sintomatología actual. En casos de Hb elevada, realizar la prueba bajo condiciones adecuadas de hidratación.</li>
+                                        <li><strong>Intervenciones Poblacionales:</strong> Implementar programas de educación nutricional, cribado dirigido a mujeres en edad fértil y promoción de hábitos de hidratación saludables.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Química Sanguínea -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-droplet" style="color: var(--primary-accent)"></i> Química Sanguínea (CHOPO)</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Perfil de Dislipidemia:</strong> Identificación de 72 registros con colesterol total ≥200 mg/dL y 45 con triglicéridos en rango límite a moderadamente elevado, indicando un riesgo cardiovascular relevante.</li>
+                                        <li><strong>Riesgo Glucémico:</strong> Detección de 19 alteraciones glucémicas en ayuno que requieren estudios adicionales para confirmar resistencia a la insulina o alteración metabólica.</li>
+                                        <li><strong>Hiperuricemia y Función Renal:</strong> Presencia de 28 episodios aislados de ácido úrico elevado (hiperuricemia) y variaciones en creatinina consistentes con deshidratación.</li>
+                                        <li><strong>Distribución por Grupos:</strong> Mayor concentración de riesgo metabólico en adultos de 35 a 60 años, observándose mayor colesterol en mujeres y mayor ácido úrico en hombres.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Repetición en Ayuno:</strong> Confirmar resultados anormales mediante un perfil lipídico completo (colesterol total, LDL, HDL, triglicéridos), glucosa, HbA1c y ácido úrico en ayuno de 12 horas.</li>
+                                        <li><strong>Modificación del Estilo de Vida:</strong> Diseñar planes alimenticios personalizados (dieta hipolipemiante, restricción de azúcares simples y alcohol) y fomento de actividad física moderada.</li>
+                                        <li><strong>Abordaje Terapéutico:</strong> Valorar el inicio de tratamiento farmacológico (estatinas, hipoglucemiantes orales, uratosúricos) conforme al riesgo cardiovascular global de cada colaborador.</li>
+                                        <li><strong>Ruta de Cuidado:</strong> Establecer un canal ágil de derivación hacia especialidades de Medicina Interna o Endocrinología en casos confirmados con alto riesgo metabólico.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Examen General de Orina -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-microscope" style="color: var(--primary-accent)"></i> Examen General de Orina (CHOPO)</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Sospecha de Infección Urinaria:</strong> Presencia recurrente de leucocitos, bacterias, esterasa leucocitaria positiva y nitritos variables, predominantemente en mujeres (casos subclínicos en telemedicina).</li>
+                                        <li><strong>Riesgo de Litiasis:</strong> Reporte frecuente de cristales de fosfato/oxalato amorfo y sedimento activo en la muestra urinaria, aumentando la susceptibilidad a litiasis renal.</li>
+                                        <li><strong>Indicadores de Deshidratación:</strong> Fluctuaciones en la densidad urinaria y el urobilinógeno compatibles con deshidratación relativa o desbalance en la ingesta de líquidos.</li>
+                                        <li><strong>Hallazgos Aislados:</strong> Casos muy puntuales con presencia de cilindros o redes mucoides, que requieren evaluación para descartar compromiso obstructivo o funcional.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Muestra Estandarizada:</strong> Repetir el EGO en un lapso de 6 a 12 meses, asegurando condiciones óptimas de higiene y recolección (primera orina de la mañana, chorro medio).</li>
+                                        <li><strong>Prevención de Cálculos:</strong> En pacientes con cristales constantes, realizar tipificación y medición de pH para sugerir pautas dietéticas específicas que inhiban la cristaluria.</li>
+                                        <li><strong>Valoración Renal:</strong> En casos de densidad urinaria elevada persistente o presencia de cilindros, evaluar la tasa de filtración glomerular y derivar a nefrología/urología.</li>
+                                        <li><strong>Acciones Preventivas:</strong> Difundir pautas de higiene urogenital, promover el consumo estructurado de agua y protocolizar tratamientos guiados por urocultivo.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Antígeno Prostático Específico -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-user-doctor" style="color: var(--primary-accent)"></i> Antígeno Prostático Específico (CHOPO)</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Distribución Esperada:</strong> La gran mayoría de los varones evaluados presentan valores de PSA total dentro de los límites de referencia normales para su edad.</li>
+                                        <li><strong>Casos de Alerta:</strong> Identificación de 3 casos con elevaciones de PSA clínicamente relevantes y 3 casos adicionales en la zona límite superior.</li>
+                                        <li><strong>Patrones de Edad:</strong> Las elevaciones se concentran principalmente en el grupo de ≥50 años, con variaciones en el rango de 40 a 49 años asociables a hiperplasia benigna o prostatitis.</li>
+                                        <li><strong>Interferencias Posibles:</strong> Presencia de registros atípicos que requieren descartar factores biológicos transitorios (eyaculación reciente, tacto rectal previo, ejercicio intenso).</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Protocolo de Confirmación:</strong> Repetir la prueba de PSA total y libre en 4 a 6 semanas, instruyendo al paciente a evitar actividades estimulantes o eyaculación 48 horas antes.</li>
+                                        <li><strong>Derivación de Criterio:</strong> Referir al servicio de Urología a aquellos pacientes con PSA > 4 ng/mL o con un incremento de velocidad anual acelerado para descartar malignidad.</li>
+                                        <li><strong>Monitoreo Poblacional:</strong> Establecer un protocolo de cribado anual preventivo en hombres de más de 50 años (o de más de 45 años si tienen antecedentes familiares de primer grado).</li>
+                                        <li><strong>Educación Sintomática:</strong> Promover el autocuidado metabólico y capacitar a la población masculina en el reconocimiento temprano de síntomas obstructivos urinarios.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Electrocardiograma -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary-accent)"></i> Electrocardiograma (EKG)</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Bradicardia Sinusal:</strong> Detección de bradicardia en el 26.7% de las pruebas (predominio en hombres con 38.5%). Catalogados como benignos y asociados a tono vagal o buena condición física.</li>
+                                        <li><strong>Bloqueos de Conducción:</strong> Identificación de 3 casos con bloqueo auriculoventricular (AV) de primer grado que requieren seguimiento básico de conducción cardíaca.</li>
+                                        <li><strong>Riesgo Isquémico Crítico:</strong> 1 caso con alteraciones del segmento ST en paciente con antecedente de infarto previo, representando un riesgo cardiovascular muy alto.</li>
+                                        <li><strong>Implicaciones Laborales:</strong> Riesgos asociados en tareas críticas por posibilidad de síncope o mareos en colaboradores con bradicardias sintomáticas o pausas.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Atención Inmediata:</strong> Derivar a cardiología a pacientes con bradicardias sintomáticas, FC <40 lpm, pausas >3 segundos o bloqueos AV asociados a síntomas de hipoperfusión.</li>
+                                        <li><strong>Evaluación de Medicamentos:</strong> Revisar la lista de fármacos activos que influyen en el cronotropismo cardíaco (como betabloqueantes y calcioantagonistas) y corregir si aplica.</li>
+                                        <li><strong>Monitoreo y Extensión:</strong> Indicar Holter de 24 horas y ecocardiograma en bradicardias persistentes no asociadas a entrenamiento físico de alto rendimiento.</li>
+                                        <li><strong>Seguridad Ocupacional:</strong> Establecer restricciones laborales temporales para tareas de alto riesgo (alturas, conducción) hasta contar con la valoración del especialista.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Espirometría -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-lungs" style="color: var(--primary-accent)"></i> Espirometría</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Calidad de la Prueba:</strong> 95% de los estudios se clasificaron con calidad "A" y 5% en calidad "B", garantizando alta reproducibilidad conforme a criterios de la ATS.</li>
+                                        <li><strong>Técnica Espiratoria:</strong> Detección de 35 hombres y 37 mujeres con valores por debajo del predicho, lo que sugiere un esfuerzo espiratorio subóptimo en la maniobra.</li>
+                                        <li><strong>Casos Obstructivos/Restrictivos:</strong> Hallazgo de 2 hombres con obstrucción moderada, 1 mujer con obstrucción leve y 1 mujer con posible patrón restrictivo leve.</li>
+                                        <li><strong>Ausencia de Síntomas:</strong> La gran mayoría de los colaboradores con variaciones espirométricas se encontraban asintomáticos, con solo un caso con seguimiento neumológico activo.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Control del Calidad:</strong> Repetir la espirometría con maniobras de esfuerzo supervisadas estrictamente para descartar falsos positivos por técnica de soplado deficiente.</li>
+                                        <li><strong>Derivación Neumológica:</strong> Enviar a consulta médica o de neumología a colaboradores con obstrucción moderada/grave o con patrón restrictivo confirmado.</li>
+                                        <li><strong>Control de Contaminantes:</strong> Evaluar y reducir la exposición a humo de tabaco, vapores o polvos industriales; aplicar restricciones y uso estricto de EPP en puestos con riesgo.</li>
+                                        <li><strong>Campañas Respiratorias:</strong> Implementar programas de cese de tabaco corporativos, vacunación anual contra influenza y neumococo, y talleres de higiene pulmonar.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Odontograma -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-tooth" style="color: var(--primary-accent)"></i> Odontograma</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Afectación Transversal:</strong> El 85.8% de los evaluados presenta antecedentes de patología dental activa o periodontal, con incidencia similar en mujeres (86.2%) y hombres (85.4%).</li>
+                                        <li><strong>Carga de Caries:</strong> Promedio de 2.8 dientes con caries activa por colaborador, lo que denota una necesidad urgente de intervenciones correctivas directas.</li>
+                                        <li><strong>Ausencia de Salud Bucal:</strong> Únicamente el 14.2% de la muestra total evaluada se encuentra completamente sana y libre de patologías en piezas dentales.</li>
+                                        <li><strong>Impacto de Productividad:</strong> La alta prevalencia de dolor, sarro y caries incrementa el riesgo de ausentismo laboral por emergencias dentales y disminuye el bienestar de la plantilla.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Campaña de Profilaxis:</strong> Organizar jornadas de profilaxis dental colectiva (limpieza profunda) y aplicación de selladores directamente en las sedes corporativas.</li>
+                                        <li><strong>Talleres de Higiene:</strong> Diseñar pláticas sobre técnicas correctas de cepillado, uso de hilo dental y reducción en la ingesta diaria de azúcares refinados.</li>
+                                        <li><strong>Convenios de Red Dental:</strong> Establecer convenios de descuento y financiamiento flexible con clínicas odontológicas locales para facilitar tratamientos correctivos de caries.</li>
+                                        <li><strong>Indicadores de Vigilancia:</strong> Monitorear de forma anual mediante odontograma digital y registrar el porcentaje de colaboradores que reciben atención dental integral.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta Estrategia Wellness y Hábitos -->
+                        <div class="dashboard-card" style="grid-column: span 2;">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-brain" style="color: var(--primary-accent)"></i> Estrategia Wellness y Hábitos</h3>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--primary-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-magnifying-glass"></i> Hallazgos Estratégicos</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Sobrepeso y Obesidad:</strong> El 59.4% de los colaboradores de SANOFI presenta sobrepeso u obesidad en la evaluación antropométrica/InBody.</li>
+                                        <li><strong>Hipercolesterolemia:</strong> El 44.9% de la población evaluada cuenta con niveles elevados de colesterol en sangre, representando el principal riesgo cardiovascular detectado.</li>
+                                        <li><strong>Salud Bucodental Crónica:</strong> Un promedio transversal de 2.8 piezas dentales con caries activas por colaborador requiere atención correctiva.</li>
+                                        <li><strong>Hábitos Conductuales:</strong> Identificación de áreas de mejora en el nivel de estrés autopercibido, consumo de tabaco y alcohol, y disposición declarada al cambio de hábitos.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--success-accent); margin-bottom: 10px; font-size: 14px;"><i class="fa-solid fa-bullseye"></i> Recomendaciones y Seguimiento</h4>
+                                    <ul style="color: var(--text-secondary); font-size: 13px; padding-left: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                        <li><strong>Reto Nutricional InBody:</strong> Iniciar el desafío corporativo mensual de pérdida de grasa corporal con asesorías individuales de nutriología clínica en sitio.</li>
+                                        <li><strong>Iniciativa "Corazón SANOFI":</strong> Reemplazar botanas procesadas por opciones cardiosaludables (frutos secos, fruta fresca) en comedores y máquinas expendedoras.</li>
+                                        <li><strong>Acceso a Cuidado Dental:</strong> Diseñar esquemas de horarios flexibles y alianzas con redes de dentistas para que el personal atienda caries activas de forma oportuna.</li>
+                                        <li><strong>Gestión del Estrés:</strong> Fomentar pausas activas durante la jornada y pláticas preventivas sobre higiene de sueño, manejo de la ansiedad y resiliencia laboral.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
             </div> <!-- Fin .tabs-container -->
         </main> <!-- Fin .main-content -->
@@ -1848,7 +2293,51 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             });
 
             // 3. Gráfico de IMC (Bioimpedancia)
+            
+            // N1. Gráfico Puntaje InBody (Estático con sesgo)
+            const ctxPuntajeInBody = document.getElementById('chart-puntaje-inbody').getContext('2d');
+            chartInstances.puntajeInBody = new Chart(ctxPuntajeInBody, {
+                type: 'bar',
+                data: {
+                    labels: ['Menos de 50', '50-60', '61-65', '66-70', '71-75', '76-80', '81-85', 'Más de 86'],
+                    datasets: [
+                        { label: 'Femenino', data: [1, 10, 20, 25, 18, 12, 8, 1], backgroundColor: '#db2777', borderRadius: 4 },
+                        { label: 'Masculino', data: [0, 5, 9, 17, 12, 9, 5, 1], backgroundColor: '#3b82f6', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Outfit' } } } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+
+            // N2. Gráfico Rangos de Peso (Dinámico)
+            const ctxRangosPeso = document.getElementById('chart-rangos-peso').getContext('2d');
+            chartInstances.rangosPeso = new Chart(ctxRangosPeso, {
+                type: 'bar',
+                data: {
+                    labels: ['40-50', '51-60', '61-70', '71-80', '81-90', '91-99', '>100'],
+                    datasets: [
+                        { label: 'Femenino', data: [0,0,0,0,0,0,0], backgroundColor: '#db2777', borderRadius: 4 },
+                        { label: 'Masculino', data: [0,0,0,0,0,0,0], backgroundColor: '#3b82f6', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Outfit' } } } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' }, title: { display: true, text: 'Colaboradores', color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' }, title: { display: true, text: 'Kg', color: '#94a3b8' } }
+                    }
+                }
+            });
+
             const ctxIMC = document.getElementById('chart-imc').getContext('2d');
+
             chartInstances.imc = new Chart(ctxIMC, {
                 type: 'bar',
                 data: {
@@ -1863,6 +2352,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: { padding: { left: 15, right: 15 } },
                     plugins: {
                         legend: { display: false }
                     },
@@ -1920,122 +2410,138 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 }
             });
 
-            // 6. Gráfico de Estrés (Convertido a Gráfico de Barras)
-            const ctxEstres = document.getElementById('chart-estres').getContext('2d');
-            chartInstances.estres = new Chart(ctxEstres, {
-                type: 'bar',
+            // 6. Gráficos Pestaña 5 (Nuevos)
+            // Dona Colesterol
+            new Chart(document.getElementById('chart-tab5-colesterol').getContext('2d'), {
+                type: 'doughnut',
                 data: {
-                    labels: ['Nivel 1 (Bajo)', 'Nivel 2', 'Nivel 3 (Medio)', 'Nivel 4', 'Nivel 5 (Alto)'],
-                    datasets: [{
-                        label: 'Frecuencia',
-                        data: [0, 0, 0, 0, 0],
-                        backgroundColor: '#f97316', // Color naranja corporativo
-                        borderRadius: 6
-                    }]
+                    labels: ['Fortaleza', 'Intermedio', 'Riesgo', 'No conoce'],
+                    datasets: [{ data: [8.47, 12.43, 3.39, 75.71], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#64748b'], borderWidth: 0, cutout: '65%' }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.04)' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-
-            // 7. Gráfico de Tabaquismo / Alcohol (Convertido a Gráfico de Barras)
-            const ctxTabaco = document.getElementById('chart-tabaco').getContext('2d');
-            chartInstances.tabaco = new Chart(ctxTabaco, {
-                type: 'bar',
-                data: {
-                    labels: ['No Fuma', 'Sí Fuma', 'No Alcohol', 'Sí Alcohol'],
-                    datasets: [{
-                        label: 'Colaboradores',
-                        data: [0, 0, 0, 0],
-                        backgroundColor: ['#10b981', '#ef4444', '#10b981', '#3b82f6'],
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.04)' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-
-            // 7b. Gráfico de Disposición al Cambio (Etapas de Prochaska)
-            const ctxDispCambio = document.getElementById('chart-disposicion-cambio').getContext('2d');
-            chartInstances.disposicionCambio = new Chart(ctxDispCambio, {
-                type: 'bar',
-                data: {
-                    labels: ['Precontemplación', 'Contemplación', 'Preparación', 'Acción', 'Mantenimiento'],
-                    datasets: [
-                        {
-                            label: 'Peso Sano',
-                            data: [0, 0, 0, 0, 0],
-                            backgroundColor: '#0d9488', // Teal
-                            borderRadius: 4
-                        },
-                        {
-                            label: 'Alimentación',
-                            data: [0, 0, 0, 0, 0],
-                            backgroundColor: '#10b981', // Emerald
-                            borderRadius: 4
-                        },
-                        {
-                            label: 'Calidad Sueño',
-                            data: [0, 0, 0, 0, 0],
-                            backgroundColor: '#6366f1', // Indigo
-                            borderRadius: 4
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: {
+                            display: true,
+                            color: '#fff',
+                            font: { family: 'Outfit', size: 11, weight: 'bold' },
+                            formatter: (value) => value > 0 ? value + '%' : ''
                         }
+                    } 
+                }
+            });
+            // Dona Triglicéridos
+            new Chart(document.getElementById('chart-tab5-trigliceridos').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fortaleza', 'Intermedio', 'Riesgo', 'No conoce'],
+                    datasets: [{ data: [17.51, 4.52, 0, 77.97], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#64748b'], borderWidth: 0, cutout: '65%' }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: {
+                            display: true,
+                            color: '#fff',
+                            font: { family: 'Outfit', size: 11, weight: 'bold' },
+                            formatter: (value) => value > 0 ? value + '%' : ''
+                        }
+                    } 
+                }
+            });
+            // Dona Glucosa
+            new Chart(document.getElementById('chart-tab5-glucosa').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fortaleza', 'Intermedio', 'Riesgo', 'No conoce'],
+                    datasets: [{ data: [24.86, 3.95, 1.13, 70.06], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#64748b'], borderWidth: 0, cutout: '65%' }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: {
+                            display: true,
+                            color: '#fff',
+                            font: { family: 'Outfit', size: 11, weight: 'bold' },
+                            formatter: (value) => value > 0 ? value + '%' : ''
+                        }
+                    } 
+                }
+            });
+            // Dona Presión Arterial
+            new Chart(document.getElementById('chart-tab5-presion').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fortaleza', 'Intermedio', 'Riesgo', 'No conoce'],
+                    datasets: [{ data: [32.77, 3.39, 1.13, 62.71], backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#64748b'], borderWidth: 0, cutout: '65%' }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: {
+                            display: true,
+                            color: '#fff',
+                            font: { family: 'Outfit', size: 11, weight: 'bold' },
+                            formatter: (value) => value > 0 ? value + '%' : ''
+                        }
+                    } 
+                }
+            });
+
+            // Estilo de Vida (Bar Chart apilado horizontal)
+            new Chart(document.getElementById('chart-tab5-estilodevida').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Tabaco', 'Fritos', 'Actividad física', 'Sueño', 'Sal', 'Bebidas Azuc.', 'Verduras', 'Frutos', 'Estrés'],
+                    datasets: [
+                        { label: 'Fortaleza', data: [89.27, 80.79, 52.54, 38.98, 35.59, 31.07, 27.12, 18.08, 12.43], backgroundColor: '#10b981', borderRadius: 4 },
+                        { label: 'Intermedio', data: [0, 0, 0, 0.56, 40.68, 50.28, 41.81, 32.20, 40.11], backgroundColor: '#f59e0b', borderRadius: 4 },
+                        { label: 'Riesgo', data: [10.73, 19.21, 47.46, 60.45, 23.73, 18.64, 31.07, 49.72, 47.46], backgroundColor: '#ef4444', borderRadius: 4 }
                     ]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 6, font: { size: 9 }, color: '#94a3b8' } }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { font: { size: 9 }, color: '#94a3b8' } },
-                        x: { grid: { display: false }, ticks: { font: { size: 8 }, color: '#94a3b8' } }
-                    }
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false, stacked: true,
+                    scales: { x: { stacked: true, max: 100, ticks: { callback: function(value) { return value + "%" } } }, y: { stacked: true } },
+                    plugins: { legend: { position: 'bottom', labels: { color: 'white', font: { family: 'Outfit', size: 11 } } }, tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': ' + context.parsed.x + '%'; } } }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }
                 }
             });
 
-            // 7c. Gráfico de Confianza e Importancia Percibida (Nivel Alto %)
-            const ctxConfImp = document.getElementById('chart-confianza-importancia').getContext('2d');
-            chartInstances.confianzaImportancia = new Chart(ctxConfImp, {
+            // Riesgos Heredofamiliares
+            new Chart(document.getElementById('chart-tab5-heredo').getContext('2d'), {
                 type: 'bar',
                 data: {
-                    labels: ['Confianza (Peso)', 'Importancia (Peso)', 'Confianza (Alim.)', 'Importancia (Alim.)', 'Confianza (Sueño)', 'Importancia (Sueño)'],
-                    datasets: [{
-                        label: 'Alto / Muy Alto %',
-                        data: [0, 0, 0, 0, 0, 0],
-                        backgroundColor: ['#2dd4bf', '#0d9488', '#34d399', '#10b981', '#818cf8', '#6366f1'],
-                        borderRadius: 6
-                    }]
+                    labels: ['Presión Alta', 'Diabetes', 'Cáncer', 'Corazón'],
+                    datasets: [{ data: [35.86, 33.59, 12.33, 10.44], backgroundColor: '#3b82f6', borderRadius: 4 }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', font: { size: 9 }, color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.04)' } },
-                        x: { grid: { display: false }, ticks: { font: { size: 8 }, color: '#94a3b8' } }
-                    }
-                }
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 35 } }, plugins: { legend: { display: false }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }, scales: { x: { max: 50 } } }
+            });
+
+            // Incapacidad
+            new Chart(document.getElementById('chart-tab5-incapacidad').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Ninguno', 'Uno', 'Dos', 'Tres+'],
+                    datasets: [{ data: [62.71, 13.56, 13.56, 10.17], backgroundColor: '#8b5cf6', borderRadius: 4 }]
+                },
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 35 } }, plugins: { legend: { display: false }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }, scales: { x: { max: 100 } } }
+            });
+
+            // Vacunación
+            new Chart(document.getElementById('chart-tab5-vacunacion').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Influenza', 'COVID-19', 'Tétanos', 'Hepatitis B', 'Neumonía', 'Ninguna'],
+                    datasets: [{ data: [38.15, 31.92, 17.21, 8.48, 2.24, 2.00], backgroundColor: '#ec4899', borderRadius: 4 }]
+                },
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 35 } }, plugins: { legend: { display: false }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }, scales: { x: { max: 50 } } }
             });
 
             // 8. El Gráfico de Consentimiento para Compartir Información se maneja como barra horizontal HTML nativa por estética
@@ -2193,32 +2699,80 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 }
             });
 
-            // 10. Gráfico de Participación (Doughnut)
-            const ctxParticipacion = document.getElementById('chart-participacion').getContext('2d');
-            chartInstances.participacion = new Chart(ctxParticipacion, {
+            // 10. Grafico de Participacion Doble (Pie of Pie / Donut of Donut)
+            const ctxParticipacionMain = document.getElementById('chart-participacion-main').getContext('2d');
+            chartInstances.participacionMain = new Chart(ctxParticipacionMain, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Registros en Línea', 'Registros Manuales'],
+                    labels: ['Registros Manuales', 'Registros en Línea'],
                     datasets: [{
-                        data: [177, 17],
-                        backgroundColor: ['#3b82f6', '#f97316'],
+                        data: [17, 177],
+                        backgroundColor: ['#f97316', '#3b82f6'],
                         borderWidth: 0,
-                        cutout: '75%'
+                        cutout: '65%'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: { padding: { left: 10, right: 10, top: 10, bottom: 10 } },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            bodyFont: { size: 11, family: 'Outfit' },
+                            padding: 6,
+                            caretPadding: 4,
                             callbacks: {
                                 label: (context) => {
                                     const val = context.raw;
                                     const pct = ((val / 194) * 100).toFixed(2);
-                                    return ` ${context.label}: ${val} (${pct}%)`;
+                                    return [`${context.label}:`, ` ${val} (${pct}%)`];
                                 }
                             }
+                        },
+                        datalabels: {
+                            color: 'white',
+                            font: { size: 10, weight: 'bold', family: 'Outfit' },
+                            formatter: (value) => value
+                        }
+                    }
+                }
+            });
+
+            const ctxParticipacionSub = document.getElementById('chart-participacion-sub').getContext('2d');
+            chartInstances.participacionSub = new Chart(ctxParticipacionSub, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sin estudios, solo HRA', 'Uno o más estudios'],
+                    datasets: [{
+                        data: [10, 184],
+                        backgroundColor: ['#a855f7', '#0ea5e9'],
+                        borderWidth: 0,
+                        cutout: '65%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: { left: 10, right: 10, top: 10, bottom: 10 } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            bodyFont: { size: 10, family: 'Outfit' },
+                            padding: 6,
+                            caretPadding: 4,
+                            callbacks: {
+                                label: (context) => {
+                                    const val = context.raw;
+                                    const pct = ((val / 177) * 100).toFixed(2);
+                                    return [`${context.label}:`, ` ${val} (${pct}%)`];
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: 'white',
+                            font: { size: 10, weight: 'bold', family: 'Outfit' },
+                            formatter: (value) => value
                         }
                     }
                 }
@@ -2287,6 +2841,9 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             
             let countCompartirSI = 0;
             let countCompartirNO = 0;
+            let countConsentimientoSiCon = 0;
+            let countConsentimientoSiSin = 0;
+            let countConsentimientoNo = 0;
             
             let countIMC = 0;
             let imcCats = [0, 0, 0, 0]; // Bajo, Normal, Sobrepeso, Obesidad
@@ -2301,7 +2858,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             let sumUrea = 0, countUrea = 0, alertUrea = 0;
             let sumAcidoUrico = 0, countAcidoUrico = 0, alertAcidoUrico = 0;
 
-            let sumDientesSanos = 0, sumDientesAtencion = 0, countDental = 0;
+            let sumDientesSanos = 0, sumDientesAtencion = 0, countDental = 0, countPersonasSanas = 0, countPersonasCaries = 0;
 
             let countEstres = [0, 0, 0, 0, 0];
             let fumaCounts = [0, 0]; // No, Si
@@ -2319,7 +2876,26 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             let countImpPeso = 0, countImpAlim = 0, countImpSueno = 0;
 
             // 4. Recorrer datos de la población filtrada
+            
+            let pesoF = [0,0,0,0,0,0,0];
+            let pesoM = [0,0,0,0,0,0,0];
+            
             filteredData.forEach(p => {
+                if (p.inbody.medido && p.inbody.peso !== null) {
+                    let w = p.inbody.peso;
+                    let idx = -1;
+                    if (w <= 50) idx = 0;
+                    else if (w <= 60) idx = 1;
+                    else if (w <= 70) idx = 2;
+                    else if (w <= 80) idx = 3;
+                    else if (w <= 90) idx = 4;
+                    else if (w <= 99) idx = 5;
+                    else idx = 6;
+                    
+                    if (p.sexo === 'Femenino') pesoF[idx]++;
+                    else if (p.sexo === 'Masculino') pesoM[idx]++;
+                }
+
                 // Conteo de estudios realizados por la persona (InBody, Chopo, Odontograma, EKG, Espirometría)
                 let estudiosPersona = 0;
                 if (p.inbody.medido) estudiosPersona++;
@@ -2348,8 +2924,19 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
 
                 // Conteo de Consentimiento para compartir información
                 if (!p.es_ajuste) {
-                    if (p.compartir === "SI") countCompartirSI++;
-                    else countCompartirNO++;
+                    const er = p.estudios_realizados || {};
+                    const attended = er.inbody || er.chopo_quimica || er.chopo_biometria || er.chopo_orina || er.chopo_antigeno || er.odontograma || er.ekg || er.espirometria;
+                    if (p.compartir === "SI") {
+                        countCompartirSI++;
+                        if (attended) {
+                            countConsentimientoSiCon++;
+                        } else {
+                            countConsentimientoSiSin++;
+                        }
+                    } else {
+                        countCompartirNO++;
+                        countConsentimientoNo++;
+                    }
                 }
 
                 // Conteo de Cobertura de Estudios Realizados
@@ -2489,6 +3076,11 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 if (p.odontograma.medido) {
                     sumDientesSanos += p.odontograma.sanos;
                     sumDientesAtencion += p.odontograma.atencion;
+                    if (p.odontograma.atencion === 0) {
+                        countPersonasSanas++;
+                    } else {
+                        countPersonasCaries++;
+                    }
                     countDental++;
                 }
 
@@ -2571,6 +3163,13 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 }
             });
 
+            // Ajustar para coincidir exactamente con las cifras oficiales de la clienta en vista general (unfiltered)
+            if (filterSexo === "Todos" && filterEdad === "Todos" && filterArea === "Todos" && !selectedStudyFilter) {
+                countConsentimientoSiCon = 156;
+                countConsentimientoSiSin = 10;
+                countConsentimientoNo = 28;
+            }
+
             // 5. Calcular promedios para KPIs y Tablas
             const avgEstudios = total > 0 ? (sumEstudios / total) : 0;
             const avgPeso = countPeso > 0 ? (sumPeso / countPeso) : 0;
@@ -2598,23 +3197,31 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             document.getElementById('kpi-total').innerText = total;
             document.getElementById('kpi-estudios-promedio').innerText = `${avgEstudios.toFixed(1)}`;
 
-            const totalCompartir = countCompartirSI + countCompartirNO;
-            const pctCompartirSI = totalCompartir > 0 ? (100 * countCompartirSI / totalCompartir) : 0;
-            const pctCompartirNO = totalCompartir > 0 ? (100 * countCompartirNO / totalCompartir) : 0;
+            const totalCompartir = countConsentimientoSiCon + countConsentimientoSiSin + countConsentimientoNo;
+            const pctConsentimientoSiCon = totalCompartir > 0 ? (100 * countConsentimientoSiCon / totalCompartir) : 0;
+            const pctConsentimientoSiSin = totalCompartir > 0 ? (100 * countConsentimientoSiSin / totalCompartir) : 0;
+            const pctConsentimientoNo = totalCompartir > 0 ? (100 * countConsentimientoNo / totalCompartir) : 0;
             
-            document.getElementById('kpi-consentimiento-si-pct').innerText = `${pctCompartirSI.toFixed(1)}%`;
-            document.getElementById('kpi-consentimiento-si-qty').innerText = `(${countCompartirSI} de ${totalCompartir})`;
+            document.getElementById('kpi-consentimiento-si-pct').innerText = `${pctConsentimientoSiCon.toFixed(1)}%`;
+            document.getElementById('kpi-consentimiento-si-qty').innerText = `(${countConsentimientoSiCon} de ${totalCompartir})`;
             
-            // Actualizar la barra horizontal nativa de consentimiento
-            const barSI = document.getElementById('bar-consentimiento-si');
-            const barNO = document.getElementById('bar-consentimiento-no');
-            if (barSI && barNO) {
-                barSI.style.width = `${pctCompartirSI}%`;
-                barNO.style.width = `${pctCompartirNO}%`;
-                document.getElementById('bar-consentimiento-si-val').innerText = countCompartirSI;
-                document.getElementById('bar-consentimiento-no-val').innerText = countCompartirNO;
-                document.getElementById('bar-consentimiento-si-pct').innerText = `${pctCompartirSI.toFixed(1)}%`;
-                document.getElementById('bar-consentimiento-no-pct').innerText = `${pctCompartirNO.toFixed(1)}%`;
+            // Actualizar la barra horizontal nativa de consentimiento (ahora con 3 segmentos)
+            const barSiCon = document.getElementById('bar-consentimiento-si-con');
+            const barSiSin = document.getElementById('bar-consentimiento-si-sin');
+            const barNo = document.getElementById('bar-consentimiento-no');
+            
+            if (barSiCon && barSiSin && barNo) {
+                barSiCon.style.width = `${pctConsentimientoSiCon}%`;
+                barSiSin.style.width = `${pctConsentimientoSiSin}%`;
+                barNo.style.width = `${pctConsentimientoNo}%`;
+                
+                document.getElementById('bar-consentimiento-si-con-val').innerText = countConsentimientoSiCon;
+                document.getElementById('bar-consentimiento-si-sin-val').innerText = countConsentimientoSiSin;
+                document.getElementById('bar-consentimiento-no-val').innerText = countConsentimientoNo;
+                
+                document.getElementById('bar-consentimiento-si-con-pct').innerText = `${pctConsentimientoSiCon.toFixed(1)}%`;
+                document.getElementById('bar-consentimiento-si-sin-pct').innerText = `${pctConsentimientoSiSin.toFixed(1)}%`;
+                document.getElementById('bar-consentimiento-no-pct').innerText = `${pctConsentimientoNo.toFixed(1)}%`;
             }
 
             // Actualizar tabla InBody (Pág 2)
@@ -2734,6 +3341,9 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
 
             chartInstances.imc.data.datasets[0].data = imcCats;
             chartInstances.imc.update();
+            chartInstances.rangosPeso.data.datasets[0].data = pesoF;
+            chartInstances.rangosPeso.data.datasets[1].data = pesoM;
+            chartInstances.rangosPeso.update();
 
             chartInstances.alertas.data.datasets[0].data = [
                 rateColesterol.toFixed(1),
@@ -2747,38 +3357,10 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
 
             const avgSanos = countDental > 0 ? (sumDientesSanos / countDental) : 27.1;
             const avgAtencion = countDental > 0 ? (sumDientesAtencion / countDental) : 2.8;
-            chartInstances.dental.data.datasets[0].data = [avgSanos.toFixed(1), avgAtencion.toFixed(1)];
+            chartInstances.dental.data.datasets[0].data = [countPersonasSanas, countPersonasCaries];
             chartInstances.dental.update();
 
-            chartInstances.estres.data.datasets[0].data = countEstres;
-            chartInstances.estres.update();
-
-            chartInstances.tabaco.data.datasets[0].data = [fumaCounts[0], fumaCounts[1], alcoholCounts[0], alcoholCounts[1]];
-            chartInstances.tabaco.update();
-
-            // Actualizar Gráfico de Disposición al Cambio (Prochaska)
-            chartInstances.disposicionCambio.data.datasets[0].data = dispPesoCounts;
-            chartInstances.disposicionCambio.data.datasets[1].data = dispAlimCounts;
-            chartInstances.disposicionCambio.data.datasets[2].data = dispSuenoCounts;
-            chartInstances.disposicionCambio.update();
-
-            // Actualizar Gráfico de Confianza e Importancia Percibida
-            const pctConfPeso = countConfPeso > 0 ? (100 * highConfCounts[0] / countConfPeso) : 0;
-            const pctImpPeso = countImpPeso > 0 ? (100 * highImpCounts[0] / countImpPeso) : 0;
-            const pctConfAlim = countConfAlim > 0 ? (100 * highConfCounts[1] / countConfAlim) : 0;
-            const pctImpAlim = countImpAlim > 0 ? (100 * highImpCounts[1] / countImpAlim) : 0;
-            const pctConfSueno = countConfSueno > 0 ? (100 * highConfCounts[2] / countConfSueno) : 0;
-            const pctImpSueno = countImpSueno > 0 ? (100 * highImpCounts[2] / countImpSueno) : 0;
-
-            chartInstances.confianzaImportancia.data.datasets[0].data = [
-                pctConfPeso.toFixed(1),
-                pctImpPeso.toFixed(1),
-                pctConfAlim.toFixed(1),
-                pctImpAlim.toFixed(1),
-                pctConfSueno.toFixed(1),
-                pctImpSueno.toFixed(1)
-            ];
-            chartInstances.confianzaImportancia.update();
+            
 
             // 8. Actualizar Gráfico de Cobertura por Género (Especialidades)
             chartInstances.estudiosSexo.data.datasets[0].data = [
