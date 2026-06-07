@@ -887,38 +887,28 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 display: none !important;
             }
 
-            .app-layout {
+            /* Eliminar restricciones de altura y desbordes en los contenedores padres */
+            .app-layout, .main-content, .tabs-container {
                 display: block !important;
                 width: auto !important;
                 height: auto !important;
                 overflow: visible !important;
             }
 
-            .main-content {
-                display: block !important;
-                width: auto !important;
-                height: auto !important;
-                padding: 0 !important;
-                overflow: visible !important;
-                background-color: white !important;
-            }
-
-            /* Forzar salto de pagina limpio por pestaña clinica, permitiendo flujo libre */
+            /* Forzar salto de pagina limpio por pestaña clinica, usando block para evitar bugs de flexbox en print */
             .tab-pane {
-                display: flex !important;
-                flex-direction: column !important;
+                display: block !important;
                 page-break-before: always !important;
                 page-break-after: auto !important;
                 page-break-inside: auto !important;
                 width: 100% !important; /* Adaptable automaticamente al margen del navegador */
                 height: auto !important; /* Altura libre para evitar recortar contenido */
-                padding: 0 !important; /* No necesita padding adicional, los margenes de 1.2cm los da @page */
+                padding: 0 !important;
                 box-sizing: border-box !important;
-                overflow: visible !important; /* Asegurar que no se oculte nada de informacion */
+                overflow: visible !important;
                 background-color: white !important;
-                gap: 15px !important;
                 /* Resets de visibilidad fluida de pantalla */
-                position: static !important; /* Regresar al flujo normal estatico para paginacion */
+                position: static !important;
                 opacity: 1 !important;
                 pointer-events: auto !important;
             }
@@ -933,7 +923,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 align-items: center !important;
                 border-bottom: 2px solid var(--primary-accent) !important;
                 padding-bottom: 6px !important;
-                margin-bottom: 4px !important;
+                margin-bottom: 15px !important;
             }
 
             .page-header-print .print-title {
@@ -952,7 +942,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
 
             h2 {
                 font-size: 16px !important;
-                margin-bottom: 2px !important;
+                margin-bottom: 10px !important;
                 color: #0f172a !important;
             }
 
@@ -960,6 +950,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 font-size: 10.5px !important;
                 line-height: 1.38 !important;
                 color: #334155 !important;
+                margin-bottom: 12px !important;
             }
 
             /* KPIs en Impresion (Fuerza 4 columnas horizontales) */
@@ -967,6 +958,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 display: grid !important;
                 grid-template-columns: repeat(4, 1fr) !important;
                 gap: 10px !important;
+                margin-bottom: 15px !important;
             }
 
             .kpi-card {
@@ -996,12 +988,13 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 color: var(--primary-accent) !important;
             }
 
-            /* Estilos de grids responsivos basados en la orientacion para impresion */
+            /* Estilos de grids responsivos para impresion */
             .dashboard-grid-2 {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
-                gap: 12px !important;
+                gap: 15px !important;
                 width: 100% !important;
+                margin-bottom: 15px !important;
             }
 
             .dashboard-grid-2-1 {
@@ -1009,6 +1002,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 grid-template-columns: 2fr 1fr !important;
                 gap: 20px !important;
                 width: 100% !important;
+                margin-bottom: 15px !important;
             }
 
             .dashboard-grid-3 {
@@ -1016,6 +1010,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 grid-template-columns: 1fr 1fr 1fr !important;
                 gap: 12px !important;
                 width: 100% !important;
+                margin-bottom: 15px !important;
             }
 
             .dashboard-grid-4 {
@@ -1023,25 +1018,27 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 grid-template-columns: 1fr 1fr 1fr 1fr !important;
                 gap: 12px !important;
                 width: 100% !important;
+                margin-bottom: 15px !important;
             }
 
             /* Evitar cortes a la mitad de tarjetas, tablas y cuadros de texto */
             .dashboard-card, .conclusion-box, .recommendation-list, .rec-item, .kpi-card, .table-wrapper {
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
+                margin-bottom: 15px !important;
             }
 
             .dashboard-card {
                 background-color: white !important;
                 border: 1px solid #e2e8f0 !important;
                 border-radius: 10px !important;
-                padding: 10px 14px !important;
-                gap: 6px !important;
+                padding: 12px 16px !important;
             }
 
             .card-header {
-                padding-bottom: 4px !important;
-                margin-bottom: 2px !important;
+                padding-bottom: 6px !important;
+                margin-bottom: 8px !important;
+                border-bottom: 1px solid #e2e8f0 !important;
             }
 
             .card-header h3 {
@@ -1049,7 +1046,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 font-size: 11px !important;
             }
 
-            /* Tamaños optimizados y legibles para contenedores de graficos */
+            /* Contenedores de graficos con alturas generosas y sin alterar canvas */
             .chart-container {
                 height: 200px !important; /* Altura mas generosa para que quepan etiquetas sin encimarse */
                 max-height: 280px !important;
@@ -1059,9 +1056,9 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             }
 
             canvas {
-                max-height: 280px !important;
-                width: 100% !important;
+                /* NO forzar width 100% ni max-height para evitar distorsionar circulos (elipses) */
                 display: block !important;
+                max-width: 100% !important;
             }
 
             /* Ajustes especificos para orientacion vertical (Portrait) en impresion */
@@ -1073,6 +1070,9 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 .dashboard-grid-4 {
                     grid-template-columns: 1fr 1fr !important; /* Dos columnas para los circulos de la pagina 5 */
                     gap: 15px !important;
+                }
+                .kpi-row {
+                    grid-template-columns: 1fr 1fr !important; /* Dos columnas para KPIs en vertical */
                 }
                 .chart-container {
                     height: 220px !important; /* Altura ligeramente mayor para portrait */
