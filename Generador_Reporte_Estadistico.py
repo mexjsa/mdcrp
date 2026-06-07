@@ -1046,8 +1046,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
 
             /* Contenedores de graficos con alturas generosas y sin alterar canvas */
             .chart-container {
-                height: 200px !important; /* Altura mas generosa para que quepan etiquetas sin encimarse */
-                max-height: 280px !important;
+                height: 300px; /* Altura por defecto para contenedores sin inline style, permitiendo que inline styles (como 280px, 320px, 480px) prevalezcan */
                 width: 100% !important;
                 position: relative !important;
                 overflow: visible !important; /* Permitir que los circulos se vean completos */
