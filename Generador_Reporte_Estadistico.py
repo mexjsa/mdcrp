@@ -1186,6 +1186,11 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 </p>
             </div>
 
+            <div class="conclusion-box">
+                <h4><i class="fa-solid fa-lightbulb" style="color: var(--primary-accent)"></i> Resumen Demográfico:</h4>
+                <p>La población de SANOFI que asistió a las evaluaciones corporativas de salud está compuesta principalmente por mujeres (59.8%). El grupo etario predominante se ubica entre los <strong>41 y 50 años</strong> de edad (34.0%), perfilando a un equipo directivo y directivo-operativo maduro con un alto potencial de respuesta preventiva a cambios en el estilo de vida.</p>
+            </div>
+
             <!-- KPI Cards de la Portada -->
             <div class="kpi-row">
                 <div class="kpi-card">
@@ -1285,10 +1290,6 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 </div>
             </div>
 
-            <div class="conclusion-box">
-                <h4><i class="fa-solid fa-lightbulb" style="color: var(--primary-accent)"></i> Resumen Demográfico:</h4>
-                <p>La población de SANOFI que asistió a las evaluaciones corporativas de salud está compuesta principalmente por mujeres (59.8%). El grupo etario predominante se ubica entre los <strong>41 y 50 años</strong> de edad (34.0%), perfilando a un equipo directivo y directivo-operativo maduro con un alto potencial de respuesta preventiva a cambios en el estilo de vida.</p>
-            </div>
         </section>
 
 
