@@ -394,6 +394,8 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             --primary-accent: #D22936; /* Official Med&Corp Red (Pantone 1788 C) */
             --primary-accent-rgb: 210, 41, 54;
             --secondary-accent: #3b82f6; /* Azul Clínico */
+            --success-accent: #10b981;
+            --danger-accent: #ef4444;
         }
 
         * {
@@ -869,21 +871,18 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
         }
 
         @media print {
-            /* Sobrescribir variables de diseño para version de impresion (Fondo blanco / Letra oscura) */
-            :root {
+            /* Sobrescribir variables de diseño para version de impresion usando wildcard * para forzar evaluacion local */
+            * {
                 --bg-main: #ffffff !important;
                 --bg-card: #ffffff !important;
                 --border-card: #cbd5e1 !important;
                 --text-primary: #0f172a !important;
                 --text-secondary: #475569 !important;
+                --success-accent: #15803d !important;
+                --danger-accent: #b91c1c !important;
             }
 
             body {
-                --bg-main: #ffffff !important;
-                --bg-card: #ffffff !important;
-                --border-card: #cbd5e1 !important;
-                --text-primary: #0f172a !important;
-                --text-secondary: #475569 !important;
                 background-color: white !important;
                 color: #0f172a !important;
                 -webkit-print-color-adjust: exact !important;
@@ -1002,37 +1001,15 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 color: var(--primary-accent) !important;
             }
 
-            /* Estilos de grids responsivos para impresion */
-            .dashboard-grid-2 {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
-                gap: 15px !important;
+            /* Forzar grids a comportarse como bloques secuenciales en impresion para evitar recortes */
+            .dashboard-grid-2, .dashboard-grid-2-1, .dashboard-grid-3, .dashboard-grid-4 {
+                display: block !important;
                 width: 100% !important;
-                margin-bottom: 15px !important;
             }
-
-            .dashboard-grid-2-1 {
-                display: grid !important;
-                grid-template-columns: 2fr 1fr !important;
-                gap: 20px !important;
+            .dashboard-grid-2 > *, .dashboard-grid-2-1 > *, .dashboard-grid-3 > *, .dashboard-grid-4 > * {
                 width: 100% !important;
-                margin-bottom: 15px !important;
-            }
-
-            .dashboard-grid-3 {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr 1fr !important;
-                gap: 12px !important;
-                width: 100% !important;
-                margin-bottom: 15px !important;
-            }
-
-            .dashboard-grid-4 {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr 1fr 1fr !important;
-                gap: 12px !important;
-                width: 100% !important;
-                margin-bottom: 15px !important;
+                margin-bottom: 20px !important;
+                display: block !important;
             }
 
             /* Evitar cortes a la mitad de tarjetas, tablas y cuadros de texto */
@@ -1044,15 +1021,22 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
 
             .dashboard-card {
                 background-color: white !important;
-                border: 1px solid #e2e8f0 !important;
+                border: 1px solid #cbd5e1 !important;
                 border-radius: 10px !important;
                 padding: 12px 16px !important;
+                height: auto !important;
+            }
+
+            /* Evitar colapso de contenedores flex internos */
+            .dashboard-card div[style*="height: 100%"],
+            .dashboard-card div[style*="height:100%"] {
+                height: auto !important;
             }
 
             .card-header {
                 padding-bottom: 6px !important;
                 margin-bottom: 8px !important;
-                border-bottom: 1px solid #e2e8f0 !important;
+                border-bottom: 1px solid #cbd5e1 !important;
             }
 
             .card-header h3 {
@@ -1069,28 +1053,22 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 overflow: visible !important; /* Permitir que los circulos se vean completos */
             }
 
-            canvas {
-                /* NO forzar width 100% ni max-height para evitar distorsionar circulos (elipses) */
-                display: block !important;
-                max-width: 100% !important;
+            /* Asegurar que las graficas circulares (doughnuts y double-pie) mantengan aspect ratio 1:1 */
+            #chart-dental,
+            #chart-tab5-colesterol,
+            #chart-tab5-trigliceridos,
+            #chart-tab5-glucosa,
+            #chart-tab5-presion,
+            #chart-participacion-main,
+            #chart-participacion-sub {
+                aspect-ratio: 1 / 1 !important;
+                margin: 0 auto !important;
+                max-height: 100% !important;
             }
 
-            /* Ajustes especificos para orientacion vertical (Portrait) en impresion */
-            @media (orientation: portrait) {
-                .dashboard-grid-2, .dashboard-grid-2-1, .dashboard-grid-3 {
-                    grid-template-columns: 1fr !important; /* Apilar en una columna para que no se aplaste */
-                    gap: 15px !important;
-                }
-                .dashboard-grid-4 {
-                    grid-template-columns: 1fr 1fr !important; /* Dos columnas para los circulos de la pagina 5 */
-                    gap: 15px !important;
-                }
-                .kpi-row {
-                    grid-template-columns: 1fr 1fr !important; /* Dos columnas para KPIs en vertical */
-                }
-                .chart-container {
-                    height: 220px !important; /* Altura ligeramente mayor para portrait */
-                }
+            canvas {
+                display: block !important;
+                max-width: 100% !important;
             }
 
             /* Tablas */
@@ -1155,10 +1133,6 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
             }
 
             .rec-content p {
-                color: #475569 !important;
-                font-size: 9.5px !important;
-            }
-        }            .rec-content p {
                 color: #475569 !important;
                 font-size: 9.5px !important;
             }
