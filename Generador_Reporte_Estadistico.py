@@ -274,53 +274,53 @@ def main():
             }
         })
 
-    # AJUSTE AUDITADO 2026-05-20: La clienta confirmó 147 espirometrías realizadas.
-    # El pipeline integró 146. Se agrega 1 registro de ajuste para que el conteo
-    # sea correcto. El registro no aparecerá como paciente en los filtros activos
-    # sea correcto. El registro no aparecerá como paciente en los filtros activos
-    # porque tiene compartir=NO, pero sí suma al total de estudios de espirometría.
-    patients_data.append({
-        "nombre": "Ajuste Espirometria (Verificado Clienta)",
-        "es_ajuste": True,
-        "sexo": "Femenino",
-        "rango_edad": "Desconocido",
-        "area": "Desconocido",
-        "compartir": "NO",
-        "inbody": {
-            "medido": False, "imc": None, "peso": None,
-            "grasa": None, "musculo": None, "agua": None
-        },
-        "chopo": {
-            "medido": False,
-            "glucosa": None, "glucosa_alert": False,
-            "colesterol": None, "colesterol_alert": False,
-            "trigliceridos": None, "trigliceridos_alert": False,
-            "creatinina": None, "creatinina_alert": False,
-            "urea": None, "urea_alert": False,
-            "acido_urico": None, "acido_urico_alert": False
-        },
-        "odontograma": {"medido": False, "sanos": None, "atencion": None},
-        "cardio_respiratorio": {
-            "ekg_medido": False,
-            "ekg_ritmo": None,
-            "ekg_conclusion": None,
-            "espiro_medido": True,
-            "espiro_interpretacion": "Espirometria Normal"
-        },
-        "habitos": {
-            "estres": None, "sueno_calidad": None, "sueno_horas": None,
-            "fuma": None, "alcohol": None,
-            "disp_peso": None, "conf_peso": None, "imp_peso": None,
-            "disp_alim": None, "conf_alim": None, "imp_alim": None,
-            "disp_sueno": None, "conf_sueno": None, "imp_sueno": None
-        },
-        "estudios_realizados": {
-            "inbody": False, "chopo_biometria": False,
-            "chopo_quimica": False, "chopo_orina": False,
-            "chopo_antigeno": False, "odontograma": False,
-            "ekg": False, "espirometria": True
-        }
-    })
+        # # AJUSTE AUDITADO 2026-05-20: La clienta confirmó 147 espirometrías realizadas.
+    # # El pipeline integró 146. Se agrega 1 registro de ajuste para que el conteo
+    # # sea correcto. El registro no aparecerá como paciente en los filtros activos
+    # # sea correcto. El registro no aparecerá como paciente en los filtros activos
+    # # porque tiene compartir=NO, pero sí suma al total de estudios de espirometría.
+    # patients_data.append({
+    # "nombre": "Ajuste Espirometria (Verificado Clienta)",
+    # "es_ajuste": True,
+    # "sexo": "Femenino",
+    # "rango_edad": "Desconocido",
+    # "area": "Desconocido",
+    # "compartir": "NO",
+    # "inbody": {
+    # "medido": False, "imc": None, "peso": None,
+    # "grasa": None, "musculo": None, "agua": None
+    # },
+    # "chopo": {
+    # "medido": False,
+    # "glucosa": None, "glucosa_alert": False,
+    # "colesterol": None, "colesterol_alert": False,
+    # "trigliceridos": None, "trigliceridos_alert": False,
+    # "creatinina": None, "creatinina_alert": False,
+    # "urea": None, "urea_alert": False,
+    # "acido_urico": None, "acido_urico_alert": False
+    # },
+    # "odontograma": {"medido": False, "sanos": None, "atencion": None},
+    # "cardio_respiratorio": {
+    # "ekg_medido": False,
+    # "ekg_ritmo": None,
+    # "ekg_conclusion": None,
+    # "espiro_medido": True,
+    # "espiro_interpretacion": "Espirometria Normal"
+    # },
+    # "habitos": {
+    # "estres": None, "sueno_calidad": None, "sueno_horas": None,
+    # "fuma": None, "alcohol": None,
+    # "disp_peso": None, "conf_peso": None, "imp_peso": None,
+    # "disp_alim": None, "conf_alim": None, "imp_alim": None,
+    # "disp_sueno": None, "conf_sueno": None, "imp_sueno": None
+    # },
+    # "estudios_realizados": {
+    # "inbody": False, "chopo_biometria": False,
+    # "chopo_quimica": False, "chopo_orina": False,
+    # "chopo_antigeno": False, "odontograma": False,
+    # "ekg": False, "espirometria": True
+    # }
+    # })
 
 
     # Cargar logo de Sanofi en Base64 para autonomía total
