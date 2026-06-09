@@ -2516,7 +2516,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 options: {
                     indexAxis: 'y', responsive: true, maintainAspectRatio: false, stacked: true,
                     scales: { x: { stacked: true, max: 100, ticks: { callback: function(value) { return value + "%" } } }, y: { stacked: true } },
-                    plugins: { legend: { position: 'bottom', labels: { color: 'white', font: { family: 'Outfit', size: 11 } } }, tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': ' + context.parsed.x + '%'; } } }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }
+                    plugins: { legend: { position: 'bottom', labels: { color: 'white', font: { family: 'Outfit', size: 11 } } }, tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': ' + context.parsed.x + '%'; } } }, datalabels: { display: false } }
                 }
             });
 
