@@ -157,7 +157,7 @@ def main():
         # El maestro integra 146 porque 1 estudio no fue capturado automáticamente
         # por el pipeline (archivo físico existe pero sin coincidencia por RFC).
         # Este ajuste se revisará en la siguiente actualización del integrador.
-        ESPIRO_AJUSTE_MANUAL = 1  # Diferencia confirmada con la clienta el 2026-05-20
+        ESPIRO_AJUSTE_MANUAL = 0  # Ajustado a pedido del usuario a 146 reales + 4 pendientes = 150 total
 
 
         # Sub-estudios específicos de CHOPO
@@ -867,7 +867,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
         /* ------------------------------------------------------------- */
         @page {
             size: auto; /* Permite al navegador/usuario elegir orientacion */
-            margin: 1.2cm !important; /* Margen elegante y estandar en el nivel de pagina */
+            margin: 0mm !important; /* Removemos el margen de página para ocultar cabeceras/pies automáticos del navegador */
         }
 
         @media print {
@@ -916,7 +916,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 page-break-inside: auto !important;
                 width: 100% !important; /* Adaptable automaticamente al margen del navegador */
                 height: auto !important; /* Altura libre para evitar recortar contenido */
-                padding: 0 !important;
+                padding: 1.2cm !important; /* Agregamos el margen aquí porque @page no tiene margen */
                 box-sizing: border-box !important;
                 overflow: visible !important;
                 background-color: white !important;
@@ -1025,6 +1025,8 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 border-radius: 10px !important;
                 padding: 12px 16px !important;
                 height: auto !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important; /* Para evitar cortes o desbordamientos del contenido interno */
             }
 
             /* Evitar colapso de contenedores flex internos */
@@ -1044,15 +1046,28 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 font-size: 11px !important;
             }
 
-            /* Contenedores de graficos con alturas generosas y sin alterar canvas */
+            /* Contenedores de graficos con alturas generosas y centrados */
             .chart-container {
-                height: 300px; /* Altura por defecto para contenedores sin inline style, permitiendo que inline styles (como 280px, 320px, 480px) prevalezcan */
+                height: 350px !important; /* Aumentar altura general */
                 width: 100% !important;
                 position: relative !important;
-                overflow: visible !important; /* Permitir que los circulos se vean completos */
+                overflow: visible !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                margin: 0 auto !important;
             }
 
-            /* Asegurar que las graficas circulares (doughnuts y double-pie) mantengan aspect ratio 1:1 */
+            /* Centrar los lienzos de ECharts y expandir para usar el espacio disponible */
+            .chart-container > div {
+                width: 100% !important;
+                height: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+            }
+
+            /* Asegurar que las graficas circulares mantengan aspect ratio 1:1 */
             #chart-dental,
             #chart-tab5-colesterol,
             #chart-tab5-trigliceridos,
@@ -1063,11 +1078,15 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                 aspect-ratio: 1 / 1 !important;
                 margin: 0 auto !important;
                 max-height: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
             }
 
             canvas {
                 display: block !important;
                 max-width: 100% !important;
+                max-height: 100% !important;
+                margin: 0 auto !important;
             }
 
             /* Tablas */
@@ -1210,7 +1229,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                     <i class="fa-solid fa-lungs"></i> 4. Especialidades
                 </button>
                 <button class="tab-button" onclick="switchTab('page-5')">
-                    <i class="fa-solid fa-brain"></i> 5. Estrategia y Hábitos
+                    <i class="fa-solid fa-brain"></i> 5. Autopercepción de salud
                 </button>
                 <button class="tab-button" onclick="switchTab('page-6')">
                     <i class="fa-solid fa-lightbulb"></i> 6. Hallazgos y Recom.
@@ -1657,12 +1676,12 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
         <section class="tab-pane" id="page-5">
             <div class="page-header-print">
                 <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL • SANOFI 2026</span>
-                <span class="print-subtitle">Página 5 de 6<br>Estrategia Wellness y Hábitos</span>
+                <span class="print-subtitle">Página 5 de 6<br>Autopercepción de salud</span>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
                 <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
-                    5. Estrategia y Hábitos
+                    5. Autopercepción de salud
                 </h2>
                 <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
                     Análisis epidemiológico enfocado en métricas clínicas y hábitos de vida basados en resultados de laboratorio y encuestas poblacionales.
@@ -2037,10 +2056,10 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                             </div>
                         </div>
 
-                        <!-- Tarjeta Estrategia Wellness y Hábitos -->
+                        <!-- Tarjeta Autopercepción de salud -->
                         <div class="dashboard-card" style="grid-column: span 2;">
                             <div class="card-header">
-                                <h3><i class="fa-solid fa-brain" style="color: var(--primary-accent)"></i> Estrategia Wellness y Hábitos</h3>
+                                <h3><i class="fa-solid fa-brain" style="color: var(--primary-accent)"></i> Autopercepción de salud</h3>
                             </div>
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                                 <div>
@@ -2508,7 +2527,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                     labels: ['Presión Alta', 'Diabetes', 'Cáncer', 'Corazón'],
                     datasets: [{ data: [35.86, 33.59, 12.33, 10.44], backgroundColor: '#3b82f6', borderRadius: 4 }]
                 },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 35 } }, plugins: { legend: { display: false }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }, scales: { x: { max: 50 } } }
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 55 } }, plugins: { legend: { display: false }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }, scales: { x: { max: 50 } } }
             });
 
             // Incapacidad
@@ -2518,7 +2537,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                     labels: ['Ninguno', 'Uno', 'Dos', 'Tres+'],
                     datasets: [{ data: [62.71, 13.56, 13.56, 10.17], backgroundColor: '#8b5cf6', borderRadius: 4 }]
                 },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 35 } }, plugins: { legend: { display: false }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }, scales: { x: { max: 100 } } }
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 55 } }, plugins: { legend: { display: false }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }, scales: { x: { max: 100 } } }
             });
 
             // Vacunación
@@ -2528,7 +2547,7 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
                     labels: ['Influenza', 'COVID-19', 'Tétanos', 'Hepatitis B', 'Neumonía', 'Ninguna'],
                     datasets: [{ data: [38.15, 31.92, 17.21, 8.48, 2.24, 2.00], backgroundColor: '#ec4899', borderRadius: 4 }]
                 },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 35 } }, plugins: { legend: { display: false }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }, scales: { x: { max: 50 } } }
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 55 } }, plugins: { legend: { display: false }, datalabels: { display: true, color: '#fff', font: { size: 10 }, anchor: 'end', align: 'end', offset: 4, formatter: (value) => value > 0 ? value + '%' : '' } }, scales: { x: { max: 50 } } }
             });
 
             // 8. El Gráfico de Consentimiento para Compartir Información se maneja como barra horizontal HTML nativa por estética
@@ -3152,9 +3171,9 @@ def get_dashboard_html_template(json_data, logo_base64="sanofi_logo_white.png"):
 
             // Ajustar para coincidir exactamente con las cifras oficiales de la clienta en vista general (unfiltered)
             if (filterSexo === "Todos" && filterEdad === "Todos" && filterArea === "Todos" && !selectedStudyFilter) {
-                countConsentimientoSiCon = 156;
-                countConsentimientoSiSin = 10;
-                countConsentimientoNo = 28;
+                countConsentimientoSiCon = 154;
+                countConsentimientoSiSin = 11;
+                countConsentimientoNo = 29;
             }
 
             // 5. Calcular promedios para KPIs y Tablas
