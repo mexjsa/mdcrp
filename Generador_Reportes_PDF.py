@@ -7,6 +7,94 @@ import re
 import sys
 import time
 from playwright.async_api import async_playwright
+import unicodedata
+from docx import Document
+from docx.oxml.ns import qn
+
+def normalize_name(text):
+    if not isinstance(text, str):
+        return ""
+    text = text.upper()
+    nfd_form = unicodedata.normalize('NFD', text)
+    text = "".join([c for c in nfd_form if not unicodedata.combining(c)])
+    text = re.sub(r'[^A-Z0-9]', ' ', text)
+    return " ".join(text.split())
+
+manual_mappings = {
+    "AIDE ANGELICA BARRAGAN VAZQUEZ": "AIDEE ANGELICA BARRAGAN VAZQUEZ",
+    "ALEJANDRO ANGEL CALDERON VERGES": "ALEJANDRO ANGEL CALDERON BERGES",
+    "ALFONSO MENDEZ ORTIZ": "ALFONSO MENDES ORTIZ",
+    "ANTONIO MARQUE RODRIGUEZ": "ANTONIO MARQUEZ RODRIGUEZ",
+    "BRENDA GONZALEZ GUADAMARRA": "BRENDA GONZALEZ GUADARRAMA",
+    "CARLOS AARON ROSAS GONZALESZ": "CARLOS AARON ROSAS GONZALEZ",
+    "CINTHYA AGUILAR MOLINA": "CINTHYA AGUILAR LOPEZ",
+    "CLAUDIA NATALIA ESPINOZA MUNIZ": "CLAUDIA NATALIA ESPINOSA MUNIZ",
+    "DANIEL GREGORY LOPEZ RODRIGUEZ": "DANIEL GREGOY LOPEZ RODRIGUEZ",
+    "EDER MANUEL SEVANTES GALVAN": "EDER MANUEL CERVANTES GALVAN",
+    "EDNA MARINA INIGUEZ SANCHEZ": "EDNA INIGUEZ SANCHEZ",
+    "ELSA KATHERIN CASTELLANOS": "ELSA KATHERINE CASTELLANOS MERCADO",
+    "EMMANUEL CERO SANCHEZ": "EMMANUEL CERON SANCHEZ",
+    "FERNANDO DANIEL MENDEZ": "FERNANDO DANIEL MENDEZ REYNOSO",
+    "FERNAND ROMERO GUSMAN": "FERNANDO ROMERO GUZMAN",
+    "GUILLERMO MUNIZ PONCE LEON": "GUILLERMO MUNIZ PONCE DE LEON",
+    "JESUS AYALA VELAZCO": "JESUS AYALA VELASCO",
+    "JUAN CARLOS WATKINS VAZQUEZ": "JUAN CARLOS WATKINS VAZQUEZ DEL MERCADO",
+    "JULIANA NORMA CARBAJA LEON": "JULIANA NORMA CARBAJAL LEON",
+    "JULIA ANA MARCELINO RAMOS": "JULIA ANA MARCELINO",
+    "JULIETA LARROSA CALDERON": "JULIETA LARROSA",
+    "KAREN SHARON PEREZ MENDOZA": "KEREN SHARON PEREZ MENDOZA",
+    "KARLA BELEN GRAJEDA": "KARLA BELEN GRAJEDA PALOMINO",
+    "KATIA IVONNE ORDAZ TALAMANTES": "KATIA IVONNE ORDOZ TALAMANTES",
+    "LUIS MANUEL MORALES VALDEZ": "LUIS MANUEL MORALES VALDES",
+    "MARIA FERNANDA MAGALLANE ALATORRE": "MARIA FERNANDA MAGALLANES ALATORRE",
+    "MARIA FERNANDA VICARIO RUIZ": "MARIA FERNANDA VICARIO RUIZ DE SANTIAGO",
+    "MONTCERRAT ALVAREZ PATINO": "MONTCERRAT ALVAREZ",
+    "NADIA MARCELA RAMIREZ MUNGUIA": "NADIA MARCELA RAMIREZ MUNGIA",
+    "NAHUM RODRIGUEZ BASTIDA": "NAHUM RODRIGUEZ",
+    "OMAR HUESCA LOPEZ": "OMAR HUESCA GOMEZ",
+    "RODRIGO MARTINEZ ESPINOZA": "RODRIGO MARTINEZ ESPINOSA",
+    "SANDRA VIVIANA GALVAZ GONZALEZ": "SANDRA VIVIANA GALVAN GONZALEZ"
+}
+
+def split_telemed_docx(file_path):
+    try:
+        doc = Document(file_path)
+    except Exception as e:
+        print(f"Error cargando archivo docx {file_path}: {e}")
+        return [], []
+        
+    page1_text = []
+    page2_text = []
+    on_page2 = False
+    
+    for p in doc.paragraphs:
+        has_break = False
+        p_element = p._p
+        
+        brs = p_element.findall('.//' + qn('w:br'))
+        for br in brs:
+            if br.get(qn('w:type')) == 'page':
+                has_break = True
+                break
+                
+        if not has_break:
+            lrpbs = p_element.findall('.//' + qn('w:lastRenderedPageBreak'))
+            if lrpbs:
+                has_break = True
+                
+        if not has_break:
+            sectPr = p_element.find('.//' + qn('w:sectPr'))
+            if sectPr is not None:
+                has_break = True
+                
+        if has_break:
+            on_page2 = True
+            
+        text = p.text.strip()
+        if text:
+            page1_text.append(text)
+                
+    return page1_text, []
 
 class ProgressBar:
     def __init__(self, total, prefix='', length=30, fill='=', print_end="\r"):
@@ -44,7 +132,7 @@ class ProgressBar:
             sys.stdout.flush()
 
 async def generate_pdf(page, html_content, output_path):
-    await page.set_content(html_content, wait_until='domcontentloaded', timeout=60000)
+    await page.set_content(html_content, wait_until='load', timeout=60000)
     
     await page.evaluate("""
         async () => {
@@ -93,13 +181,21 @@ def clean_inbody_col_name(col):
     name = re.sub(r'^\d+\.\s*', '', name)
     return name.strip()
 
-def build_patient_data(row, silhouette_b64, df_chopo_vert=None):
+def build_patient_data(row, sil_fem_b64, sil_masc_b64, df_chopo_vert=None, telemed_info=None):
     alertas_clinicas = 0
     
+    diagnostico_general = "Paciente presenta parámetros metabólicos dentro de rangos esperados. Se recomienda mantener hidratación adecuada y actividad física regular."
+    hallazgos_rec = []
+    if telemed_info:
+        if telemed_info.get("evaluaciones_medicas"):
+            diagnostico_general = "\n\n".join(telemed_info["evaluaciones_medicas"])
+        hallazgos_rec = telemed_info.get("hallazgos_recomendaciones", [])
+
+    is_male = str(row.get('sexo', '')).lower() in ['m', 'h', 'hombre', 'masculino']
     paciente = {
         "nombre": str(row.get('nombre', 'N/A')),
         "sexo": str(row.get('sexo', 'N/A')).lower(),
-        "sexo_display": "Masculino" if str(row.get('sexo', '')).lower() in ['h', 'hombre', 'masculino'] else "Femenino",
+        "sexo_display": "Masculino" if is_male else "Femenino",
         "edad": str(row.get('Rango de edad', 'N/A')),
         "id_paciente": str(row.get('id_usuario', 'N/A')),
         "fecha_toma": str(row.get('fechaRegistro', 'N/A')),
@@ -107,8 +203,12 @@ def build_patient_data(row, silhouette_b64, df_chopo_vert=None):
         "puesto": str(row.get('Puesto', 'Personal Operativo')),
         "folio": str(row.get('CHOPO_Folio', row.get('CHOPO_Orden', 'ORD-2026-9938122'))),
         "medico": "Dr. Damián Guzmán (Céd. 6656442)",
+        "estado_civil": str(row.get('Estado civil', 'N/A')),
+        "escolaridad": str(row.get('Escolaridad', 'N/A')),
+        "actividad_extra": str(row.get('Actividad extralaboral', 'N/A')),
         "compartir": "SÍ" if str(row.get('Compartir', 'NO')).strip().upper().startswith('SI') else "NO",
-        "silueta_b64": silhouette_b64
+        "silueta_b64": sil_masc_b64 if is_male else sil_fem_b64,
+        "hallazgos_recomendaciones": hallazgos_rec
     }
     
     def clean_val(v, unit):
@@ -210,90 +310,74 @@ def build_patient_data(row, silhouette_b64, df_chopo_vert=None):
                 chopo_matched = True
 
     if not chopo_matched:
-        # Fallback to old wide format logic if vertical df is not provided or patient wasn't found
-        chopo_cols = [c for c in row.index if c.startswith('CHOPO_') and pd.notna(row[c])]
-        exclude = ['CHOPO_Folio', 'CHOPO_Orden', 'CHOPO_Gnero', 'CHOPO_Edad', 'CHOPO_Fecha de nacimiento', 'CHOPO_Nombre']
-        chopo_cols = [c for c in chopo_cols if not any(x in c for x in exclude)]
-        
-        if chopo_cols:
-            params_chopo = []
-            for col in chopo_cols:
-                val = row[col]
-                name = clean_chopo_col_name(col)
-                mi, ma, unit = '-', '-', ''
-                if 'Glucosa' in name: unit, mi, ma = 'mg/dL', 70, 100
-                elif 'Colesterol' in name: unit, mi, ma = 'mg/dL', 0, 200
-                elif 'Triglic' in name: unit, mi, ma = 'mg/dL', 0, 150
-                elif 'rico' in name: unit, mi, ma = 'mg/dL', 3.4, 7.0
-                elif 'Creatinina' in name: unit, mi, ma = 'mg/dL', 0.7, 1.3
-                is_alert = False
-                if mi != '-':
-                    try:
-                        fval = float(str(val).replace('<','').replace('>','').replace(',','.').strip())
-                        if fval < float(mi) or fval > float(ma):
-                            alertas_clinicas += 1
-                            is_alert = True
-                    except: pass
-                params_chopo.append({
-                    "nombre": name,
-                    "resultado": str(val),
-                    "unidad": unit,
-                    "min": mi,
-                    "max": ma,
-                    "formato": "num" if mi != '-' else "text",
-                    "is_alert": is_alert
-                })
-            estudios.append({
-                "titulo": "LABORATORIOS CLÍNICOS (QUÍMICA Y BIOMETRÍA)",
-                "metodologia": "Automatizado / Espectrofotometría",
-                "parametros": params_chopo
-            })
-
-    # INBODY
-    inbody_cols = [c for c in row.index if c.startswith('INBODY_') and pd.notna(row[c])]
-    exclude_ib = ['Fecha', 'Correo', 'ID', 'Tel', 'Celular', 'Gnero', 'Edad']
-    inbody_cols = [c for c in inbody_cols if not any(x in c for x in exclude_ib)]
-    if inbody_cols:
-        params_inbody = []
-        for col in inbody_cols:
-            val = row[col]
-            name = clean_inbody_col_name(col)
+        # Fallback to old wide format logic with new prefixes
+        groups = {
+            "QUÍMICA DE 12 ELEMENTOS": "QUIMICA_",
+            "BIOMETRÍA HEMÁTICA": "BH_",
+            "ANTÍGENO PROSTÁTICO ESPECÍFICO TOTAL EN SUERO": "PSA_",
+            "EXAMEN GENERAL DE ORINA": "EGO_"
+        }
+        for title, prefix in groups.items():
+            cols = [c for c in row.index if c.startswith(prefix) and pd.notna(row[c])]
+            exclude = ['Folio', 'Orden', 'Gnero', 'Edad', 'Fecha', 'Nombre']
+            cols = [c for c in cols if not any(x in c for x in exclude)]
             
-            unit = ''
-            uname = name.upper()
-            if 'IMC' in uname:
-                unit = 'kg/m²'
-            elif 'PMG' in uname or 'PORCENTAJE' in uname:
-                unit = '%'
-            elif 'AGUA' in uname:
-                unit = 'L'
-            elif 'TMB' in uname or 'METABOLICA' in uname:
-                unit = 'kcal'
-            elif any(x in uname for x in ['MASA', 'PESO', 'MUSCULO', 'TRONCO', 'BRAZO', 'PIERNA', 'LIBRE']):
-                unit = 'kg'
-                
-            params_inbody.append({ "nombre": name, "resultado": str(val), "unidad": unit, "min": "-", "max": "-", "formato": "text" })
-        estudios.append({
-            "titulo": "ANÁLISIS DE COMPOSICIÓN CORPORAL (INBODY)",
-            "metodologia": "Bioimpedancia Eléctrica",
-            "parametros": params_inbody
-        })
+            if cols:
+                params_group = []
+                for col in cols:
+                    val = row[col]
+                    name = col.replace(prefix, '').strip()
+                    mi, ma, unit = '-', '-', ''
+                    uname = name.upper()
+                    
+                    # Assign limits based on LABS
+                    if 'GLUCOSA' in uname: unit, mi, ma = 'mg/dL', 55, 99
+                    elif 'UREA' in uname: unit, mi, ma = 'mg/dL', 16.6, 48.5
+                    elif 'BUN' in uname or 'NITR' in uname: unit, mi, ma = 'mg/dL', 6, 20
+                    elif 'CREATININA' in uname: unit, mi, ma = 'mg/dL', 0.70, 1.2
+                    elif 'RICO' in uname: unit, mi, ma = 'mg/dL', 3.4, 7.0
+                    elif 'COLESTEROL' in uname: unit, mi, ma = 'mg/dL', 0, 200
+                    elif 'TRIGLIC' in uname: unit, mi, ma = 'mg/dL', 0, 150
+                    elif 'ALB' in uname: unit, mi, ma = 'g/dL', 3.9, 5.1
+                    elif 'BILIRRUBINA' in uname: unit, mi, ma = 'mg/dL', 0, 1.2
+                    elif 'AST' in uname or 'TGO' in uname: unit, mi, ma = 'U/L', 0, 40
+                    elif 'ALCALINA' in uname: unit, mi, ma = 'U/L', 40, 130
+                    elif 'LDH' in uname: unit, mi, ma = 'U/L', 135, 225
+                    elif 'CALCIO' in uname: unit, mi, ma = 'mg/dL', 8.6, 10.0
+                    elif 'HEMOGLOBINA CORP' in uname: unit, mi, ma = 'pg', 27, 31
+                    elif 'HEMOGLOBINA' in uname: unit, mi, ma = 'g/dL', 13.5, 17.5
+                    elif 'HEMAT' in uname: unit, mi, ma = '%', 41, 53
+                    elif 'LEUCOCITOS' in uname: unit, mi, ma = '10^3/uL', 4.5, 11.0
+                    elif 'ERITROCITOS' in uname and 'DISM' not in uname: unit, mi, ma = '10^6/uL', 4.5, 5.9
+                    elif 'PLAQUETAS' in uname: unit, mi, ma = '10^3/uL', 150, 400
+                    elif 'PROST' in uname: unit, mi, ma = 'ng/mL', 0, 4.0
+                    
+                    is_alert = False
+                    if mi != '-':
+                        try:
+                            fval = float(str(val).replace('<','').replace('>','').replace(',','.').strip())
+                            if fval < float(mi) or fval > float(ma):
+                                alertas_clinicas += 1
+                                is_alert = True
+                        except: pass
+                    params_group.append({
+                        "nombre": name,
+                        "resultado": str(val),
+                        "unidad": unit,
+                        "min": mi,
+                        "max": ma,
+                        "formato": "num" if mi != '-' else "text",
+                        "is_alert": is_alert
+                    })
+                estudios.append({
+                    "titulo": title,
+                    "metodologia": "Química Clínica automatizada" if "QUÍMICA" in title else ("Citometría" if "BIOMETRÍA" in title else "Laboratorio Clínico"),
+                    "parametros": params_group
+                })
+
+    # INBODY removido a petición del usuario.
 
     imagenes = {}
-    if 'ELECTROCARDIOGRAMA_Ritmo' in row and pd.notna(row['ELECTROCARDIOGRAMA_Ritmo']):
-        ekg_data = []
-        priority = ['Ritmo', 'Frecuencia', 'Eje_QRS', 'Onda_P', 'Intervalo_PR', 'Complejo_QRS', 'Segmento_ST', 'Onda_T', 'Intervalo_QTc', 'Precordiales']
-        for key in priority:
-            col = f'ELECTROCARDIOGRAMA_{key}'
-            if col in row and pd.notna(row[col]):
-                val = str(row[col])
-                name = key.replace('_', ' ')
-                unit = 'lpm' if 'Frecuencia' in key else 'grados' if 'Eje' in key else 'ms' if 'Intervalo' in key else ''
-                if unit.lower() in val.lower(): unit = ''
-                ekg_data.append({ "nombre": name, "resultado": val, "unidad": unit })
-        imagenes['electrocardiograma_datos'] = ekg_data
-        imagenes['electrocardiograma_conclusion'] = str(row.get('ELECTROCARDIOGRAMA_Conclusion', ''))
-        imagenes['electrocardiograma_observaciones'] = str(row.get('ELECTROCARDIOGRAMA_Observaciones', ''))
 
     if 'ODONTOGRAMA_Recomendaciones_Dentales' in row and pd.notna(row['ODONTOGRAMA_Recomendaciones_Dentales']):
         imagenes['odontograma_recomendaciones'] = str(row['ODONTOGRAMA_Recomendaciones_Dentales'])
@@ -359,18 +443,25 @@ def build_patient_data(row, silhouette_b64, df_chopo_vert=None):
         "resumen": {
             "estudios_totales": len(estudios),
             "alertas_clinicas": alertas_clinicas,
-            "diagnostico_general": "Paciente presenta parámetros metabólicos dentro de rangos esperados. Se recomienda mantener hidratación adecuada y actividad física regular."
+            "diagnostico_general": diagnostico_general
         }
     }
 
 async def main():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
+    if getattr(sys, 'frozen', False):
+        base_dir = os.path.dirname(sys.executable)
+    else:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
     master_path = os.path.join(base_dir, "MASTER_CONSOLIDADO_MEDCORP.xlsx")
     out_dir = os.path.join(base_dir, "REPORTES FINALES")
-    silhouette_path = os.path.join(os.path.dirname(base_dir), "Gemini_Generated_Image_x43khqx43khqx43k.png")
+    
+    sil_masc_path = os.path.join(os.path.dirname(base_dir), "silueta_masc_cropped.png")
+    sil_fem_path = os.path.join(os.path.dirname(base_dir), "silueta_fem_cropped.png")
+    
     os.makedirs(out_dir, exist_ok=True)
     
-    silhouette_b64 = get_base64_image(silhouette_path)
+    sil_fem_b64 = get_base64_image(sil_fem_path)
+    sil_masc_b64 = get_base64_image(sil_masc_path)
     df = pd.read_excel(master_path)
     
     # Soporte para filtrar pacientes por argumento de línea de comandos (ciclo de feedback rápido)
@@ -381,13 +472,32 @@ async def main():
 
     
     # Cargar concentrado vertical de CHOPO para obtener límites de analito y semaforización
-    chopo_vertical_path = os.path.join(base_dir, "ESTUDIOS AGREGADOS", "ESTUDIOS CHOPO", "ConcentradoResultados06052026_132057_18046_1_13775_060420AL060520.xlsx")
-    print(f"Cargando límites y semáforos verticales de CHOPO desde: {os.path.basename(chopo_vertical_path)}")
-    df_chopo_vert = pd.read_excel(chopo_vertical_path, header=3)
+    df_chopo_vert = None
+    print("Omitiendo vertical de CHOPO. Usando formato wide desde el MASTER.")
     
     template_path = os.path.join(base_dir, "template_checkup_final.html")
     with open(template_path, 'r', encoding='utf-8') as f:
         html_template = f.read()
+
+    # Cargar datos de valoracion medica si existen
+    telemed_dir = os.path.join(base_dir, "ESTUDIOS INDIVIDUALES", "PACIENTES")
+    telemed_data = {}
+    if os.path.exists(telemed_dir):
+        patient_folders = [d for d in os.listdir(telemed_dir) if os.path.isdir(os.path.join(telemed_dir, d))]
+        print(f"\n[TELEMEDICINA] Procesando valoraciones médicas para {len(patient_folders)} pacientes...")
+        for pf in patient_folders:
+            pf_path = os.path.join(telemed_dir, pf)
+            for f in os.listdir(pf_path):
+                if f.endswith('.docx'):
+                    norm_docx = normalize_name(pf)
+                    mapped_norm = manual_mappings.get(norm_docx, norm_docx)
+                    p1, p2 = split_telemed_docx(os.path.join(pf_path, f))
+                    if p1 or p2:
+                        telemed_data[mapped_norm] = {
+                            "evaluaciones_medicas": p1,
+                            "hallazgos_recomendaciones": p2
+                        }
+        print(f"[TELEMEDICINA] {len(telemed_data)} reportes vinculados con éxito.\n")
 
     print(f"Iniciando generación de {len(df)} reportes PDF con SILUETAS OFICIALES...")
     pbar = ProgressBar(total=len(df), prefix='Generando PDFs', length=25)
@@ -399,21 +509,56 @@ async def main():
         nonlocal completed_count
         nombre = str(row.get('nombre', f'Paciente_{index}'))
         
+        safe_name = "".join(c if c.isalnum() else "_" for c in nombre)
+        pdf_filename = f"REPORTE_MEDCORP_{safe_name}_V10.pdf" if filter_name else f"REPORTE_MEDCORP_{safe_name}.pdf"
+        pdf_path = os.path.join(out_dir, pdf_filename)
+        
         # Verificar consentimiento para compartir
         compartir = str(row.get('Compartir', 'SI')).strip().upper()
         if compartir == 'NO':
             print(f"\n[PRIVACIDAD] Omitiendo generación de reporte para '{nombre}' (Compartir = 'NO')")
+            if os.path.exists(pdf_path):
+                try:
+                    os.remove(pdf_path)
+                    print(f"  [LIMPIEZA] Eliminado reporte de privacidad omitida: {pdf_filename}")
+                except Exception as e:
+                    print(f"  [ERROR] No se pudo eliminar {pdf_filename}: {e}")
             completed_count += 1
             pbar.update(completed_count, f"Confidencial: {nombre}")
             return
             
-        data_json = build_patient_data(row, silhouette_b64, df_chopo_vert)
+        norm_paciente = normalize_name(nombre)
+        telemed_info = telemed_data.get(norm_paciente, None)
+        
+        data_json = build_patient_data(row, sil_fem_b64, sil_masc_b64, df_chopo_vert, telemed_info)
+        
+        # Verificar si el paciente tiene algún tipo de datos clínicos o telemedicina
+        estudios = data_json.get('estudios', [])
+        imagenes = data_json.get('imagenes', {})
+        has_clinical_data = (
+            len(estudios) > 0 or
+            imagenes.get('electrocardiograma') is not None or
+            imagenes.get('electrocardiograma_datos') or
+            imagenes.get('odontograma') is not None or
+            imagenes.get('odontograma_recomendaciones') or
+            telemed_info is not None
+        )
+        
+        if not has_clinical_data:
+            print(f"\n[SIN DATOS] Omitiendo generación de reporte para '{nombre}' (No tiene estudios ni telemedicina)")
+            if os.path.exists(pdf_path):
+                try:
+                    os.remove(pdf_path)
+                    print(f"  [LIMPIEZA] Eliminado reporte de paciente sin datos: {pdf_filename}")
+                except Exception as e:
+                    print(f"  [ERROR] No se pudo eliminar {pdf_filename}: {e}")
+            completed_count += 1
+            pbar.update(completed_count, f"Sin datos: {nombre}")
+            return
+            
         json_str = json.dumps(data_json)
         script_inject = f"<script>window.INCOMING_DATA = {json_str};</script>"
         html_final = html_template.replace("</head>", f"{script_inject}\n</head>")
-        safe_name = "".join(c if c.isalnum() else "_" for c in nombre)
-        pdf_filename = f"REPORTE_MEDCORP_{safe_name}_V3.pdf" if filter_name else f"REPORTE_MEDCORP_{safe_name}.pdf"
-        pdf_path = os.path.join(out_dir, pdf_filename)
         
         async with sem:
             page = await browser.new_page()
