@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Epidemiológico y Salud Poblacional – Campaña Sanofi Foráneos 2026</title>
+    
+    <!-- Fuentes Tipográficas Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Librerías de Visualización: Chart.js y DataLabels Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <style>
+        :root {
+            --bg-base: #060b18;
+            --bg-main: #0b1329;
+            --bg-sidebar: #091024;
+            --bg-card: #111c44;
+            --border-card: #1e2c60;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --primary-accent: #e11d48;
+            --primary-light: #f43f5e;
+            --primary-glow: rgba(225, 29, 72, 0.25);
+            --success-accent: #10b981;
+            --warning-accent: #f59e0b;
+            --danger-accent: #ef4444;
+            --info-accent: #0284c7;
+            --purple-accent: #8b5cf6;
+            --font-main: 'Inter', sans-serif;
+            --font-head: 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .app-layout {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 290px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-card);
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-card);
+        }
+
+        .sidebar-brand img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .sidebar-title {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-title h1 {
+            font-family: var(--font-head);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+            line-height: 1.2;
+        }
+
+        .sidebar-title span {
+            font-size: 11px;
+            color: var(--primary-accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            flex: 1;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-group label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .control-select {
+            background-color: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-card);
+            border-radius: 8px;
+            color: var(--text-primary);
+            padding: 9px 12px;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .control-select:focus {
+            border-color: var(--primary-accent);
+        }
+
+        .control-select option {
+            background-color: var(--bg-sidebar);
+            color: var(--text-primary);
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, var(--primary-accent), #be123c);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: var(--font-head);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px var(--primary-glow);
+            transition: all 0.2s;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(225, 29, 72, 0.4);
+        }
+
+        .sidebar-footer {
+            font-size: 10px;
+            color: var(--text-muted);
+            line-height: 1.4;
+            border-top: 1px solid var(--border-card);
+            padding-top: 14px;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .main-content {
+            flex: 1;
+            background-color: var(--bg-main);
+            padding: 22px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 6px;
+            border-bottom: 1px solid var(--border-card);
+            padding-bottom: 10px;
+            flex-shrink: 0;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 9px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .tab-button.active {
+            color: white;
+            background-color: var(--primary-accent);
+            box-shadow: 0 2px 8px var(--primary-glow);
+        }
+
+        .tabs-container {
+            flex: 1;
+            position: relative;
+            height: 100%;
+            min-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-pane {
+            display: none !important;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 12px;
+            padding-bottom: 30px;
+            box-sizing: border-box;
+        }
+
+        .tab-pane.active {
+            display: flex !important;
+        }
+
+        /* TARJETAS Y GRIDS */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .dashboard-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .dashboard-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header h3 {
+            font-family: var(--font-head);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: -0.1px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 220px;
+        }
+
+        /* KPI ROW */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .kpi-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .kpi-data {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .kpi-title {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-value {
+            font-family: var(--font-head);
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .kpi-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .kpi-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            background: rgba(225, 29, 72, 0.12);
+            color: var(--primary-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        /* TABLAS */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-card);
+        }
+
+        .premium-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            text-align: left;
+        }
+
+        .premium-table th {
+            background-color: rgba(255, 255, 255, 0.04);
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-card);
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.3px;
+        }
+
+        .premium-table td {
+            padding: 9px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+        }
+
+        .premium-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .conclusion-box {
+            background: linear-gradient(135deg, rgba(225, 29, 72, 0.08), rgba(17, 28, 68, 0.4));
+            border: 1px solid rgba(225, 29, 72, 0.3);
+            border-radius: 10px;
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .conclusion-box h4 {
+            font-family: var(--font-head);
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-header-print {
+            display: none;
+        }
+
+        /* ESTILOS DE IMPRESIÓN OFICIAL */
+        @media print {
+            body {
+                background: white !important;
+                color: #0f172a !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            .app-layout {
+                display: block !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            .sidebar, .tabs-header, .btn-print, #slicer-indicator {
+                display: none !important;
+            }
+
+            .main-content, .tabs-container {
+                padding: 0 !important;
+                background: white !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            .tab-pane {
+                display: flex !important;
+                height: auto !important;
+                overflow: visible !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                padding: 20px 0 !important;
+                border-bottom: 2px dashed #cbd5e1;
+            }
+
+            .tab-pane:last-child {
+                page-break-after: auto !important;
+                border-bottom: none;
+            }
+
+            .dashboard-card {
+                background: white !important;
+                border: 1px solid #e2e8f0 !important;
+                color: #0f172a !important;
+                box-shadow: none !important;
+                page-break-inside: avoid !important;
+            }
+
+            .card-header h3, h2, h3, h4, .kpi-value {
+                color: #0f172a !important;
+            }
+
+            .premium-table th {
+                background: #f1f5f9 !important;
+                color: #475569 !important;
+            }
+
+            .premium-table td {
+                color: #0f172a !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+            }
+
+            .page-header-print {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 2px solid #e11d48;
+                padding-bottom: 8px;
+                margin-bottom: 14px;
+            }
+
+            .print-title {
+                font-family: var(--font-head);
+                font-size: 13px;
+                font-weight: 800;
+                color: #0f172a;
+            }
+
+            .print-subtitle {
+                font-size: 11px;
+                color: #64748b;
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR IZQUIERDA -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="LOGO_SANOFI_PLACEHOLDER" alt="Logo Sanofi">
+                <div class="sidebar-title">
+                    <h1>SANOFI FORÁNEOS</h1>
+                    <span>Reporte Ejecutivo 2026</span>
+                </div>
+            </div>
+
+            <div class="sidebar-filters">
+                <div class="filter-group">
+                    <label for="filter-sexo">Filtrar por Género:</label>
+                    <select id="filter-sexo" class="control-select" onchange="updateDashboard()">
+                        <option value="Todos">Todos los géneros</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Masculino">Masculino</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-edad">Rango de Edad:</label>
+                    <select id="filter-edad" class="control-select" onchange="updateDashboard()">
+                        <option value="Todos">Todos los rangos</option>
+                        <option value="21-30 años">21 - 30 años</option>
+                        <option value="31-40 años">31 - 40 años</option>
+                        <option value="41-50 años">41 - 50 años</option>
+                        <option value="Más de 50 años">Más de 50 años</option>
+                    </select>
+                </div>
+
+                <div style="background: rgba(225,29,72,0.06); border: 1px solid rgba(225,29,72,0.2); border-radius: 8px; padding: 12px; margin-top: 10px;">
+                    <span style="font-size: 11px; color: var(--primary-accent); font-weight: 700; text-transform: uppercase;"><i class="fa-solid fa-circle-info"></i> Avance de Campaña</span>
+                    <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 5px; line-height: 1.4;">
+                        Corte actual: <strong>21 colaboradores recibidos de 36 esperados (58.3%)</strong>. La segunda fase se integrará en los siguientes días.
+                    </p>
+                </div>
+            </div>
+
+            <button class="btn-print" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> EXPORTAR REPORTE PDF
+            </button>
+            
+            <div class="sidebar-footer">
+                <p>Desarrollado por <a href="https://medycorp.mx/" target="_blank" style="color: var(--primary-accent); text-decoration: none; font-weight: 600;">Med&Corp</a> y <a href="https://mexjsa.github.io/nexos/" target="_blank" style="color: var(--primary-accent); text-decoration: none; font-weight: 600;">NEXOS IA</a></p>
+                <p>© 2026 • Inteligencia Clínica Sanofi Foráneos</p>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL CON 5 PESTAÑAS -->
+        <main class="main-content">
+            <!-- BOTONERA DE NAVEGACIÓN -->
+            <div class="tabs-header">
+                <button class="tab-button active" onclick="switchTab('page-1')">
+                    <i class="fa-solid fa-users"></i> 1. Resumen y Demografía
+                </button>
+                <button class="tab-button" onclick="switchTab('page-2')">
+                    <i class="fa-solid fa-flask"></i> 2. Laboratorios Chopo
+                </button>
+                <button class="tab-button" onclick="switchTab('page-3')">
+                    <i class="fa-solid fa-heart-pulse"></i> 3. Estudios Gabinete & Clínico
+                </button>
+                <button class="tab-button" onclick="switchTab('page-4')">
+                    <i class="fa-solid fa-laptop-medical"></i> 4. Telemedicina Integrada
+                </button>
+                <button class="tab-button" onclick="switchTab('page-5')">
+                    <i class="fa-solid fa-lightbulb"></i> 5. Hallazgos y Recom.
+                </button>
+            </div>
+
+            <!-- CONTENEDOR DE PESTAÑAS -->
+            <div class="tabs-container">
+
+                <!-- ============================================================= -->
+                <!-- PÁGINA 1: RESUMEN Y DEMOGRAFÍA -->
+                <!-- ============================================================= -->
+                <section class="tab-pane active" id="page-1">
+                    <div class="page-header-print">
+                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – CAMPAÑA SANOFI FORÁNEOS 2026</span>
+                        <span class="print-subtitle">Página 1 de 5<br>Resumen Ejecutivo y Cobertura</span>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
+                            Campaña Sanofi Foráneos 2026: Resumen Ejecutivo
+                        </h2>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
+                            Evaluación preventiva de salud dirigida a la fuerza laboral y personal foráneo de SANOFI. Estado de avance sobre el censo de 36 colaboradores programados.
+                        </p>
+                    </div>
+
+                    <!-- KPI ROW -->
+                    <div class="kpi-row">
+                        <div class="kpi-card">
+                            <div class="kpi-data">
+                                <span class="kpi-title">Población Evaluada</span>
+                                <span class="kpi-value" id="kpi-total">{total_p}</span>
+                                <span class="kpi-sub">de <strong>{total_meta} esperados</strong> ({pct_avance}% avance)</span>
+                            </div>
+                            <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-data">
+                                <span class="kpi-title">Estudios Promedio / Persona</span>
+                                <span class="kpi-value" id="kpi-estudios-promedio">5.5</span>
+                                <span class="kpi-sub">Batería integral (Labs, EKG y Examen Médico)</span>
+                            </div>
+                            <div class="kpi-icon"><i class="fa-solid fa-file-medical"></i></div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-data">
+                                <span class="kpi-title">Consentimiento de Información</span>
+                                <span class="kpi-value" style="color: var(--success-accent);">{pct_consentimiento}%</span>
+                                <span class="kpi-sub"><strong>{consentimiento_si} de {total_p} colaboradores</strong> accedieron a compartir</span>
+                            </div>
+                            <div class="kpi-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--success-accent);"><i class="fa-solid fa-shield-check"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- GRÁFICOS DEMOGRAFÍA Y COBERTURA -->
+                    <div class="dashboard-grid-2">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-people-group" style="color: var(--primary-accent)"></i> Distribución de Edad por Género</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="chart-edad-sexo"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-clipboard-check" style="color: var(--primary-accent)"></i> Cobertura de Estudios (Meta: {total_meta} Colaboradores)</h3>
+                                <span id="slicer-indicator" style="font-size: 11px; color: #10b981; font-weight: 500; cursor: pointer; display: none;" onclick="clearStudyFilter()">
+                                    Limpiar <i class="fa-solid fa-circle-xmark"></i>
+                                </span>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="chart-estudios"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="conclusion-box">
+                        <h4><i class="fa-solid fa-bullseye" style="color: var(--primary-accent)"></i> Estado de la Muestra Foránea:</h4>
+                        <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                            Al corte del presente informe se han consolidado <strong>21 expedientes médicos completos</strong> (58.33% de la población foránea objetivo). Todos los participantes recibidos cuentan con la batería íntegra de estudios de laboratorio clínico, trazo electrocardiográfico y evaluación médica presencial.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ============================================================= -->
+                <!-- PÁGINA 2: LABORATORIOS CHOPO -->
+                <!-- ============================================================= -->
+                <section class="tab-pane" id="page-2">
+                    <div class="page-header-print">
+                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – CAMPAÑA SANOFI FORÁNEOS 2026</span>
+                        <span class="print-subtitle">Página 2 de 5<br>Laboratorios Chopo (Química 12, Biometría, EGO, PSA)</span>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
+                            2. Perfil de Laboratorios Clínicos y Biomarcadores (CHOPO)
+                        </h2>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
+                            Resultados analíticos obtenidos a partir del concentrado oficial de Laboratorios Chopo (Contrato 18046).
+                        </p>
+                    </div>
+
+                    <div class="dashboard-grid-2">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-chart-bar" style="color: var(--primary-accent)"></i> Cobertura de Laboratorio por Género</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="chart-estudios-sexo-lab"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-accent)"></i> Tasa de Alertas en Biomarcadores de Química Clínica</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="chart-alertas-chopo"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABLAS DE LABORATORIO -->
+                    <div class="dashboard-grid-2">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-flask" style="color: var(--primary-accent)"></i> Química Clínica de 12 Elementos</h3>
+                                <span style="font-size: 10px; color: var(--text-muted);">Fuente: Chopo Contrato 18046</span>
+                            </div>
+                            <div class="table-wrapper" style="max-height: 250px; overflow-y: auto;">
+                                <table class="premium-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Analito</th>
+                                            <th>Promedio</th>
+                                            <th>Rango Esperado</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td><strong>Glucosa</strong></td><td>96.2 mg/dL</td><td>70.0 - 100.0 mg/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
+                                        <tr><td><strong>Colesterol Total</strong></td><td style="color: var(--danger-accent); font-weight:600;">190.7 mg/dL</td><td>< 200.0 mg/dL</td><td><span style="color: var(--warning-accent); font-weight:600;">Límite Alto</span></td></tr>
+                                        <tr><td><strong>Triglicéridos</strong></td><td style="color: var(--danger-accent); font-weight:600;">152.5 mg/dL</td><td>< 150.0 mg/dL</td><td><span style="color: var(--danger-accent); font-weight:600;">Elevado</span></td></tr>
+                                        <tr><td><strong>Ácido Úrico</strong></td><td>5.40 mg/dL</td><td>2.5 - 7.0 mg/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
+                                        <tr><td><strong>Creatinina</strong></td><td>0.85 mg/dL</td><td>0.60 - 1.30 mg/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
+                                        <tr><td><strong>Urea</strong></td><td>31.6 mg/dL</td><td>15.0 - 43.0 mg/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
+                                        <tr><td><strong>BUN</strong></td><td>14.7 mg/dL</td><td>7.0 - 20.0 mg/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
+                                        <tr><td><strong>Fosfatasa Alcalina</strong></td><td>81.5 U/L</td><td>40.0 - 150.0 U/L</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
+                                        <tr><td><strong>AST (TGO)</strong></td><td>32.5 U/L</td><td>10.0 - 40.0 U/L</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
+                                        <tr><td><strong>Albúmina</strong></td><td>4.55 g/dL</td><td>3.5 - 5.0 g/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-dna" style="color: var(--primary-accent)"></i> Biometría Hemática, EGO & PSA</h3>
+                                <span style="font-size: 10px; color: var(--text-muted);">Fuente: Chopo Contrato 18046</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 12.5px; color: var(--text-secondary);">
+                                <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--primary-accent);">
+                                    <strong style="color: var(--text-primary);"><i class="fa-solid fa-shield-halved"></i> Antígeno Prostático (PSA):</strong> Evaluados 10 hombres (promedio 1.07 ng/mL, máx. 2.75 ng/mL). <strong>100% de la población masculina dentro del rango seguro (<4.0 ng/mL)</strong>.
+                                </div>
+                                <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--info-accent);">
+                                    <strong style="color: var(--text-primary);"><i class="fa-solid fa-droplet"></i> Biometría Hemática:</strong> Hemoglobina promedio 15.1 g/dL, Hematocrito 44.5%, Leucocitos 6.13 k/µL y Plaquetas 284.4 k/µL. Sin anemias ni alteraciones inmunes relevantes.
+                                </div>
+                                <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--success-accent);">
+                                    <strong style="color: var(--text-primary);"><i class="fa-solid fa-vial"></i> Examen General de Orina:</strong> pH 6.09, Densidad 1.020. Función de filtración conservada sin daño glomerular.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================= -->
+                <!-- PÁGINA 3: ESTUDIOS DE GABINETE & EXAMEN CLÍNICO -->
+                <!-- ============================================================= -->
+                <section class="tab-pane" id="page-3">
+                    <div class="page-header-print">
+                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – CAMPAÑA SANOFI FORÁNEOS 2026</span>
+                        <span class="print-subtitle">Página 3 de 5<br>Gabinete (EKG) y Exploración Médica Presencial (EM)</span>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
+                            3. Estudios de Gabinete y Examen Clínico Individual
+                        </h2>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
+                            Análisis consolidado de los 21 estudios de Electrocardiograma de 12 derivaciones (_EKG) y Examen Médico Clínico presencial (_EM).
+                        </p>
+                    </div>
+
+                    <div class="dashboard-grid-2">
+                        <!-- EKG -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary-accent)"></i> Electrocardiografía en Reposo (_EKG)</h3>
+                                <span style="font-size: 11px; color: var(--success-accent); font-weight: 700;">21 / 21 Efectuados (100%)</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+                                <div style="display: flex; gap: 10px;">
+                                    <div style="flex: 1; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); padding: 12px; border-radius: 8px; text-align: center;">
+                                        <span style="font-size: 22px; font-weight: 800; color: var(--success-accent); font-family: var(--font-head);">100%</span>
+                                        <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Ritmo Sinusal</p>
+                                    </div>
+                                    <div style="flex: 1; background: rgba(2,132,199,0.1); border: 1px solid rgba(2,132,199,0.3); padding: 12px; border-radius: 8px; text-align: center;">
+                                        <span style="font-size: 22px; font-weight: 800; color: var(--info-accent); font-family: var(--font-head);">38.1%</span>
+                                        <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Bradicardia Fisiológica</p>
+                                    </div>
+                                    <div style="flex: 1; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); padding: 12px; border-radius: 8px; text-align: center;">
+                                        <span style="font-size: 22px; font-weight: 800; color: var(--warning-accent); font-family: var(--font-head);">0%</span>
+                                        <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Arritmias Graves</p>
+                                    </div>
+                                </div>
+                                <p>
+                                    La totalidad de los trazos electrocardiográficos de 12 derivaciones mostraron actividad eléctrica normal originada en el nodo sinusal. Las variantes registradas corresponden a bradicardias fisiológicas benignas en reposo compatibles con adecuado tono vagal en personal activo.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- EXAMEN MÉDICO -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-user-doctor" style="color: var(--primary-accent)"></i> Evaluación Médica Clínica (_EM)</h3>
+                                <span style="font-size: 11px; color: var(--success-accent); font-weight: 700;">21 / 21 Efectuados (100%)</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+                                <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 6px;">
+                                    <li><strong style="color: var(--text-primary);">Aptitud Laboral General:</strong> 100% de los colaboradores evaluados presentan condición clínica funcionalmente activa y apta para sus labores.</li>
+                                    <li><strong style="color: var(--text-primary);">Presión Arterial:</strong> Promedio sistólico de 124 mmHg y diastólico de 82 mmHg. 76.2% de la población se ubicó en cifras normotensas basales.</li>
+                                    <li><strong style="color: var(--text-primary);">Antropometría Foránea:</strong> 57.1% de los participantes presentan sobrepeso moderado, reflejando el impacto de la dinámica de trabajo en campo y comidas fuera de casa.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================= -->
+                <!-- PÁGINA 4: TELEMEDICINA Y CONSULTA INTEGRADA -->
+                <!-- ============================================================= -->
+                <section class="tab-pane" id="page-4">
+                    <div class="page-header-print">
+                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – CAMPAÑA SANOFI FORÁNEOS 2026</span>
+                        <span class="print-subtitle">Página 4 de 5<br>Análisis de Consultas e Interpretaciones Médicas Integradas</span>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
+                            4. Telemedicina y Consultas Médicas Integradas
+                        </h2>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
+                            Consolidación analítica generada a partir de los 21 archivos Word de interpretación médica individual entregados a cada colaborador.
+                        </p>
+                    </div>
+
+                    <div class="dashboard-grid-2">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-comments-dollar" style="color: var(--primary-accent)"></i> Motivos de Intervención en Telemedicina</h3>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: var(--text-secondary);">
+                                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
+                                    <span>Orientación Nutricional & Manejo de Lípidos</span>
+                                    <strong style="color: var(--primary-accent);">76.2% (16 de 21)</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
+                                    <span>Salud Urogenital e Hidratación en Viajes</span>
+                                    <strong style="color: var(--info-accent);">81.0% (17 de 21)</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
+                                    <span>Regulación de Glucosa y Resistencia a Insulina</span>
+                                    <strong style="color: var(--warning-accent);">19.0% (4 de 21)</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
+                                    <span>Higiene del Sueño y Manejo de Estrés Ocupacional</span>
+                                    <strong style="color: var(--purple-accent);">33.3% (7 de 21)</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-stethoscope" style="color: var(--primary-accent)"></i> Impacto de la Consulta Médica Integrada</h3>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+                                <p>
+                                    Cada colaborador foráneo recibió una consulta individualizada estructurada con:
+                                </p>
+                                <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 6px;">
+                                    <li><strong>Explicación de Estudios Chopo:</strong> Interpretación contextualizada de glucosa, lípidos y orina.</li>
+                                    <li><strong>Correlación Clínica:</strong> Evaluación de síntomas digestivos, tensionales y hábitos de descanso.</li>
+                                    <li><strong>Plan de Seguimiento:</strong> Metas claras de autocuidado y calendarización de reevaluación.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================= -->
+                <!-- PÁGINA 5: HALLAZGOS Y RECOMENDACIONES -->
+                <!-- ============================================================= -->
+                <section class="tab-pane" id="page-5">
+                    <div class="page-header-print">
+                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – CAMPAÑA SANOFI FORÁNEOS 2026</span>
+                        <span class="print-subtitle">Página 5 de 5<br>Hallazgos Integrados y Plan de Salud Corporativa</span>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
+                            5. Hallazgos Integrados y Plan Estratégico de Salud
+                        </h2>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
+                            Conclusiones epidemiológicas consolidadas y recomendaciones prioritarias para la mejora continua de la salud de Sanofi Foráneos.
+                        </p>
+                    </div>
+
+                    <div class="dashboard-grid-2">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary-accent)"></i> Conclusiones Clínicas Principales</h3>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+                                <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                                    <li><strong style="color: var(--text-primary);">Foco Lipídico:</strong> La dislipidemia (colesterol y triglicéridos elevados) representa el 76.2% de los hallazgos a corregir, siendo clave para prevenir eventos cardiovasculares tempranos.</li>
+                                    <li><strong style="color: var(--text-primary);">Seguridad Urológica y Hematológica:</strong> El 100% de los hombres evaluados presentan PSA normal, y las biometrías hemáticas no muestran anemias poblacionales.</li>
+                                    <li><strong style="color: var(--text-primary);">Salud Cardiovascular en Reposo:</strong> 100% de trazos electrocardiográficos normales y sin arritmias malignas.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-clipboard-check" style="color: var(--success-accent)"></i> Recomendaciones para la Empresa</h3>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+                                <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                                    <li><strong style="color: var(--text-primary);">Taller de Nutrición en Ruta:</strong> Capacitaciones específicas para personal foráneo sobre elecciones alimentarias saludables en hoteles y traslados.</li>
+                                    <li><strong style="color: var(--text-primary);">Control Trimestral de Lípidos:</strong> Seguimiento de laboratorio a los colaboradores con alertas de colesterol >200 mg/dL.</li>
+                                    <li><strong style="color: var(--text-primary);">Institucionalización Anual:</strong> Consolidar el Check-Up anual para mantener la trazabilidad clínica y cobertura preventiva en el 100% del equipo.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- SCRIPT JS DE INICIALIZACIÓN Y MOTOR DE DATOS -->
+    <script>
+        window.RAW_DATA = <!-- DATA_PLACEHOLDER -->;
+
+        let chartInstances = {};
+        let selectedStudyFilter = null;
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+                pane.style.display = 'none';
+            });
+            
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            const targetPane = document.getElementById(tabId);
+            if (targetPane) {
+                targetPane.classList.add('active');
+                targetPane.style.display = 'flex';
+                setTimeout(() => {
+                    Object.values(chartInstances).forEach(chart => {
+                        if (chart && typeof chart.resize === 'function') {
+                            chart.resize();
+                        }
+                    });
+                }, 30);
+            }
+        }
+
+        function clearStudyFilter() {
+            selectedStudyFilter = null;
+            document.getElementById('slicer-indicator').style.display = 'none';
+            updateDashboard();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            updateDashboard();
+        });
+
+        function initCharts() {
+            Chart.defaults.color = '#94a3b8';
+            Chart.defaults.font.family = "'Inter', sans-serif";
+
+            // 1. Gráfico Edad por Género
+            const ctxEdadSexo = document.getElementById('chart-edad-sexo').getContext('2d');
+            chartInstances.edadSexo = new Chart(ctxEdadSexo, {
+                type: 'bar',
+                data: {
+                    labels: ['21-30 años', '31-40 años', '41-50 años', 'Más de 50 años'],
+                    datasets: [
+                        { label: 'Femenino', data: [0, 0, 0, 0], backgroundColor: '#e11d48', borderRadius: 4 },
+                        { label: 'Masculino', data: [0, 0, 0, 0], backgroundColor: '#0284c7', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }
+                    },
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } }
+                }
+            });
+
+            // 2. Gráfico Cobertura de Estudios (Meta 36)
+            const ctxEstudios = document.getElementById('chart-estudios').getContext('2d');
+            chartInstances.estudios = new Chart(ctxEstudios, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        'Biometría Hemática',
+                        'Química Clínica (12)',
+                        'Gral. de Orina (EGO)',
+                        'Electrocardiograma',
+                        'Examen Médico (EM)',
+                        'Antígeno Prostático'
+                    ],
+                    datasets: [
+                        { label: 'Efectuados (Corte)', data: [21, 21, 21, 21, 21, 10], backgroundColor: '#10b981', borderRadius: 4 },
+                        { label: 'Pendientes (Fase 2)', data: [15, 15, 15, 15, 15, 7], backgroundColor: '#334155', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, max: 36, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { stacked: true, grid: { display: false } }
+                    },
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } }
+                }
+            });
+
+            // 3. Gráfico Cobertura de Laboratorio por Género
+            const ctxEstudiosSexoLab = document.getElementById('chart-estudios-sexo-lab').getContext('2d');
+            chartInstances.estudiosSexoLab = new Chart(ctxEstudiosSexoLab, {
+                type: 'bar',
+                data: {
+                    labels: ['Biometría Hemática', 'Química Clínica', 'Gral. de Orina (EGO)', 'Antígeno Prostático'],
+                    datasets: [
+                        { label: 'Femenino', data: [11, 11, 11, 0], backgroundColor: '#e11d48', borderRadius: 4 },
+                        { label: 'Masculino', data: [10, 10, 10, 10], backgroundColor: '#0284c7', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    },
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } }
+                }
+            });
+
+            // 4. Gráfico Tasa de Alertas Biomarcadores Chopo
+            const ctxAlertas = document.getElementById('chart-alertas-chopo').getContext('2d');
+            chartInstances.alertas = new Chart(ctxAlertas, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        'Colesterol (>200)',
+                        'Triglicéridos (>150)',
+                        'Glucosa (>100)',
+                        'Ácido Úrico (>7)',
+                        'Urea (>43)',
+                        'Creatinina (>1.3)'
+                    ],
+                    datasets: [{
+                        label: '% Colaboradores con Alerta',
+                        data: [47.6, 33.3, 14.3, 9.5, 4.8, 0.0],
+                        backgroundColor: ['#ef4444', '#f59e0b', '#f59e0b', '#0284c7', '#0284c7', '#10b981'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 60, ticks: { callback: v => v + '%' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ` ${ctx.raw}% de colaboradores evaluados`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateDashboard() {
+            const filterSexo = document.getElementById('filter-sexo').value;
+            const filterEdad = document.getElementById('filter-edad').value;
+
+            const filteredData = window.RAW_DATA.filter(p => {
+                const matchSexo = (filterSexo === "Todos") || (p.sexo === filterSexo);
+                const matchEdad = (filterEdad === "Todos") || (p.rango_edad === filterEdad);
+                return matchSexo && matchEdad;
+            });
+
+            let total = filteredData.length;
+            document.getElementById('kpi-total').innerText = total;
+
+            // Age distribution
+            let ageF = [0, 0, 0, 0];
+            let ageM = [0, 0, 0, 0];
+            const ageMap = { '21-30 años': 0, '31-40 años': 1, '41-50 años': 2, 'Más de 50 años': 3 };
+
+            filteredData.forEach(p => {
+                const idx = ageMap[p.rango_edad] || 2;
+                if (p.sexo === 'Femenino') ageF[idx]++;
+                else ageM[idx]++;
+            });
+
+            chartInstances.edadSexo.data.datasets[0].data = ageF;
+            chartInstances.edadSexo.data.datasets[1].data = ageM;
+            chartInstances.edadSexo.update();
+
+            // Labs coverage by gender
+            let femLabs = [0, 0, 0, 0];
+            let mascLabs = [0, 0, 0, 0];
+            filteredData.forEach(p => {
+                if (p.sexo === 'Femenino') {
+                    femLabs[0]++; femLabs[1]++; femLabs[2]++;
+                } else {
+                    mascLabs[0]++; mascLabs[1]++; mascLabs[2]++; mascLabs[3]++;
+                }
+            });
+
+            chartInstances.estudiosSexoLab.data.datasets[0].data = femLabs;
+            chartInstances.estudiosSexoLab.data.datasets[1].data = mascLabs;
+            chartInstances.estudiosSexoLab.update();
+        }
+    </script>
+</body>
+</html>
