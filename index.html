@@ -453,7 +453,7 @@
                 overflow: visible !important;
                 page-break-after: always !important;
                 page-break-inside: avoid !important;
-                padding: 20px 0 !important;
+                padding: 15px 0 !important;
                 border-bottom: 2px dashed #cbd5e1;
             }
 
@@ -464,10 +464,21 @@
 
             .dashboard-card {
                 background: white !important;
-                border: 1px solid #e2e8f0 !important;
+                border: 1px solid #cbd5e1 !important;
                 color: #0f172a !important;
                 box-shadow: none !important;
                 page-break-inside: avoid !important;
+            }
+
+            .chart-container {
+                height: 220px !important;
+                width: 100% !important;
+                min-height: 220px !important;
+            }
+
+            canvas {
+                max-height: 220px !important;
+                width: 100% !important;
             }
 
             .card-header h3, h2, h3, h4, .kpi-value {
@@ -476,12 +487,23 @@
 
             .premium-table th {
                 background: #f1f5f9 !important;
-                color: #475569 !important;
+                color: #334155 !important;
+                font-weight: 700 !important;
             }
 
             .premium-table td {
                 color: #0f172a !important;
                 border-bottom: 1px solid #e2e8f0 !important;
+            }
+
+            .conclusion-box {
+                background: #f8fafc !important;
+                border: 1px solid #cbd5e1 !important;
+                color: #0f172a !important;
+            }
+
+            .conclusion-box p, .conclusion-box h4 {
+                color: #0f172a !important;
             }
 
             .page-header-print {
@@ -549,7 +571,7 @@
                 </div>
             </div>
 
-            <button class="btn-print" onclick="window.print()">
+            <button class="btn-print" onclick="exportReportPDF()">
                 <i class="fa-solid fa-print"></i> EXPORTAR REPORTE PDF
             </button>
             
@@ -1601,16 +1623,47 @@
             updateDashboard();
         }
 
+        function exportReportPDF() {
+            // 1. Mostrar todas las pestañas para que el navegador y Chart.js midan y rendericen todas las gráficas
+            const allPanes = document.querySelectorAll('.tab-pane');
+            allPanes.forEach(pane => {
+                pane.style.display = 'flex';
+            });
+            
+            // 2. Redimensionar y actualizar todos los gráficos
+            Object.values(chartInstances).forEach(chart => {
+                if (chart) {
+                    chart.resize();
+                    chart.update();
+                }
+            });
+            
+            // 3. Abrir cuadro de impresión tras renderizado completo
+            setTimeout(() => {
+                window.print();
+                
+                // 4. Restaurar la pestaña activa
+                const activeBtn = document.querySelector('.tab-button.active');
+                const activeTabId = activeBtn ? activeBtn.getAttribute('onclick').match(/'([^']+)'/)[1] : 'page-1';
+                switchTab(activeTabId);
+            }, 200);
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             initCharts();
             updateDashboard();
         });
 
         function initCharts() {
+            // Registrar plugin de etiquetas en barras
+            if (typeof ChartDataLabels !== 'undefined') {
+                Chart.register(ChartDataLabels);
+            }
+
             Chart.defaults.color = '#94a3b8';
             Chart.defaults.font.family = "'Inter', sans-serif";
 
-            // 1. Gráfico Edad por Género
+            // 1. Gráfico Edad por Género con etiquetas interiores
             const ctxEdadSexo = document.getElementById('chart-edad-sexo').getContext('2d');
             chartInstances.edadSexo = new Chart(ctxEdadSexo, {
                 type: 'bar',
@@ -1628,11 +1681,23 @@
                         x: { stacked: true, grid: { display: false } },
                         y: { stacked: true, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }
                     },
-                    plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } }
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12 } },
+                        datalabels: {
+                            color: '#ffffff',
+                            font: { weight: 'bold', size: 11 },
+                            display: function(context) {
+                                return context.dataset.data[context.dataIndex] > 0;
+                            },
+                            formatter: function(value) {
+                                return value;
+                            }
+                        }
+                    }
                 }
             });
 
-            // 2. Gráfico Cobertura de Estudios (Meta 36)
+            // 2. Gráfico Cobertura de Estudios con etiquetas interiores (Meta 36)
             const ctxEstudios = document.getElementById('chart-estudios').getContext('2d');
             chartInstances.estudios = new Chart(ctxEstudios, {
                 type: 'bar',
@@ -1658,11 +1723,23 @@
                         x: { stacked: true, max: 36, grid: { color: 'rgba(255,255,255,0.05)' } },
                         y: { stacked: true, grid: { display: false } }
                     },
-                    plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } }
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12 } },
+                        datalabels: {
+                            color: '#ffffff',
+                            font: { weight: 'bold', size: 10.5 },
+                            display: function(context) {
+                                return context.dataset.data[context.dataIndex] > 0;
+                            },
+                            formatter: function(value, context) {
+                                return context.datasetIndex === 0 ? `${value}` : `${value} pend.`;
+                            }
+                        }
+                    }
                 }
             });
 
-            // 3. Gráfico Cobertura de Laboratorio por Género
+            // 3. Gráfico Cobertura de Laboratorio por Género con etiquetas interiores
             const ctxEstudiosSexoLab = document.getElementById('chart-estudios-sexo-lab').getContext('2d');
             chartInstances.estudiosSexoLab = new Chart(ctxEstudiosSexoLab, {
                 type: 'bar',
@@ -1680,11 +1757,23 @@
                         x: { grid: { display: false } },
                         y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } }
                     },
-                    plugins: { legend: { position: 'top', labels: { boxWidth: 12 } } }
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12 } },
+                        datalabels: {
+                            color: '#ffffff',
+                            font: { weight: 'bold', size: 11 },
+                            display: function(context) {
+                                return context.dataset.data[context.dataIndex] > 0;
+                            },
+                            formatter: function(value) {
+                                return value;
+                            }
+                        }
+                    }
                 }
             });
 
-            // 4. Gráfico Tasa de Alertas Biomarcadores Chopo
+            // 4. Gráfico Tasa de Alertas Biomarcadores Chopo con etiquetas interiores
             const ctxAlertas = document.getElementById('chart-alertas-chopo').getContext('2d');
             chartInstances.alertas = new Chart(ctxAlertas, {
                 type: 'bar',
@@ -1713,6 +1802,18 @@
                     },
                     plugins: {
                         legend: { display: false },
+                        datalabels: {
+                            color: '#ffffff',
+                            font: { weight: 'bold', size: 11 },
+                            anchor: 'center',
+                            align: 'center',
+                            display: function(context) {
+                                return context.dataset.data[context.dataIndex] > 0;
+                            },
+                            formatter: function(value) {
+                                return `${value}%`;
+                            }
+                        },
                         tooltip: {
                             callbacks: {
                                 label: ctx => ` ${ctx.raw}% de colaboradores evaluados`
