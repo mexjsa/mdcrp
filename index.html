@@ -723,7 +723,7 @@
                         </div>
                     </div>
 
-                    <!-- TABLAS DE LABORATORIO COMPLETAS SIN BARRA DE DESPLAZAMIENTO (CONTEO DICOTÓMICO Y MICRO-BARRAS) -->
+                    <!-- TABLAS DE LABORATORIO COMPLETAS SIN BARRA DE DESPLAZAMIENTO (CONTEO DICOTÓMICO Y MICRO-BARRAS AMPLIAS) -->
                     <div class="dashboard-grid-2">
                         <div class="dashboard-card" style="overflow: visible;">
                             <div class="card-header">
@@ -734,194 +734,180 @@
                                 <table class="premium-table" style="width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th>Analito</th>
-                                            <th>Rango Esperado</th>
-                                            <th>Distribución (Normal / Atípico)</th>
-                                            <th>Estatus</th>
+                                            <th style="width: 32%;">Analito</th>
+                                            <th style="width: 25%;">Rango Esperado</th>
+                                            <th style="width: 43%;">Distribución (Normal / Atípico)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Glucosa en Ayuno</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">70.0 - 100.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(239, 68, 68, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Glucosa en Ayuno</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">70.0 - 100.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 61.5%; background: #10b981; height: 100%;" title="Normal: 16 (61.5%)"></div>
             <div style="width: 38.5%; background: #ef4444; height: 100%;" title="Atípico: 10 (38.5%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">16 norm.</span> / <span style="color: #ef4444;">10 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">16 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">10 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3);">38.5% Alerta</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Colesterol Total</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">< 200.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(239, 68, 68, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Colesterol Total</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">< 200.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 57.7%; background: #10b981; height: 100%;" title="Normal: 15 (57.7%)"></div>
             <div style="width: 42.3%; background: #ef4444; height: 100%;" title="Atípico: 11 (42.3%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">15 norm.</span> / <span style="color: #ef4444;">11 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">15 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">11 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3);">42.3% Elevado</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Triglicéridos</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">< 150.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(239, 68, 68, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Triglicéridos</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">< 150.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 65.4%; background: #10b981; height: 100%;" title="Normal: 17 (65.4%)"></div>
             <div style="width: 34.6%; background: #ef4444; height: 100%;" title="Atípico: 9 (34.6%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">17 norm.</span> / <span style="color: #ef4444;">9 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">17 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">9 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3);">34.6% Elevado</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Ácido Úrico</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">2.5 - 7.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(245, 158, 11, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Ácido Úrico</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">2.5 - 7.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 80.8%; background: #10b981; height: 100%;" title="Normal: 21 (80.8%)"></div>
             <div style="width: 19.2%; background: #f59e0b; height: 100%;" title="Atípico: 5 (19.2%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">21 norm.</span> / <span style="color: #f59e0b;">5 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">21 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">5 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3);">19.2% Alerta</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Creatinina</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">0.60 - 1.30 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(100, 116, 139, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Creatinina</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">0.60 - 1.30 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
             <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">26 norm.</span> / <span style="color: #64748b;">0 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">100% Óptimo</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Urea</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">16.6 - 48.5 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(245, 158, 11, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Urea</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">16.6 - 48.5 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
             <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">24 norm.</span> / <span style="color: #f59e0b;">2 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">92.3% Normal</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">BUN (Nitrógeno Urea)</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">7.0 - 20.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(245, 158, 11, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">BUN (Nitrógeno Urea)</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">7.0 - 20.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
             <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">24 norm.</span> / <span style="color: #f59e0b;">2 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">92.3% Normal</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">AST (TGO)</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">10.0 - 40.0 U/L</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(245, 158, 11, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">AST (TGO)</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">10.0 - 40.0 U/L</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
             <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">24 norm.</span> / <span style="color: #f59e0b;">2 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">92.3% Normal</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Albúmina</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">3.9 - 5.1 g/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(100, 116, 139, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Albúmina</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">3.9 - 5.1 g/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
             <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">26 norm.</span> / <span style="color: #64748b;">0 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">100% Óptimo</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">LDH (Deshidrogenasa)</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">135 - 225 U/L</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(239, 68, 68, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">LDH (Deshidrogenasa)</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">135 - 225 U/L</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 73.1%; background: #10b981; height: 100%;" title="Normal: 19 (73.1%)"></div>
             <div style="width: 26.9%; background: #ef4444; height: 100%;" title="Atípico: 7 (26.9%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">19 norm.</span> / <span style="color: #ef4444;">7 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">19 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">7 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3);">26.9% Obs.</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Fosfatasa Alcalina</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">40.0 - 130.0 U/L</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(245, 158, 11, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Fosfatasa Alcalina</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">40.0 - 130.0 U/L</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 96.2%; background: #10b981; height: 100%;" title="Normal: 25 (96.2%)"></div>
             <div style="width: 3.8%; background: #f59e0b; height: 100%;" title="Atípico: 1 (3.8%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">25 norm.</span> / <span style="color: #f59e0b;">1 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">25 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">1 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">96.2% Normal</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Calcio</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">8.6 - 10.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(245, 158, 11, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Calcio</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">8.6 - 10.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
             <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">24 norm.</span> / <span style="color: #f59e0b;">2 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">92.3% Normal</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Bilirrubina Total</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">0.2 - 1.2 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(245, 158, 11, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Bilirrubina Total</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">0.2 - 1.2 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 96.2%; background: #10b981; height: 100%;" title="Normal: 25 (96.2%)"></div>
             <div style="width: 3.8%; background: #f59e0b; height: 100%;" title="Atípico: 1 (3.8%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">25 norm.</span> / <span style="color: #f59e0b;">1 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">25 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">1 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">96.2% Normal</span></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -937,96 +923,89 @@
                                 <table class="premium-table" style="width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th>Estudio / Panel</th>
-                                            <th>Rango / Criterio</th>
-                                            <th>Distribución (Normal / Atípico)</th>
-                                            <th>Estatus</th>
+                                            <th style="width: 32%;">Estudio / Panel</th>
+                                            <th style="width: 25%;">Rango / Criterio</th>
+                                            <th style="width: 43%;">Distribución (Normal / Atípico)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Biometría Hemática</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">13.5 - 17.5 g/dL (Hb)</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(100, 116, 139, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Biometría Hemática</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">13.5 - 17.5 g/dL (Hb)</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
             <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">26 norm.</span> / <span style="color: #64748b;">0 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">100% Sin Anemias</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Antígeno Prostático (PSA)</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">< 4.0 ng/mL (12 hombres)</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(100, 116, 139, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Antígeno Prostático (PSA)</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">< 4.0 ng/mL (12 hombres)</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 12 (100.0%)"></div>
             <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">12 norm.</span> / <span style="color: #64748b;">0 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">12 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">100% Seguro</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Examen Gral. de Orina (EGO)</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">Físico-Químico / Sedimento</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(245, 158, 11, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Examen Gral. de Orina (EGO)</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">Físico-Químico / Sedimento</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 80.8%; background: #10b981; height: 100%;" title="Normal: 21 (80.8%)"></div>
             <div style="width: 19.2%; background: #f59e0b; height: 100%;" title="Atípico: 5 (19.2%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">21 norm.</span> / <span style="color: #f59e0b;">5 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">21 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">5 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3);">19.2% Sedimentos</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Dislipidemia Combinada</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">Colesterol >200 o Trig >150</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(239, 68, 68, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Dislipidemia Combinada</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">Colesterol >200 o Trig >150</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 46.2%; background: #10b981; height: 100%;" title="Normal: 12 (46.2%)"></div>
             <div style="width: 53.8%; background: #ef4444; height: 100%;" title="Atípico: 14 (53.8%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">12 norm.</span> / <span style="color: #ef4444;">14 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">12 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">14 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3);">53.8% Prevalencia</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Pruebas Función Hepática</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">AST / Albúmina en rango</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(100, 116, 139, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Pruebas Función Hepática</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">AST / Albúmina en rango</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
             <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">26 norm.</span> / <span style="color: #64748b;">0 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">100% Estable</span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong style="color: var(--text-primary);">Electrólitos & Calcio</strong></td>
-                                            <td style="font-size: 11px; color: var(--text-muted);">Calcio 8.6 - 10.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 8px; min-width: 175px;">
-        <div style="flex: 1; height: 9px; background: rgba(245, 158, 11, 0.2); border-radius: 4px; overflow: hidden; display: flex;">
+                                            <td style="font-weight: 600; color: var(--text-primary);">Electrólitos & Calcio</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">Calcio 8.6 - 10.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
             <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
             <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
         </div>
-        <span style="font-size: 11px; font-weight: 700; white-space: nowrap; font-family: monospace;">
-            <span style="color: #10b981;">24 norm.</span> / <span style="color: #f59e0b;">2 atíp.</span>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
         </span>
     </div></td>
-                                            <td><span class="status-badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);">92.3% Normal</span></td>
                                         </tr>
                                     </tbody>
                                 </table>
