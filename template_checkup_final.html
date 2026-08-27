@@ -274,7 +274,7 @@
         }
         .img-container img {
             max-width: 100%;
-            max-height: 380px;
+            flex: 1;
             object-fit: contain;
         }
 
@@ -505,11 +505,31 @@
                 </div>
             </section>
 
-            <!-- Evaluación Médica -->
-            <div class="diag-board">
-                <h3>Evaluación Médica</h3>
-                <p id="s-diagnostico">-</p>
-            </div>
+            
+                
+                <div class="diag-board" style="flex: 1; border: 3px solid var(--brand-navy); background: white; padding: 20px; font-size: 0.85rem; line-height: 1.5; color: #1e293b; position: relative;">
+                    <div style="position: absolute; top: -14px; left: 15px; background: white; padding: 0 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; color: var(--brand-red);">■ PERFIL SOCIODEMOGRÁFICO Y OCUPACIONAL</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px;">
+                        <div>
+                            <h4 style="margin-bottom: 5px; color: var(--brand-navy); font-size: 0.8rem; text-transform: uppercase;">Estado Civil</h4>
+                            <p id="p-estado-civil" style="font-size: 0.9rem; font-weight: 600;">N/A</p>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 5px; color: var(--brand-navy); font-size: 0.8rem; text-transform: uppercase;">Escolaridad</h4>
+                            <p id="p-escolaridad" style="font-size: 0.9rem; font-weight: 600;">N/A</p>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 5px; color: var(--brand-navy); font-size: 0.8rem; text-transform: uppercase;">Puesto a ocupar</h4>
+                            <p id="p-puesto" style="font-size: 0.9rem; font-weight: 600;">N/A</p>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 5px; color: var(--brand-navy); font-size: 0.8rem; text-transform: uppercase;">Actividad Extralaboral</h4>
+                            <p id="p-actividad" style="font-size: 0.9rem; font-weight: 600;">N/A</p>
+                        </div>
+                    </div>
+                </div>
+
+
 
             <!-- Footer unificado de Página 1 -->
             <footer class="page-footer">
@@ -558,6 +578,45 @@
             const p = INCOMING_DATA.paciente;
             const r = INCOMING_DATA.resumen;
             const img = INCOMING_DATA.imagenes;
+
+            // 0. División de Evaluación Médica en caso de textos largos (Evitar desbordamiento en pág 1)
+            let diagText = r.diagnostico_general || '';
+            // Limpiar saltos de línea excesivos que causan desbordamiento
+            diagText = diagText.replace(/\n{3,}/g, '\n\n').trim();
+            let hasDiagContinuation = false;
+            let diagFirstPart = diagText;
+            let diagSecondPart = '';
+
+            const maxDiagChars = 550;
+            const minDiagSplit = 350;
+            if (diagText.length > maxDiagChars) {
+                let splitIdx = -1;
+                // Buscar último signo de puntuación en el rango [500, 850]
+                for (let i = maxDiagChars; i >= minDiagSplit; i--) {
+                    const char = diagText[i];
+                    if (char === '.' || char === ';' || char === ':' || char === '?' || char === '!') {
+                        splitIdx = i + 1;
+                        break;
+                    }
+                }
+                // Si no hay signos de puntuación, buscar un espacio
+                if (splitIdx === -1) {
+                    for (let i = maxDiagChars; i >= minDiagSplit; i--) {
+                        if (diagText[i] === ' ') {
+                            splitIdx = i;
+                            break;
+                        }
+                    }
+                }
+                // Si no hay corte limpio, forzar en 750
+                if (splitIdx === -1) {
+                    splitIdx = 750;
+                }
+                
+                diagFirstPart = diagText.substring(0, splitIdx).trim() + " ... (Continúa en la siguiente página)";
+                diagSecondPart = diagText.substring(splitIdx).trim();
+                hasDiagContinuation = true;
+            }
 
             // Extract InBody parameters dynamically
             const ibStudy = INCOMING_DATA.estudios.find(e => e.titulo.toUpperCase().includes('INBODY') || e.titulo.toUpperCase().includes('COMPOSICIÓN CORPORAL') || e.titulo.toUpperCase().includes('COMPOSICION CORPORAL'));
@@ -615,6 +674,9 @@
             });
 
             let totalPages = 1; // Página 1 (Resumen) es obligatoria
+            if (hasDiagContinuation) {
+                totalPages += 1; // Página de continuación de diagnóstico
+            }
             totalPages += paginatedEstudios.length; // Cada sub-estudio va en su propia página
             
             const hasInbody = !!ibStudy;
@@ -644,6 +706,26 @@
             if (img.odontograma || img.odontograma_recomendaciones) {
                 totalPages += 1; // Página de Odontograma
                 odontogramaPageIdx = totalPages;
+            }
+
+            let telemedChunks = [];
+            if (p.hallazgos_recomendaciones && p.hallazgos_recomendaciones.length > 0) {
+                const maxChars = 2200;
+                let currentChunk = [];
+                let currentLen = 0;
+                p.hallazgos_recomendaciones.forEach(para => {
+                    if (currentLen + para.length > maxChars && currentChunk.length > 0) {
+                        telemedChunks.push(currentChunk);
+                        currentChunk = [];
+                        currentLen = 0;
+                    }
+                    currentChunk.push(para);
+                    currentLen += para.length;
+                });
+                if (currentChunk.length > 0) {
+                    telemedChunks.push(currentChunk);
+                }
+                totalPages += telemedChunks.length;
             }
 
             // Actualizar total-pages en la primera página
@@ -706,7 +788,7 @@
                 </div>
                 <div class="pz-silh">
                     <div class="pz-silh-box">
-                        <img id="silhouette-img" src="${p.silueta_b64 || ''}" alt="Silueta">
+                        <img id="silhouette-img" src="${p.silueta_b64 || ''}" alt="Silueta" style="left: 0; width: 100%; height: 100%; object-fit: contain;">
                     </div>
                     <div class="pz-metrics">
                         <span class="metric-block">H: ${p.estatura || '-'}</span>
@@ -714,14 +796,6 @@
                     </div>
                 </div>
             `;
-
-            const silImg = document.getElementById('silhouette-img');
-            const lower_sex = String(p.sexo || '').toLowerCase();
-            if (lower_sex === 'h' || lower_sex === 'masculino' || lower_sex === 'hombre') {
-                silImg.style.left = "-100%";
-            } else {
-                silImg.style.left = "0";
-            }
 
             // 4. Renderizar KPIs y Evaluación Diagnóstica
             let kpiTotalExamenes = INCOMING_DATA.estudios.length;
@@ -733,7 +807,13 @@
             }
             document.getElementById('kpi-tot').textContent = kpiTotalExamenes;
             document.getElementById('kpi-alert').textContent = r.alertas_clinicas || 0;
-            document.getElementById('s-diagnostico').textContent = r.diagnostico_general || 'N/A';
+
+            // Populating Demographics
+            if (document.getElementById('p-estado-civil')) document.getElementById('p-estado-civil').textContent = p.estado_civil || 'N/A';
+            if (document.getElementById('p-escolaridad')) document.getElementById('p-escolaridad').textContent = p.escolaridad || 'N/A';
+            if (document.getElementById('p-puesto')) document.getElementById('p-puesto').textContent = p.puesto || 'N/A';
+            if (document.getElementById('p-actividad')) document.getElementById('p-actividad').textContent = p.actividad_extra || 'N/A';
+            
 
             if ((r.alertas_clinicas || 0) === 0) {
                 document.getElementById('kpi-alert').style.color = "var(--brand-navy)";
@@ -743,6 +823,56 @@
             const dynamicContainer = document.getElementById('dynamic-pages');
             let contentHTML = '';
             let currentPage = 1;
+
+            // 5.0 Renderizar Continuación de Evaluación Médica (si existe)
+            let remainingText = diagText; // Imprimir TODA la evaluación en páginas de continuación
+            const charsPerPage = 1200;
+            while (remainingText.length > 0) {
+                let chunk = remainingText.substring(0, charsPerPage);
+                remainingText = remainingText.substring(charsPerPage);
+                
+                // Si el chunk no es el ultimo, tratar de cortar en un espacio o salto de linea
+                if (remainingText.length > 0) {
+                    let lastSpace = chunk.lastIndexOf(' ');
+                    let lastNewline = chunk.lastIndexOf('\n');
+                    let splitPoint = Math.max(lastSpace, lastNewline);
+                    if (splitPoint > 0 && splitPoint > charsPerPage - 500) {
+                        remainingText = chunk.substring(splitPoint) + remainingText;
+                        chunk = chunk.substring(0, splitPoint);
+                    }
+                }
+
+                currentPage++;
+                contentHTML += `
+                    <div class="print-page">
+                        <div class="page-content-wrapper" style="flex: 1; min-height: 0; display: flex; flex-direction: column;" >
+                            <div class="page-header-print">
+                                <span class="print-title">Reporte Clínico – Circuito de Salud 2026</span>
+                                <span class="print-subtitle">Evaluación Médica (Continuación)</span>
+                            </div>
+                            
+                            <div class="study-header-container">
+                                <div class="s-title">Evaluación Médica (Continuación)</div>
+                                <div class="method-badge">Consulta Médica Integral</div>
+                            </div>
+                            
+                            <div class="diag-board" style="margin-top: 15px; border-left: 5px solid var(--brand-red); background: white; padding: 20px; font-size: 0.85rem; line-height: 1.5; color: #1e293b; flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: visible; border-top: 1px solid var(--brand-silver); border-right: 1px solid var(--brand-silver); border-bottom: 1px solid var(--brand-silver);">
+                                <div style="flex: 1; min-height: 0; overflow: visible;">
+                                    <p style="text-align: justify; white-space: pre-wrap; font-size: 0.85rem; line-height: 1.5;">... ${chunk.replace(/\n/g, '<br>')}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <footer class="page-footer" style="margin-top: auto;">
+                            <p>© 2026. Información publicada por Intersistemas, S.A. de C.V. Se prohíbe la reproducción total o parcial de esta información. Resultados obtenidos por Med&Corp</p>
+                            <div class="footer-bottom">
+                                <span></span>
+                                <span class="page-num">Página ${currentPage} de ${totalPages}</span>
+                            </div>
+                        </footer>
+                    </div>
+                `;
+            }
 
             paginatedEstudios.forEach(est => {
                 currentPage++;
@@ -779,7 +909,7 @@
 
                 contentHTML += `
                     <div class="print-page">
-                        <div class="page-content-wrapper">
+                        <div class="page-content-wrapper" style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
                             <div class="page-header-print">
                                 <span class="print-title">Reporte Clínico • Circuito de Salud 2026</span>
                                 <span class="print-subtitle">${est.titulo}</span>
@@ -858,7 +988,7 @@
 
                 contentHTML += `
                     <div class="print-page">
-                        <div class="page-content-wrapper">
+                        <div class="page-content-wrapper" style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
                             <div class="page-header-print">
                                 <span class="print-title">Reporte Clínico • Circuito de Salud 2026</span>
                                 <span class="print-subtitle">Composición Corporal</span>
@@ -994,7 +1124,7 @@
                 currentPage++;
                 contentHTML += `
                     <div class="print-page">
-                        <div class="page-content-wrapper" style="display: flex; flex-direction: column; height: 100%;">
+                        <div class="page-content-wrapper" style="flex: 1; min-height: 0; display: flex; flex-direction: column;" >
                             <div class="page-header-print">
                                 <span class="print-title">Reporte Clínico • Circuito de Salud 2026</span>
                                 <span class="print-subtitle">Función Pulmonar</span>
@@ -1022,26 +1152,24 @@
             }
 
             // 6. Renderizar Páginas de Electrocardiograma (si existen datos)
-            if (img.electrocardiograma || img.electrocardiograma_datos) {
+            if (img.electrocardiograma_datos && img.electrocardiograma_datos.length > 0) {
                 currentPage++;
                 let ekgRowsHTML = '';
                 
-                if (img.electrocardiograma_datos) {
-                    img.electrocardiograma_datos.forEach(d => {
-                        ekgRowsHTML += `
-                            <tr>
-                                <td style="font-weight:700; border-bottom:1px solid var(--brand-silver); color: var(--brand-navy);">${d.nombre}</td>
-                                <td class="technical-num" style="text-align:right; border-bottom:1px solid var(--brand-silver);">${d.resultado} <span style="font-size:0.7rem; color: var(--text-mut); font-weight:normal;">${d.unidad}</span></td>
-                            </tr>
-                        `;
-                    });
-                }
+                img.electrocardiograma_datos.forEach(d => {
+                    ekgRowsHTML += `
+                        <tr>
+                            <td style="font-weight:700; border-bottom:1px solid var(--brand-silver); color: var(--brand-navy);">${d.nombre}</td>
+                            <td class="technical-num" style="text-align:right; border-bottom:1px solid var(--brand-silver);">${d.resultado} <span style="font-size:0.7rem; color: var(--text-mut); font-weight:normal;">${d.unidad}</span></td>
+                        </tr>
+                    `;
+                });
 
                 contentHTML += `
                     <div class="print-page">
-                        <div class="page-content-wrapper">
+                        <div class="page-content-wrapper" style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
                             <div class="page-header-print">
-                                <span class="print-title">Reporte Clínico • Circuito de Salud 2026</span>
+                                <span class="print-title">Reporte Clínico – Circuito de Salud 2026</span>
                                 <span class="print-subtitle">Electrocardiografía</span>
                             </div>
                             
@@ -1063,17 +1191,17 @@
                                     </tbody>
                                 </table>
                                 
-                                <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div style="display: flex; flex-direction: column; gap: 15px;">
                                     ${img.electrocardiograma_conclusion ? `
-                                        <div class="recom-box" style="margin-top:0; border-left-color: var(--brand-red);">
-                                            <strong style="color: var(--brand-red);">❤️ Conclusión Médica:</strong>
+                                        <div class="diag-board" style="padding: 15px; border-left: 4px solid var(--brand-red);">
+                                            <h3 style="margin-bottom: 5px; font-size: 0.75rem;">Conclusión / Ritmo</h3>
                                             <p>${img.electrocardiograma_conclusion}</p>
                                         </div>
                                     ` : ''}
                                     
                                     ${img.electrocardiograma_observaciones ? `
-                                        <div class="recom-box" style="margin-top:0;">
-                                            <strong>📝 Observaciones:</strong>
+                                        <div class="diag-board" style="padding: 15px; border-left: 4px solid var(--brand-navy);">
+                                            <h3 style="margin-bottom: 5px; font-size: 0.75rem;">Observaciones Adicionales</h3>
                                             <p>${img.electrocardiograma_observaciones}</p>
                                         </div>
                                     ` : ''}
@@ -1090,37 +1218,28 @@
                         </footer>
                     </div>
                 `;
+            }
 
-                if (img.electrocardiograma) {
-                    currentPage++;
-                    contentHTML += `
-                        <div class="print-page">
-                            <div class="page-content-wrapper" style="display: flex; flex-direction: column; height: 100%;">
-                                <div class="page-header-print">
-                                    <span class="print-title">Reporte Clínico • Circuito de Salud 2026</span>
-                                    <span class="print-subtitle">Trazado Eléctrico</span>
-                                </div>
-                                
-                                <div class="study-header-container">
-                                    <div class="s-title">Trazo Electrocardiográfico</div>
-                                    <div class="method-badge">Gráfico de Derivaciones</div>
-                                </div>
-                                
-                                <div class="img-container-ekg">
-                                    <img src="${img.electrocardiograma}" alt="Trazo EKG">
-                                </div>
-                            </div>
-                            
-                            <footer class="page-footer" style="margin-top: auto;">
-                                <p>© 2026. Información publicada por Intersistemas, S.A. de C.V. Se prohíbe la reproducción total o parcial de esta información. Resultados obtenidos por Med&Corp</p>
-                                <div class="footer-bottom">
-                                    <span></span>
-                                    <span class="page-num">Página ${currentPage} de ${totalPages}</span>
-                                </div>
-                            </footer>
+            if (img.electrocardiograma) {
+                currentPage++;
+                contentHTML += `
+                    <div class="print-page" style="justify-content: flex-start; padding-bottom: 0;">
+                        <div class="page-header-print">
+                            <span class="print-title">Reporte Clínico – Circuito de Salud 2026</span>
+                            <span class="print-subtitle">Trazo Electrocardiográfico (Morfología)</span>
                         </div>
-                    `;
-                }
+                        <div class="img-container-ekg">
+                            <img src="${img.electrocardiograma}" alt="Trazo EKG">
+                        </div>
+                        <footer class="page-footer" style="margin-top: auto;">
+                            <p>© 2026. Información publicada por Intersistemas, S.A. de C.V.</p>
+                            <div class="footer-bottom">
+                                <span></span>
+                                <span class="page-num">Página ${currentPage} de ${totalPages}</span>
+                            </div>
+                        </footer>
+                    </div>
+                `;
             }
 
             // 7. Renderizar Página de Odontograma (si existen datos)
@@ -1128,7 +1247,7 @@
                 currentPage++;
                 contentHTML += `
                     <div class="print-page">
-                        <div class="page-content-wrapper">
+                        <div class="page-content-wrapper" style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
                             <div class="page-header-print">
                                 <span class="print-title">Reporte Clínico • Circuito de Salud 2026</span>
                                 <span class="print-subtitle">Odontología</span>
@@ -1174,10 +1293,52 @@
                 `;
             }
 
+            // 8. Renderizar Páginas de Telemedicina (Hallazgos y Recomendaciones)
+            if (telemedChunks && telemedChunks.length > 0) {
+                telemedChunks.forEach((chunk, chunkIdx) => {
+                    currentPage++;
+                    const subtitle = telemedChunks.length > 1 ? 
+                        `Hallazgos y Recomendaciones (${chunkIdx + 1}/${telemedChunks.length})` : 
+                        `Hallazgos y Recomendaciones`;
+                    
+                    let chunkHTML = chunk.map(para => `<p style="margin-bottom: 12px; text-align: justify;">${para}</p>`).join('');
+                    
+                    contentHTML += `
+                        <div class="print-page">
+                            <div class="page-content-wrapper" style="flex: 1; min-height: 0; display: flex; flex-direction: column;" >
+                                <div class="page-header-print">
+                                    <span class="print-title">Reporte Clínico • Circuito de Salud 2026</span>
+                                    <span class="print-subtitle">${subtitle}</span>
+                                </div>
+                                
+                                <div class="study-header-container">
+                                    <div class="s-title">Hallazgos y Recomendaciones</div>
+                                    <div class="method-badge">Evaluación de Telemedicina</div>
+                                </div>
+                                
+                                <div class="recom-box" style="margin-top: 15px; border-left: 5px solid var(--brand-navy); background: white; padding: 20px; font-size: 0.85rem; line-height: 1.5; color: #1e293b; flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: visible; border-top: 1px solid var(--brand-silver); border-right: 1px solid var(--brand-silver); border-bottom: 1px solid var(--brand-silver);">
+                                    <div style="flex: 1; min-height: 0; overflow: visible;">
+                                        ${chunkHTML}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <footer class="page-footer" style="margin-top: auto;">
+                                <p>© 2026. Información publicada por Intersistemas, S.A. de C.V. Se prohíbe la reproducción total o parcial de esta información. Resultados obtenidos por Med&Corp</p>
+                                <div class="footer-bottom">
+                                    <span></span>
+                                    <span class="page-num">Página ${currentPage} de ${totalPages}</span>
+                                </div>
+                            </footer>
+                        </div>
+                    `;
+                });
+            }
+
             dynamicContainer.innerHTML = contentHTML;
         }
 
-        window.onload = renderApp;
+        renderApp();
     </script>
 </body>
 </html>

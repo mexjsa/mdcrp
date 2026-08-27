@@ -23,3 +23,8 @@ dashboard_estadistico_sanofi.html
 
 # Temp files
 test_write.py
+
+node_modules/
+package.json
+package-lock.json
+temp_*.js
