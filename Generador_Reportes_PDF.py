@@ -76,7 +76,7 @@ def chunk_telemed_paras(paras, target_chars=3400):
 def build_patient_json(row, sil_masc_b64, sil_fem_b64, telemed_paras, ekg_png_path):
     nombre = str(row.get('nombre', 'Paciente')).strip()
     sex_raw = str(row.get('sexo', '')).strip().lower()
-    es_masc = sex_raw in ['h', 'hombre', 'masculino', 'm']
+    es_masc = sex_raw in ['h', 'hombre', 'masculino']
     sexo_str = "Masculino" if es_masc else "Femenino"
     
     silueta_b64 = sil_masc_b64 if es_masc else sil_fem_b64
