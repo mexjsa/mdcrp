@@ -709,8 +709,11 @@
             }
 
             let telemedChunks = [];
-            if (p.hallazgos_recomendaciones && p.hallazgos_recomendaciones.length > 0) {
-                const maxChars = 2200;
+            if (p.telemedicina_chunks && p.telemedicina_chunks.length > 0) {
+                telemedChunks = p.telemedicina_chunks;
+                totalPages += telemedChunks.length;
+            } else if (p.hallazgos_recomendaciones && p.hallazgos_recomendaciones.length > 0) {
+                const maxChars = 3400;
                 let currentChunk = [];
                 let currentLen = 0;
                 p.hallazgos_recomendaciones.forEach(para => {
@@ -798,7 +801,7 @@
             `;
 
             // 4. Renderizar KPIs y Evaluación Diagnóstica
-            let kpiTotalExamenes = INCOMING_DATA.estudios.length;
+            let baseStudies = new Set(); INCOMING_DATA.estudios.forEach(e => { let name = e.titulo.replace(/\s\(\d+\/\d+\)$/, '').trim(); baseStudies.add(name); }); let kpiTotalExamenes = baseStudies.size; if (telemedChunks && telemedChunks.length > 0) { kpiTotalExamenes += 1; }
             if (img.electrocardiograma || img.electrocardiograma_conclusion || img.electrocardiograma_observaciones) {
                 kpiTotalExamenes += 1;
             }
@@ -824,8 +827,8 @@
             let contentHTML = '';
             let currentPage = 1;
 
-            // 5.0 Renderizar Continuación de Evaluación Médica (si existe)
-            let remainingText = diagText; // Imprimir TODA la evaluación en páginas de continuación
+            // 5.0 Renderizar Continuación de Evaluación Médica (solo si es texto muy extenso no cubierto en portada ni telemedicina)
+            let remainingText = (telemedChunks.length > 0 || diagText.length < 800) ? "" : diagText;
             const charsPerPage = 1200;
             while (remainingText.length > 0) {
                 let chunk = remainingText.substring(0, charsPerPage);
@@ -1293,7 +1296,7 @@
                 `;
             }
 
-            // 8. Renderizar Páginas de Telemedicina (Hallazgos y Recomendaciones)
+                        // 8. Renderizar Páginas de Telemedicina (Hallazgos y Recomendaciones)
             if (telemedChunks && telemedChunks.length > 0) {
                 telemedChunks.forEach((chunk, chunkIdx) => {
                     currentPage++;
@@ -1301,13 +1304,26 @@
                         `Hallazgos y Recomendaciones (${chunkIdx + 1}/${telemedChunks.length})` : 
                         `Hallazgos y Recomendaciones`;
                     
-                    let chunkHTML = chunk.map(para => `<p style="margin-bottom: 12px; text-align: justify;">${para}</p>`).join('');
+                    let chunkHTML = chunk.map(para => {
+                        const isHeading = (para.length < 80 && (para.toUpperCase() === para || para.startsWith('•') || para.startsWith('-') || (para.includes(':') && para.length < 60)));
+                        if (isHeading && !para.startsWith('•') && !para.startsWith('-')) {
+                            return `<h3 style="font-size: 0.88rem; font-weight: 700; color: var(--brand-navy); margin-top: 8px; margin-bottom: 3px; text-transform: uppercase; border-bottom: 1px solid var(--brand-red); padding-bottom: 2px;">${para}</h3>`;
+                        } else if (para.startsWith('•') || para.startsWith('-')) {
+                            const colonIdx = para.indexOf(':');
+                            if (colonIdx !== -1) {
+                                return `<p style="margin-bottom: 5px; text-align: justify; padding-left: 8px; line-height: 1.38; font-size: 0.82rem; color: #1e293b;"><strong>${para.substring(0, colonIdx+1)}</strong>${para.substring(colonIdx+1)}</p>`;
+                            }
+                            return `<p style="margin-bottom: 5px; text-align: justify; padding-left: 8px; line-height: 1.38; font-size: 0.82rem; color: #1e293b;">${para}</p>`;
+                        } else {
+                            return `<p style="margin-bottom: 6px; text-align: justify; line-height: 1.40; font-size: 0.82rem; color: #1e293b;">${para}</p>`;
+                        }
+                    }).join('');
                     
                     contentHTML += `
                         <div class="print-page">
                             <div class="page-content-wrapper" style="flex: 1; min-height: 0; display: flex; flex-direction: column;" >
                                 <div class="page-header-print">
-                                    <span class="print-title">Reporte Clínico • Circuito de Salud 2026</span>
+                                    <span class="print-title">Reporte Clínico – Circuito de Salud 2026</span>
                                     <span class="print-subtitle">${subtitle}</span>
                                 </div>
                                 
@@ -1316,8 +1332,8 @@
                                     <div class="method-badge">Evaluación de Telemedicina</div>
                                 </div>
                                 
-                                <div class="recom-box" style="margin-top: 15px; border-left: 5px solid var(--brand-navy); background: white; padding: 20px; font-size: 0.85rem; line-height: 1.5; color: #1e293b; flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: visible; border-top: 1px solid var(--brand-silver); border-right: 1px solid var(--brand-silver); border-bottom: 1px solid var(--brand-silver);">
-                                    <div style="flex: 1; min-height: 0; overflow: visible;">
+                                <div class="recom-box" style="margin-top: 6px; margin-bottom: 0px; border-left: 4px solid var(--brand-red); background: white; padding: 10px 14px; font-size: 0.82rem; line-height: 1.38; color: #1e293b; flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; border-top: 1px solid var(--brand-silver); border-right: 1px solid var(--brand-silver); border-bottom: 1px solid var(--brand-silver);">
+                                    <div style="flex: 1; min-height: 0;">
                                         ${chunkHTML}
                                     </div>
                                 </div>
@@ -1336,6 +1352,16 @@
             }
 
             dynamicContainer.innerHTML = contentHTML;
+            
+            // Actualización precisa del conteo de páginas en todos los pies de página
+            const allPages = document.querySelectorAll('.print-page');
+            document.querySelectorAll('.total-pages').forEach(el => el.textContent = allPages.length);
+            allPages.forEach((pg, idx) => {
+                const pn = pg.querySelector('.page-num');
+                if (pn) {
+                    pn.textContent = `Página ${idx + 1} de ${allPages.length}`;
+                }
+            });
         }
 
         renderApp();

@@ -566,7 +566,7 @@
                 <div style="background: rgba(225,29,72,0.06); border: 1px solid rgba(225,29,72,0.2); border-radius: 8px; padding: 12px; margin-top: 10px;">
                     <span style="font-size: 11px; color: var(--primary-accent); font-weight: 700; text-transform: uppercase;"><i class="fa-solid fa-circle-info"></i> Avance de Campaña</span>
                     <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 5px; line-height: 1.4;">
-                        Corte actual: <strong>21 colaboradores recibidos de 36 esperados (58.3%)</strong>. La segunda fase se integrará en los siguientes días.
+                        Corte actual: <strong>26 colaboradores recibidos de 36 esperados (72.2%)</strong>. Población evaluada correspondiente al cierre de la campaña foránea.
                     </p>
                 </div>
             </div>
@@ -628,8 +628,8 @@
                         <div class="kpi-card">
                             <div class="kpi-data">
                                 <span class="kpi-title">Población Evaluada</span>
-                                <span class="kpi-value" id="kpi-total">21</span>
-                                <span class="kpi-sub">de <strong>36 esperados</strong> (58.3% avance)</span>
+                                <span class="kpi-value" id="kpi-total">26</span>
+                                <span class="kpi-sub">de <strong>36 esperados</strong> (72.2% avance)</span>
                             </div>
                             <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
                         </div>
@@ -646,8 +646,8 @@
                         <div class="kpi-card">
                             <div class="kpi-data">
                                 <span class="kpi-title">Consentimiento de Información</span>
-                                <span class="kpi-value" style="color: var(--success-accent);">90.5%</span>
-                                <span class="kpi-sub"><strong>19 de 21 colaboradores</strong> accedieron a compartir</span>
+                                <span class="kpi-value" style="color: var(--success-accent);">92.3%</span>
+                                <span class="kpi-sub"><strong>24 de 26 colaboradores</strong> accedieron a compartir</span>
                             </div>
                             <div class="kpi-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--success-accent);"><i class="fa-solid fa-shield-check"></i></div>
                         </div>
@@ -723,54 +723,292 @@
                         </div>
                     </div>
 
-                    <!-- TABLAS DE LABORATORIO -->
+                    <!-- TABLAS DE LABORATORIO COMPLETAS SIN BARRA DE DESPLAZAMIENTO (CONTEO DICOTÓMICO Y MICRO-BARRAS AMPLIAS) -->
                     <div class="dashboard-grid-2">
-                        <div class="dashboard-card">
+                        <div class="dashboard-card" style="overflow: visible;">
                             <div class="card-header">
-                                <h3><i class="fa-solid fa-flask" style="color: var(--primary-accent)"></i> Química Clínica de 12 Elementos</h3>
-                                <span style="font-size: 10px; color: var(--text-muted);">Fuente: Chopo Contrato 18046</span>
+                                <h3><i class="fa-solid fa-flask" style="color: var(--primary-accent)"></i> Química Clínica (12 Elementos) - Conteo Dicotómico</h3>
+                                <span style="font-size: 10px; color: var(--text-muted);">26 Evaluados • Chopo 18046</span>
                             </div>
-                            <div class="table-wrapper" style="max-height: 250px; overflow-y: auto;">
-                                <table class="premium-table">
+                            <div class="table-wrapper" style="max-height: none; overflow: visible;">
+                                <table class="premium-table" style="width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th>Analito</th>
-                                            <th>Promedio</th>
-                                            <th>Rango Esperado</th>
-                                            <th>Estado</th>
+                                            <th style="width: 32%;">Analito</th>
+                                            <th style="width: 25%;">Rango Esperado</th>
+                                            <th style="width: 43%;">Distribución (Normal / Atípico)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr><td><strong>Glucosa</strong></td><td>96.2 mg/dL</td><td>70.0 - 100.0 mg/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
-                                        <tr><td><strong>Colesterol Total</strong></td><td style="color: var(--danger-accent); font-weight:600;">190.7 mg/dL</td><td>< 200.0 mg/dL</td><td><span style="color: var(--warning-accent); font-weight:600;">Límite Alto</span></td></tr>
-                                        <tr><td><strong>Triglicéridos</strong></td><td style="color: var(--danger-accent); font-weight:600;">152.5 mg/dL</td><td>< 150.0 mg/dL</td><td><span style="color: var(--danger-accent); font-weight:600;">Elevado</span></td></tr>
-                                        <tr><td><strong>Ácido Úrico</strong></td><td>5.40 mg/dL</td><td>2.5 - 7.0 mg/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
-                                        <tr><td><strong>Creatinina</strong></td><td>0.85 mg/dL</td><td>0.60 - 1.30 mg/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
-                                        <tr><td><strong>Urea</strong></td><td>31.6 mg/dL</td><td>15.0 - 43.0 mg/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
-                                        <tr><td><strong>BUN</strong></td><td>14.7 mg/dL</td><td>7.0 - 20.0 mg/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
-                                        <tr><td><strong>Fosfatasa Alcalina</strong></td><td>81.5 U/L</td><td>40.0 - 150.0 U/L</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
-                                        <tr><td><strong>AST (TGO)</strong></td><td>32.5 U/L</td><td>10.0 - 40.0 U/L</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
-                                        <tr><td><strong>Albúmina</strong></td><td>4.55 g/dL</td><td>3.5 - 5.0 g/dL</td><td><span style="color: var(--success-accent); font-weight:600;">Normal</span></td></tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Glucosa en Ayuno</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">70.0 - 100.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 61.5%; background: #10b981; height: 100%;" title="Normal: 16 (61.5%)"></div>
+            <div style="width: 38.5%; background: #ef4444; height: 100%;" title="Atípico: 10 (38.5%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">16 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">10 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Colesterol Total</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">< 200.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 57.7%; background: #10b981; height: 100%;" title="Normal: 15 (57.7%)"></div>
+            <div style="width: 42.3%; background: #ef4444; height: 100%;" title="Atípico: 11 (42.3%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">15 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">11 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Triglicéridos</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">< 150.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 65.4%; background: #10b981; height: 100%;" title="Normal: 17 (65.4%)"></div>
+            <div style="width: 34.6%; background: #ef4444; height: 100%;" title="Atípico: 9 (34.6%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">17 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">9 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Ácido Úrico</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">2.5 - 7.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 80.8%; background: #10b981; height: 100%;" title="Normal: 21 (80.8%)"></div>
+            <div style="width: 19.2%; background: #f59e0b; height: 100%;" title="Atípico: 5 (19.2%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">21 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">5 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Creatinina</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">0.60 - 1.30 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
+            <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Urea</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">16.6 - 48.5 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
+            <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">BUN (Nitrógeno Urea)</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">7.0 - 20.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
+            <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">AST (TGO)</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">10.0 - 40.0 U/L</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
+            <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Albúmina</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">3.9 - 5.1 g/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
+            <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">LDH (Deshidrogenasa)</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">135 - 225 U/L</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 73.1%; background: #10b981; height: 100%;" title="Normal: 19 (73.1%)"></div>
+            <div style="width: 26.9%; background: #ef4444; height: 100%;" title="Atípico: 7 (26.9%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">19 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">7 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Fosfatasa Alcalina</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">40.0 - 130.0 U/L</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 96.2%; background: #10b981; height: 100%;" title="Normal: 25 (96.2%)"></div>
+            <div style="width: 3.8%; background: #f59e0b; height: 100%;" title="Atípico: 1 (3.8%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">25 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">1 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Calcio</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">8.6 - 10.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
+            <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Bilirrubina Total</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">0.2 - 1.2 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 96.2%; background: #10b981; height: 100%;" title="Normal: 25 (96.2%)"></div>
+            <div style="width: 3.8%; background: #f59e0b; height: 100%;" title="Atípico: 1 (3.8%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">25 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">1 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <div class="dashboard-card">
+                        <div class="dashboard-card" style="overflow: visible;">
                             <div class="card-header">
-                                <h3><i class="fa-solid fa-dna" style="color: var(--primary-accent)"></i> Biometría Hemática, EGO & PSA</h3>
-                                <span style="font-size: 10px; color: var(--text-muted);">Fuente: Chopo Contrato 18046</span>
+                                <h3><i class="fa-solid fa-microscope" style="color: var(--primary-accent)"></i> Biometría, EGO y PSA - Conteo Dicotómico</h3>
+                                <span style="font-size: 10px; color: var(--text-muted);">26 Evaluados • Chopo 18046</span>
                             </div>
-                            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 12.5px; color: var(--text-secondary);">
-                                <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--primary-accent);">
-                                    <strong style="color: var(--text-primary);"><i class="fa-solid fa-shield-halved"></i> Antígeno Prostático (PSA):</strong> Evaluados 10 hombres (promedio 1.07 ng/mL, máx. 2.75 ng/mL). <strong>100% de la población masculina dentro del rango seguro (<4.0 ng/mL)</strong>.
-                                </div>
-                                <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--info-accent);">
-                                    <strong style="color: var(--text-primary);"><i class="fa-solid fa-droplet"></i> Biometría Hemática:</strong> Hemoglobina promedio 15.1 g/dL, Hematocrito 44.5%, Leucocitos 6.13 k/µL y Plaquetas 284.4 k/µL. Sin anemias ni alteraciones inmunes relevantes.
-                                </div>
-                                <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--success-accent);">
-                                    <strong style="color: var(--text-primary);"><i class="fa-solid fa-vial"></i> Examen General de Orina:</strong> pH 6.09, Densidad 1.020. Función de filtración conservada sin daño glomerular.
-                                </div>
+                            <div class="table-wrapper" style="max-height: none; overflow: visible;">
+                                <table class="premium-table" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 32%;">Estudio / Panel</th>
+                                            <th style="width: 25%;">Rango / Criterio</th>
+                                            <th style="width: 43%;">Distribución (Normal / Atípico)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Biometría Hemática</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">13.5 - 17.5 g/dL (Hb)</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
+            <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Antígeno Prostático (PSA)</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">< 4.0 ng/mL (12 hombres)</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 12 (100.0%)"></div>
+            <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">12 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Examen Gral. de Orina (EGO)</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">Físico-Químico / Sedimento</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 80.8%; background: #10b981; height: 100%;" title="Normal: 21 (80.8%)"></div>
+            <div style="width: 19.2%; background: #f59e0b; height: 100%;" title="Atípico: 5 (19.2%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">21 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">5 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Dislipidemia Combinada</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">Colesterol >200 o Trig >150</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 46.2%; background: #10b981; height: 100%;" title="Normal: 12 (46.2%)"></div>
+            <div style="width: 53.8%; background: #ef4444; height: 100%;" title="Atípico: 14 (53.8%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">12 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">14 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Pruebas Función Hepática</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">AST / Albúmina en rango</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
+            <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-primary);">Electrólitos & Calcio</td>
+                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">Calcio 8.6 - 10.0 mg/dL</td>
+                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+            <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
+            <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
+        </span>
+    </div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -790,7 +1028,7 @@
                             3. Estudios de Gabinete y Examen Clínico Individual
                         </h2>
                         <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
-                            Análisis consolidado de los 21 estudios de Electrocardiograma de 12 derivaciones (_EKG) y Examen Médico Clínico presencial (_EM).
+                            Análisis consolidado de los 26 estudios de Electrocardiograma de 12 derivaciones (_EKG) y Examen Médico Clínico presencial (_EM).
                         </p>
                     </div>
 
@@ -799,7 +1037,7 @@
                         <div class="dashboard-card">
                             <div class="card-header">
                                 <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary-accent)"></i> Electrocardiografía en Reposo (_EKG)</h3>
-                                <span style="font-size: 11px; color: var(--success-accent); font-weight: 700;">21 / 21 Efectuados (100%)</span>
+                                <span style="font-size: 11px; color: var(--success-accent); font-weight: 700;">26 / 26 Efectuados (100%)</span>
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
                                 <div style="display: flex; gap: 10px;">
@@ -826,7 +1064,7 @@
                         <div class="dashboard-card">
                             <div class="card-header">
                                 <h3><i class="fa-solid fa-user-doctor" style="color: var(--primary-accent)"></i> Evaluación Médica Clínica (_EM)</h3>
-                                <span style="font-size: 11px; color: var(--success-accent); font-weight: 700;">21 / 21 Efectuados (100%)</span>
+                                <span style="font-size: 11px; color: var(--success-accent); font-weight: 700;">26 / 26 Efectuados (100%)</span>
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
                                 <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 6px;">
@@ -853,7 +1091,7 @@
                             4. Telemedicina y Consultas Médicas Integradas
                         </h2>
                         <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
-                            Consolidación analítica generada a partir de los 21 archivos Word de interpretación médica individual entregados a cada colaborador.
+                            Consolidación analítica generada a partir de los 26 archivos de consulta médica de interpretación médica individual entregados a cada colaborador.
                         </p>
                     </div>
 
@@ -864,12 +1102,18 @@
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: var(--text-secondary);">
                                 <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
-                                    <span>Orientación Nutricional & Manejo de Lípidos</span>
-                                    <strong style="color: var(--primary-accent);">76.2% (16 de 21)</strong>
+                                    <span>Orientación Nutricional & Manejo de Dislipidemia</span>
+                                    <strong style="color: var(--primary-accent);">76.9% (20 de 26)</strong>
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-muted); padding-left: 12px; margin-top: -4px;">
+                                    * Indicada por correlación directa con sobrepeso/obesidad (76.9%) y dislipidemia (53.8%) derivada de hábitos calóricos.
                                 </div>
                                 <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
-                                    <span>Salud Urogenital e Hidratación en Viajes</span>
-                                    <strong style="color: var(--info-accent);">81.0% (17 de 21)</strong>
+                                    <span>Salud Urogenital e Hidratación</span>
+                                    <strong style="color: var(--info-accent);">80.8% (21 de 26)</strong>
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-muted); padding-left: 12px; margin-top: -4px;">
+                                    * Pautas de incremento hídrico preventivo por concentración urinaria y sedimentos.
                                 </div>
                                 <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
                                     <span>Regulación de Glucosa y Resistencia a Insulina</span>
@@ -924,10 +1168,23 @@
                                 <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary-accent)"></i> Conclusiones Clínicas Principales</h3>
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
-                                <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 8px;">
-                                    <li><strong style="color: var(--text-primary);">Foco Lipídico:</strong> La dislipidemia (colesterol y triglicéridos elevados) representa el 76.2% de los hallazgos a corregir, siendo clave para prevenir eventos cardiovasculares tempranos.</li>
-                                    <li><strong style="color: var(--text-primary);">Seguridad Urológica y Hematológica:</strong> El 100% de los hombres evaluados presentan PSA normal, y las biometrías hemáticas no muestran anemias poblacionales.</li>
-                                    <li><strong style="color: var(--text-primary);">Salud Cardiovascular en Reposo:</strong> 100% de trazos electrocardiográficos normales y sin arritmias malignas.</li>
+                                <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 10px;">
+                                    <li>
+                                        <strong style="color: var(--text-primary);"><i class="fa-solid fa-droplet" style="color: var(--primary-accent);"></i> Dislipidemia:</strong> 
+                                        La alteración en el perfil de lípidos (colesterol >200 mg/dL o triglicéridos >150 mg/dL) se identificó en el <strong>53.8% (14 de 26 colaboradores)</strong>. Representa el foco metabólico primordial para intervención nutricional y prevención cardiovascular en personal con traslados de campo.
+                                    </li>
+                                    <li>
+                                        <strong style="color: var(--text-primary);"><i class="fa-solid fa-dna" style="color: var(--info-accent);"></i> Hematología:</strong> 
+                                        El <strong>100% (26 de 26 colaboradores)</strong> evaluados mediante biometría hemática automatizada se encuentra en rangos fisiológicos estables, sin detección de anemias poblacionales ni alteraciones eritrocitarias de significancia clínica.
+                                    </li>
+                                    <li>
+                                        <strong style="color: var(--text-primary);"><i class="fa-solid fa-shield-virus" style="color: var(--success-accent);"></i> Salud Urogenital y Urología:</strong> 
+                                        El <strong>100% (12 de 12)</strong> de los colaboradores masculinos presentan Antígeno Prostático Específico (PSA) en rango seguro (<4.0 ng/mL). El 80.8% (21 de 26) de los exámenes generales de orina descartan infección activa, recomendándose refuerzo de hidratación continua por hábitos de viaje.
+                                    </li>
+                                    <li>
+                                        <strong style="color: var(--text-primary);"><i class="fa-solid fa-heart-pulse" style="color: var(--warning-accent);"></i> Electrocardiograma:</strong> 
+                                        El <strong>96.2% (25 de 26 colaboradores)</strong> presenta trazo sinusal regular sin isquemia ni arritmias complejas. Se detectó <strong>1 colaborador (3.8%)</strong> con variante de conducción (bloqueo fascicular anterior izquierdo asintomático), integrado a protocolo de seguimiento preventivo con ecocardiograma de control.
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -957,30 +1214,30 @@
   {
     "id": 1,
     "nombre": "Colaborador_01",
-    "sexo": "Masculino",
+    "sexo": "Femenino",
     "rango_edad": "31-40 años",
     "compartir": "SI",
     "estudios_realizados": {
       "chopo_biometria": true,
       "chopo_quimica": true,
       "chopo_orina": true,
-      "chopo_antigeno": true,
+      "chopo_antigeno": false,
       "gabinete_ekg": true,
       "examen_medico": true,
       "telemedicina": true
     },
     "chopo": {
-      "glucosa": 90.4,
+      "glucosa": 82.0,
       "glucosa_alert": false,
-      "colesterol": 190.0,
+      "colesterol": 195.0,
       "colesterol_alert": false,
-      "trigliceridos": 151.0,
-      "trigliceridos_alert": true,
-      "creatinina": 1.08,
+      "trigliceridos": 86.0,
+      "trigliceridos_alert": false,
+      "creatinina": 0.8,
       "creatinina_alert": false,
-      "urea": 31.4,
+      "urea": 36.0,
       "urea_alert": false,
-      "acido_urico": 5.63,
+      "acido_urico": 4.2,
       "acido_urico_alert": false
     }
   },
@@ -1000,233 +1257,23 @@
       "telemedicina": true
     },
     "chopo": {
-      "glucosa": 94.4,
+      "glucosa": 97.0,
       "glucosa_alert": false,
-      "colesterol": 141.0,
+      "colesterol": 186.0,
       "colesterol_alert": false,
-      "trigliceridos": 94.7,
+      "trigliceridos": 100.0,
       "trigliceridos_alert": false,
-      "creatinina": 0.838,
+      "creatinina": 0.83,
       "creatinina_alert": false,
-      "urea": 26.4,
+      "urea": 19.0,
       "urea_alert": false,
-      "acido_urico": 5.84,
-      "acido_urico_alert": false
+      "acido_urico": 7.5,
+      "acido_urico_alert": true
     }
   },
   {
     "id": 3,
     "nombre": "Colaborador_03",
-    "sexo": "Masculino",
-    "rango_edad": "Más de 50 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": true,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 94.9,
-      "glucosa_alert": false,
-      "colesterol": 165.1,
-      "colesterol_alert": false,
-      "trigliceridos": 71.8,
-      "trigliceridos_alert": false,
-      "creatinina": 1.0,
-      "creatinina_alert": false,
-      "urea": 19.0,
-      "urea_alert": false,
-      "acido_urico": 5.5,
-      "acido_urico_alert": false
-    }
-  },
-  {
-    "id": 4,
-    "nombre": "Colaborador_04",
-    "sexo": "Masculino",
-    "rango_edad": "41-50 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": true,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 101.0,
-      "glucosa_alert": true,
-      "colesterol": 150.0,
-      "colesterol_alert": false,
-      "trigliceridos": 141.0,
-      "trigliceridos_alert": false,
-      "creatinina": 0.96,
-      "creatinina_alert": false,
-      "urea": 36.0,
-      "urea_alert": false,
-      "acido_urico": 5.1,
-      "acido_urico_alert": false
-    }
-  },
-  {
-    "id": 5,
-    "nombre": "Colaborador_05",
-    "sexo": "Masculino",
-    "rango_edad": "41-50 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": true,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 101.0,
-      "glucosa_alert": true,
-      "colesterol": 231.0,
-      "colesterol_alert": true,
-      "trigliceridos": 221.0,
-      "trigliceridos_alert": true,
-      "creatinina": 0.61,
-      "creatinina_alert": false,
-      "urea": 20.2,
-      "urea_alert": false,
-      "acido_urico": 3.6,
-      "acido_urico_alert": false
-    }
-  },
-  {
-    "id": 6,
-    "nombre": "Colaborador_06",
-    "sexo": "Masculino",
-    "rango_edad": "31-40 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": true,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 93.0,
-      "glucosa_alert": false,
-      "colesterol": 190.0,
-      "colesterol_alert": false,
-      "trigliceridos": 106.0,
-      "trigliceridos_alert": false,
-      "creatinina": 0.96,
-      "creatinina_alert": false,
-      "urea": 32.1,
-      "urea_alert": false,
-      "acido_urico": 4.33,
-      "acido_urico_alert": false
-    }
-  },
-  {
-    "id": 7,
-    "nombre": "Colaborador_07",
-    "sexo": "Masculino",
-    "rango_edad": "Más de 50 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": true,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 81.3,
-      "glucosa_alert": false,
-      "colesterol": 230.0,
-      "colesterol_alert": true,
-      "trigliceridos": 154.0,
-      "trigliceridos_alert": true,
-      "creatinina": 1.21,
-      "creatinina_alert": false,
-      "urea": 40.0,
-      "urea_alert": false,
-      "acido_urico": 8.0,
-      "acido_urico_alert": true
-    }
-  },
-  {
-    "id": 8,
-    "nombre": "Colaborador_08",
-    "sexo": "Femenino",
-    "rango_edad": "41-50 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": false,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 83.9,
-      "glucosa_alert": false,
-      "colesterol": 160.0,
-      "colesterol_alert": false,
-      "trigliceridos": 35.0,
-      "trigliceridos_alert": false,
-      "creatinina": 0.642,
-      "creatinina_alert": false,
-      "urea": 30.9,
-      "urea_alert": false,
-      "acido_urico": 3.27,
-      "acido_urico_alert": false
-    }
-  },
-  {
-    "id": 9,
-    "nombre": "Colaborador_09",
-    "sexo": "Femenino",
-    "rango_edad": "Más de 50 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": false,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 77.0,
-      "glucosa_alert": false,
-      "colesterol": 144.0,
-      "colesterol_alert": false,
-      "trigliceridos": 74.0,
-      "trigliceridos_alert": false,
-      "creatinina": 0.75,
-      "creatinina_alert": false,
-      "urea": 23.0,
-      "urea_alert": false,
-      "acido_urico": 4.2,
-      "acido_urico_alert": false
-    }
-  },
-  {
-    "id": 10,
-    "nombre": "Colaborador_10",
     "sexo": "Femenino",
     "rango_edad": "Más de 50 años",
     "compartir": "SI",
@@ -1255,38 +1302,8 @@
     }
   },
   {
-    "id": 11,
-    "nombre": "Colaborador_11",
-    "sexo": "Masculino",
-    "rango_edad": "41-50 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": true,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 96.6,
-      "glucosa_alert": false,
-      "colesterol": 172.9,
-      "colesterol_alert": false,
-      "trigliceridos": 100.0,
-      "trigliceridos_alert": false,
-      "creatinina": 1.25,
-      "creatinina_alert": false,
-      "urea": 55.0,
-      "urea_alert": true,
-      "acido_urico": 6.1,
-      "acido_urico_alert": false
-    }
-  },
-  {
-    "id": 12,
-    "nombre": "Colaborador_12",
+    "id": 4,
+    "nombre": "Colaborador_04",
     "sexo": "Masculino",
     "rango_edad": "Más de 50 años",
     "compartir": "SI",
@@ -1300,83 +1317,23 @@
       "telemedicina": true
     },
     "chopo": {
-      "glucosa": 97.0,
+      "glucosa": 89.0,
       "glucosa_alert": false,
-      "colesterol": 229.0,
+      "colesterol": 211.0,
       "colesterol_alert": true,
-      "trigliceridos": 436.0,
-      "trigliceridos_alert": true,
-      "creatinina": 0.83,
-      "creatinina_alert": false,
-      "urea": 50.0,
-      "urea_alert": true,
-      "acido_urico": 6.4,
-      "acido_urico_alert": false
-    }
-  },
-  {
-    "id": 13,
-    "nombre": "Colaborador_13",
-    "sexo": "Masculino",
-    "rango_edad": "Más de 50 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": true,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 110.0,
-      "glucosa_alert": true,
-      "colesterol": 171.0,
-      "colesterol_alert": false,
-      "trigliceridos": 130.0,
+      "trigliceridos": 124.0,
       "trigliceridos_alert": false,
-      "creatinina": 0.861,
+      "creatinina": 1.0,
       "creatinina_alert": false,
-      "urea": 28.0,
+      "urea": 42.0,
       "urea_alert": false,
-      "acido_urico": 5.32,
+      "acido_urico": 6.8,
       "acido_urico_alert": false
     }
   },
   {
-    "id": 14,
-    "nombre": "Colaborador_14",
-    "sexo": "Femenino",
-    "rango_edad": "Más de 50 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": false,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 91.7,
-      "glucosa_alert": false,
-      "colesterol": 202.0,
-      "colesterol_alert": true,
-      "trigliceridos": 182.0,
-      "trigliceridos_alert": true,
-      "creatinina": 0.703,
-      "creatinina_alert": false,
-      "urea": 34.6,
-      "urea_alert": false,
-      "acido_urico": 4.47,
-      "acido_urico_alert": false
-    }
-  },
-  {
-    "id": 15,
-    "nombre": "Colaborador_15",
+    "id": 5,
+    "nombre": "Colaborador_05",
     "sexo": "Femenino",
     "rango_edad": "41-50 años",
     "compartir": "SI",
@@ -1390,23 +1347,113 @@
       "telemedicina": true
     },
     "chopo": {
-      "glucosa": 116.0,
+      "glucosa": 101.0,
       "glucosa_alert": true,
-      "colesterol": 228.0,
+      "colesterol": 231.0,
       "colesterol_alert": true,
-      "trigliceridos": 258.0,
+      "trigliceridos": 221.0,
       "trigliceridos_alert": true,
-      "creatinina": 0.627,
+      "creatinina": 0.61,
       "creatinina_alert": false,
-      "urea": 17.0,
+      "urea": 20.2,
       "urea_alert": false,
-      "acido_urico": 4.19,
+      "acido_urico": 3.6,
       "acido_urico_alert": false
     }
   },
   {
-    "id": 16,
-    "nombre": "Colaborador_16",
+    "id": 6,
+    "nombre": "Colaborador_06",
+    "sexo": "Masculino",
+    "rango_edad": "Más de 50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": true,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 81.3,
+      "glucosa_alert": false,
+      "colesterol": 230.0,
+      "colesterol_alert": true,
+      "trigliceridos": 154.0,
+      "trigliceridos_alert": true,
+      "creatinina": 1.21,
+      "creatinina_alert": false,
+      "urea": 40.0,
+      "urea_alert": false,
+      "acido_urico": 8.0,
+      "acido_urico_alert": true
+    }
+  },
+  {
+    "id": 7,
+    "nombre": "Colaborador_07",
+    "sexo": "Femenino",
+    "rango_edad": "41-50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": false,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 95.7,
+      "glucosa_alert": false,
+      "colesterol": 182.0,
+      "colesterol_alert": false,
+      "trigliceridos": 88.6,
+      "trigliceridos_alert": false,
+      "creatinina": 0.811,
+      "creatinina_alert": false,
+      "urea": 29.1,
+      "urea_alert": false,
+      "acido_urico": 5.98,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 8,
+    "nombre": "Colaborador_08",
+    "sexo": "Masculino",
+    "rango_edad": "31-40 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": true,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 90.4,
+      "glucosa_alert": false,
+      "colesterol": 190.0,
+      "colesterol_alert": false,
+      "trigliceridos": 151.0,
+      "trigliceridos_alert": true,
+      "creatinina": 1.08,
+      "creatinina_alert": false,
+      "urea": 31.4,
+      "urea_alert": false,
+      "acido_urico": 5.63,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 9,
+    "nombre": "Colaborador_09",
     "sexo": "Femenino",
     "rango_edad": "41-50 años",
     "compartir": "SI",
@@ -1435,8 +1482,38 @@
     }
   },
   {
-    "id": 17,
-    "nombre": "Colaborador_17",
+    "id": 10,
+    "nombre": "Colaborador_10",
+    "sexo": "Masculino",
+    "rango_edad": "Más de 50 años",
+    "compartir": "NO",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": true,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 149.0,
+      "glucosa_alert": true,
+      "colesterol": 127.4,
+      "colesterol_alert": false,
+      "trigliceridos": 196.0,
+      "trigliceridos_alert": true,
+      "creatinina": 1.04,
+      "creatinina_alert": false,
+      "urea": 31.0,
+      "urea_alert": false,
+      "acido_urico": 7.8,
+      "acido_urico_alert": true
+    }
+  },
+  {
+    "id": 11,
+    "nombre": "Colaborador_11",
     "sexo": "Femenino",
     "rango_edad": "Más de 50 años",
     "compartir": "SI",
@@ -1465,76 +1542,16 @@
     }
   },
   {
-    "id": 18,
-    "nombre": "Colaborador_18",
-    "sexo": "Masculino",
+    "id": 12,
+    "nombre": "Colaborador_12",
+    "sexo": "Femenino",
     "rango_edad": "Más de 50 años",
     "compartir": "SI",
     "estudios_realizados": {
       "chopo_biometria": true,
       "chopo_quimica": true,
       "chopo_orina": true,
-      "chopo_antigeno": true,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": 149.0,
-      "glucosa_alert": true,
-      "colesterol": 127.4,
-      "colesterol_alert": false,
-      "trigliceridos": 196.0,
-      "trigliceridos_alert": true,
-      "creatinina": 1.04,
-      "creatinina_alert": false,
-      "urea": 31.0,
-      "urea_alert": false,
-      "acido_urico": 7.8,
-      "acido_urico_alert": true
-    }
-  },
-  {
-    "id": 19,
-    "nombre": "Colaborador_19",
-    "sexo": "Masculino",
-    "rango_edad": "Más de 50 años",
-    "compartir": "SI",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": true,
-      "gabinete_ekg": true,
-      "examen_medico": true,
-      "telemedicina": true
-    },
-    "chopo": {
-      "glucosa": null,
-      "glucosa_alert": false,
-      "colesterol": null,
-      "colesterol_alert": false,
-      "trigliceridos": null,
-      "trigliceridos_alert": false,
-      "creatinina": null,
-      "creatinina_alert": false,
-      "urea": null,
-      "urea_alert": false,
-      "acido_urico": null,
-      "acido_urico_alert": false
-    }
-  },
-  {
-    "id": 20,
-    "nombre": "Colaborador_20",
-    "sexo": "Masculino",
-    "rango_edad": "Más de 50 años",
-    "compartir": "NO",
-    "estudios_realizados": {
-      "chopo_biometria": true,
-      "chopo_quimica": true,
-      "chopo_orina": true,
-      "chopo_antigeno": true,
+      "chopo_antigeno": false,
       "gabinete_ekg": true,
       "examen_medico": true,
       "telemedicina": true
@@ -1555,11 +1572,161 @@
     }
   },
   {
-    "id": 21,
-    "nombre": "Colaborador_21",
+    "id": 13,
+    "nombre": "Colaborador_13",
+    "sexo": "Femenino",
+    "rango_edad": "Más de 50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": false,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 91.7,
+      "glucosa_alert": false,
+      "colesterol": 202.0,
+      "colesterol_alert": true,
+      "trigliceridos": 182.0,
+      "trigliceridos_alert": true,
+      "creatinina": 0.703,
+      "creatinina_alert": false,
+      "urea": 34.6,
+      "urea_alert": false,
+      "acido_urico": 4.47,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 14,
+    "nombre": "Colaborador_14",
     "sexo": "Femenino",
     "rango_edad": "41-50 años",
     "compartir": "NO",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": false,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 116.0,
+      "glucosa_alert": true,
+      "colesterol": 228.0,
+      "colesterol_alert": true,
+      "trigliceridos": 258.0,
+      "trigliceridos_alert": true,
+      "creatinina": 0.627,
+      "creatinina_alert": false,
+      "urea": 17.0,
+      "urea_alert": false,
+      "acido_urico": 4.19,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 15,
+    "nombre": "Colaborador_15",
+    "sexo": "Masculino",
+    "rango_edad": "31-40 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": true,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 94.9,
+      "glucosa_alert": false,
+      "colesterol": 165.1,
+      "colesterol_alert": false,
+      "trigliceridos": 71.8,
+      "trigliceridos_alert": false,
+      "creatinina": 1.0,
+      "creatinina_alert": false,
+      "urea": 19.0,
+      "urea_alert": false,
+      "acido_urico": 5.5,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 16,
+    "nombre": "Colaborador_16",
+    "sexo": "Femenino",
+    "rango_edad": "41-50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": false,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 105.0,
+      "glucosa_alert": true,
+      "colesterol": 226.0,
+      "colesterol_alert": true,
+      "trigliceridos": 210.0,
+      "trigliceridos_alert": true,
+      "creatinina": 0.621,
+      "creatinina_alert": false,
+      "urea": 21.8,
+      "urea_alert": false,
+      "acido_urico": 6.74,
+      "acido_urico_alert": true
+    }
+  },
+  {
+    "id": 17,
+    "nombre": "Colaborador_17",
+    "sexo": "Femenino",
+    "rango_edad": "Más de 50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": false,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 77.0,
+      "glucosa_alert": false,
+      "colesterol": 144.0,
+      "colesterol_alert": false,
+      "trigliceridos": 74.0,
+      "trigliceridos_alert": false,
+      "creatinina": 0.75,
+      "creatinina_alert": false,
+      "urea": 23.0,
+      "urea_alert": false,
+      "acido_urico": 4.2,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 18,
+    "nombre": "Colaborador_18",
+    "sexo": "Femenino",
+    "rango_edad": "41-50 años",
+    "compartir": "SI",
     "estudios_realizados": {
       "chopo_biometria": true,
       "chopo_quimica": true,
@@ -1581,6 +1748,246 @@
       "urea": 34.4,
       "urea_alert": false,
       "acido_urico": 5.49,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 19,
+    "nombre": "Colaborador_19",
+    "sexo": "Masculino",
+    "rango_edad": "Más de 50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": true,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 96.6,
+      "glucosa_alert": false,
+      "colesterol": 172.9,
+      "colesterol_alert": false,
+      "trigliceridos": 100.0,
+      "trigliceridos_alert": false,
+      "creatinina": 1.25,
+      "creatinina_alert": false,
+      "urea": 55.0,
+      "urea_alert": true,
+      "acido_urico": 6.1,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 20,
+    "nombre": "Colaborador_20",
+    "sexo": "Femenino",
+    "rango_edad": "41-50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": false,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 83.9,
+      "glucosa_alert": false,
+      "colesterol": 160.0,
+      "colesterol_alert": false,
+      "trigliceridos": 35.0,
+      "trigliceridos_alert": false,
+      "creatinina": 0.642,
+      "creatinina_alert": false,
+      "urea": 30.9,
+      "urea_alert": false,
+      "acido_urico": 3.27,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 21,
+    "nombre": "Colaborador_21",
+    "sexo": "Masculino",
+    "rango_edad": "41-50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": true,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 102.0,
+      "glucosa_alert": true,
+      "colesterol": 171.0,
+      "colesterol_alert": false,
+      "trigliceridos": 361.0,
+      "trigliceridos_alert": true,
+      "creatinina": 0.878,
+      "creatinina_alert": false,
+      "urea": 25.2,
+      "urea_alert": false,
+      "acido_urico": 9.2,
+      "acido_urico_alert": true
+    }
+  },
+  {
+    "id": 22,
+    "nombre": "Colaborador_22",
+    "sexo": "Masculino",
+    "rango_edad": "41-50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": true,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 101.0,
+      "glucosa_alert": true,
+      "colesterol": 150.0,
+      "colesterol_alert": false,
+      "trigliceridos": 141.0,
+      "trigliceridos_alert": false,
+      "creatinina": 0.96,
+      "creatinina_alert": false,
+      "urea": 36.0,
+      "urea_alert": false,
+      "acido_urico": 5.1,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 23,
+    "nombre": "Colaborador_23",
+    "sexo": "Masculino",
+    "rango_edad": "31-40 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": true,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 93.0,
+      "glucosa_alert": false,
+      "colesterol": 190.0,
+      "colesterol_alert": false,
+      "trigliceridos": 106.0,
+      "trigliceridos_alert": false,
+      "creatinina": 0.96,
+      "creatinina_alert": false,
+      "urea": 32.1,
+      "urea_alert": false,
+      "acido_urico": 4.33,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 24,
+    "nombre": "Colaborador_24",
+    "sexo": "Masculino",
+    "rango_edad": "41-50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": true,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 97.0,
+      "glucosa_alert": false,
+      "colesterol": 229.0,
+      "colesterol_alert": true,
+      "trigliceridos": 436.0,
+      "trigliceridos_alert": true,
+      "creatinina": 0.83,
+      "creatinina_alert": false,
+      "urea": 50.0,
+      "urea_alert": true,
+      "acido_urico": 6.4,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 25,
+    "nombre": "Colaborador_25",
+    "sexo": "Masculino",
+    "rango_edad": "Más de 50 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": true,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 110.0,
+      "glucosa_alert": true,
+      "colesterol": 171.0,
+      "colesterol_alert": false,
+      "trigliceridos": 130.0,
+      "trigliceridos_alert": false,
+      "creatinina": 0.861,
+      "creatinina_alert": false,
+      "urea": 28.0,
+      "urea_alert": false,
+      "acido_urico": 5.32,
+      "acido_urico_alert": false
+    }
+  },
+  {
+    "id": 26,
+    "nombre": "Colaborador_26",
+    "sexo": "Femenino",
+    "rango_edad": "31-40 años",
+    "compartir": "SI",
+    "estudios_realizados": {
+      "chopo_biometria": true,
+      "chopo_quimica": true,
+      "chopo_orina": true,
+      "chopo_antigeno": false,
+      "gabinete_ekg": true,
+      "examen_medico": true,
+      "telemedicina": true
+    },
+    "chopo": {
+      "glucosa": 94.4,
+      "glucosa_alert": false,
+      "colesterol": 141.0,
+      "colesterol_alert": false,
+      "trigliceridos": 94.7,
+      "trigliceridos_alert": false,
+      "creatinina": 0.838,
+      "creatinina_alert": false,
+      "urea": 26.4,
+      "urea_alert": false,
+      "acido_urico": 5.84,
       "acido_urico_alert": false
     }
   }
@@ -1697,7 +2104,7 @@
                 }
             });
 
-            // 2. Gráfico Cobertura de Estudios con etiquetas interiores (Meta 36)
+                        // 2. Gráfico Cobertura de Estudios con etiquetas interiores (26 Efectuados / Meta 36)
             const ctxEstudios = document.getElementById('chart-estudios').getContext('2d');
             chartInstances.estudios = new Chart(ctxEstudios, {
                 type: 'bar',
@@ -1711,16 +2118,48 @@
                         'Antígeno Prostático'
                     ],
                     datasets: [
-                        { label: 'Efectuados (Corte)', data: [21, 21, 21, 21, 21, 10], backgroundColor: '#10b981', borderRadius: 4 },
-                        { label: 'Pendientes (Fase 2)', data: [15, 15, 15, 15, 15, 7], backgroundColor: '#334155', borderRadius: 4 }
+                        {
+                            label: 'Efectuados (26 Evaluados)',
+                            data: [26, 26, 26, 26, 26, 12],
+                            backgroundColor: '#10b981',
+                            borderRadius: 4,
+                            barThickness: 18,
+                            datalabels: {
+                                color: '#ffffff',
+                                font: { weight: 'bold', size: 11 },
+                                anchor: 'center',
+                                align: 'center',
+                                formatter: function(value) {
+                                    return value > 0 ? value : '';
+                                }
+                            }
+                        },
+                        {
+                            label: 'Pendientes (Esperados)',
+                            data: [10, 10, 10, 10, 10, 5],
+                            backgroundColor: '#334155',
+                            borderRadius: 4,
+                            barThickness: 18,
+                            datalabels: {
+                                color: '#e2e8f0',
+                                font: { weight: 'bold', size: 11 },
+                                anchor: 'center',
+                                align: 'center',
+                                formatter: function(value) {
+                                    return value > 0 ? value + ' pend.' : '';
+                                }
+                            }
+                        }
                     ]
                 },
                 options: {
-                    indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
+                    indexAxis: 'y',
                     scales: {
-                        x: { stacked: true, max: 36, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        x: {
+                            stacked: true,
+                            max: 36, grid: { color: 'rgba(255,255,255,0.05)' } },
                         y: { stacked: true, grid: { display: false } }
                     },
                     plugins: {
