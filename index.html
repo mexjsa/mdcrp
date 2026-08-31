@@ -244,7 +244,7 @@
         }
 
         .tab-pane {
-            display: none !important;
+            position: absolute; top: 0; left: 0; opacity: 0; visibility: hidden; pointer-events: none; z-index: -1; display: flex !important;
             flex-direction: column;
             gap: 16px;
             width: 100%;
@@ -256,7 +256,11 @@
         }
 
         .tab-pane.active {
-            display: flex !important;
+            position: relative;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            z-index: 1;
         }
 
         /* TARJETAS Y GRIDS */
@@ -437,7 +441,7 @@
             }
 
             .sidebar, .tabs-header, .btn-print, #slicer-indicator {
-                display: none !important;
+                position: absolute; top: 0; left: 0; opacity: 0; visibility: hidden; pointer-events: none; z-index: -1; display: flex !important;
             }
 
             .main-content, .tabs-container {
@@ -449,6 +453,9 @@
 
             .tab-pane {
                 display: flex !important;
+                position: relative !important;
+                opacity: 1 !important;
+                visibility: visible !important;
                 height: auto !important;
                 overflow: visible !important;
                 page-break-after: always !important;
@@ -2000,7 +2007,7 @@
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-pane').forEach(pane => {
                 pane.classList.remove('active');
-                pane.style.display = 'none';
+                
             });
             
             const buttons = document.querySelectorAll('.tab-button');
@@ -2031,56 +2038,7 @@
         }
 
         function exportReportPDF() {
-            const allPanes = document.querySelectorAll('.tab-pane');
-            allPanes.forEach(pane => {
-                pane.style.display = 'flex';
-                pane.style.visibility = 'visible';
-                pane.style.opacity = '1';
-                void pane.offsetWidth;
-            });
-            
-            Object.values(chartInstances).forEach(chart => {
-                if (chart) {
-                    chart.resize();
-                    chart.update('none');
-                }
-            });
-            
-            setTimeout(() => {
-                requestAnimationFrame(() => {
-                    const canvases = document.querySelectorAll('canvas');
-                    const backups = [];
-                    canvases.forEach(canvas => {
-                        try {
-                            const img = document.createElement('img');
-                            img.src = canvas.toDataURL('image/png');
-                            img.style.width = canvas.style.width || canvas.offsetWidth + 'px';
-                            img.style.height = canvas.style.height || canvas.offsetHeight + 'px';
-                            img.style.maxWidth = '100%';
-                            img.style.objectFit = 'contain';
-                            img.className = 'print-img-temp';
-                            canvas.parentNode.insertBefore(img, canvas);
-                            canvas.style.display = 'none';
-                            backups.push({canvas, img});
-                        } catch(e) {
-                            console.error('Error generating image from canvas:', e);
-                        }
-                    });
-                    
-                    setTimeout(() => {
-                        window.print();
-                        
-                        backups.forEach(b => {
-                            b.canvas.style.display = 'block';
-                            b.img.remove();
-                        });
-
-                        const activeBtn = document.querySelector('.tab-button.active');
-                        const activeTabId = activeBtn ? activeBtn.getAttribute('onclick').match(/'([^']+)'/)[1] : 'page-1';
-                        switchTab(activeTabId);
-                    }, 500);
-                });
-            }, 1200);
+            window.print();
         }
 
         window.addEventListener('DOMContentLoaded', () => {
