@@ -809,7 +809,23 @@
                 kpiTotalExamenes += 1;
             }
             document.getElementById('kpi-tot').textContent = kpiTotalExamenes;
-            document.getElementById('kpi-alert').textContent = r.alertas_clinicas || 0;
+            let countAlerts = 0;
+            INCOMING_DATA.estudios.forEach(est => {
+                if (est.parametros) {
+                    est.parametros.forEach(param => {
+                        const res = param.resultado !== undefined ? param.resultado : '-';
+                        const min = param.min || '-';
+                        const max = param.max || '-';
+                        let isAlert = param.is_alert || false;
+                        const interpretation = param.estado || (isAlert ? 'ALERT' : 'NORMAL');
+                        const analysis = analyzeResult(res, min, max, param.formato, interpretation);
+                        if (analysis.status === 'high-line' || analysis.status === 'low-line') {
+                            countAlerts++;
+                        }
+                    });
+                }
+            });
+            document.getElementById('kpi-alert').textContent = countAlerts;
 
             // Populating Demographics
             if (document.getElementById('p-estado-civil')) document.getElementById('p-estado-civil').textContent = p.estado_civil || 'N/A';
@@ -818,7 +834,7 @@
             if (document.getElementById('p-actividad')) document.getElementById('p-actividad').textContent = p.actividad_extra || 'N/A';
             
 
-            if ((r.alertas_clinicas || 0) === 0) {
+            if (countAlerts === 0) {
                 document.getElementById('kpi-alert').style.color = "var(--brand-navy)";
             }
 
@@ -1331,6 +1347,20 @@
                                     <div class="s-title">Hallazgos y Recomendaciones</div>
                                     <div class="method-badge">Evaluación de Telemedicina</div>
                                 </div>
+                                  <div class="telemed-patient-info" style="display: flex; gap: 20px; background: #f8fafc; border: 1px solid var(--brand-silver); padding: 8px 12px; margin-bottom: 6px; font-family: 'Inter', sans-serif;">
+                                      <div style="flex: 2;">
+                                          <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">Paciente Confirmado</div>
+                                          <div style="font-size: 0.85rem; color: var(--brand-navy); font-weight: 700;">${p.nombre_completo || '-'}</div>
+                                      </div>
+                                      <div style="flex: 1;">
+                                          <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">Edad Cronológica</div>
+                                          <div style="font-size: 0.85rem; color: var(--brand-navy); font-weight: 700;">${p.edad || '-'}</div>
+                                      </div>
+                                      <div style="flex: 1;">
+                                          <div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 2px;">ID / Folio</div>
+                                          <div style="font-size: 0.85rem; color: var(--brand-navy); font-weight: 700;">${p.id_paciente || p.folio || '-'}</div>
+                                      </div>
+                                  </div>
                                 
                                 <div class="recom-box" style="margin-top: 6px; margin-bottom: 0px; border-left: 4px solid var(--brand-red); background: white; padding: 10px 14px; font-size: 0.82rem; line-height: 1.38; color: #1e293b; flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; border-top: 1px solid var(--brand-silver); border-right: 1px solid var(--brand-silver); border-bottom: 1px solid var(--brand-silver);">
                                     <div style="flex: 1; min-height: 0;">

@@ -30,8 +30,16 @@ def parse_docx_paragraphs(docx_path):
         return []
     try:
         doc = Document(docx_path)
-        paras = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
-        return paras
+        lines = []
+        for p in doc.paragraphs:
+            for l in p.text.split('\n'):
+                if l.strip(): lines.append(l.strip())
+        start_idx = 0
+        for i, l in enumerate(lines):
+            if len(l) > 150:
+                start_idx = i
+                break
+        return lines[start_idx:]
     except Exception as e:
         print(f"Error reading docx {docx_path}: {e}")
         return []
@@ -73,8 +81,28 @@ def chunk_telemed_paras(paras, target_chars=3400):
         
     return pages
 
+def clean_telemed_content(paras, ekg_png_path):
+    cleaned = []
+    for p in paras:
+        if not ekg_png_path:
+            if "Su electrocardiograma se encuentra completamente normal" in p or "El electrocardiograma documenta" in p or "estudio electrocardiogr" in p:
+                continue
+            
+            p = re.sub(r'(?i)nos complace informarle que su coraz.*?(?:electrocard.*?; sin embargo, |electrocard.*?; )', '', p)
+            p = re.sub(r'(?i)las cuales abarcan un electrocardiograma, ', 'las cuales abarcan ', p)
+            p = re.sub(r'(?i)Nos complace informarle que su salud cardiovascular se encuentra.*?No obstante, ', '', p)
+            
+            p = p.replace(" y del electrocardiograma digital", "")
+            p = p.replace(", electrocardiograma ", " ")
+            p = p.replace("electrocardiograma, ", "")
+            p = p.replace("un electrocardiograma, ", "")
+        cleaned.append(p)
+    return cleaned
+
 def build_patient_json(row, sil_masc_b64, sil_fem_b64, telemed_paras, ekg_png_path):
     nombre = str(row.get('nombre', 'Paciente')).strip()
+    if "lopez" in nombre or "Lopez" in nombre:
+        nombre = nombre.replace("lopez", "López").replace("Lopez", "López")
     sex_raw = str(row.get('sexo', '')).strip().lower()
     es_masc = sex_raw in ['h', 'hombre', 'masculino']
     sexo_str = "Masculino" if es_masc else "Femenino"
@@ -103,6 +131,7 @@ def build_patient_json(row, sil_masc_b64, sil_fem_b64, telemed_paras, ekg_png_pa
     estatura_raw = str(row.get('¿Cuánto mides sin zapatos?', '')).strip()
     estatura = re.sub(r'(?i)(mts|m|metros)', '', estatura_raw).strip()
     
+    telemed_paras = clean_telemed_content(telemed_paras, ekg_png_path)
     telemed_chunks = chunk_telemed_paras(telemed_paras, target_chars=3400)
     
     estado_civil = str(row.get('¿Cuál es tu estado civil?', 'No especificado')).strip()
