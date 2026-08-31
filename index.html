@@ -619,7 +619,7 @@
                             Campaña Sanofi Foráneos 2026: Resumen Ejecutivo
                         </h2>
                         <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
-                            Evaluación preventiva de salud dirigida a la fuerza laboral y personal foráneo de SANOFI. Estado de avance sobre el censo de 36 colaboradores programados.
+                            Evaluación preventiva de salud dirigida a la fuerza laboral y personal foráneo de SANOFI. Estado de avance sobre el censo de 26 colaboradores programados.
                         </p>
                     </div>
 
@@ -666,7 +666,7 @@
 
                         <div class="dashboard-card">
                             <div class="card-header">
-                                <h3><i class="fa-solid fa-clipboard-check" style="color: var(--primary-accent)"></i> Cobertura de Estudios (Meta: 36 Colaboradores)</h3>
+                                <h3><i class="fa-solid fa-clipboard-check" style="color: var(--primary-accent)"></i> Cobertura de Estudios (Meta: 26 Colaboradores)</h3>
                                 <span id="slicer-indicator" style="font-size: 11px; color: #10b981; font-weight: 500; cursor: pointer; display: none;" onclick="clearStudyFilter()">
                                     Limpiar <i class="fa-solid fa-circle-xmark"></i>
                                 </span>
@@ -1222,8 +1222,8 @@
       "chopo_quimica": true,
       "chopo_orina": true,
       "chopo_antigeno": false,
-      "gabinete_ekg": true,
-      "examen_medico": true,
+      "gabinete_ekg": false,
+      "examen_medico": false,
       "telemedicina": true
     },
     "chopo": {
@@ -1253,7 +1253,7 @@
       "chopo_orina": true,
       "chopo_antigeno": true,
       "gabinete_ekg": true,
-      "examen_medico": true,
+      "examen_medico": false,
       "telemedicina": true
     },
     "chopo": {
@@ -2159,7 +2159,7 @@
                     scales: {
                         x: {
                             stacked: true,
-                            max: 36, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            max: 26, grid: { color: 'rgba(255,255,255,0.05)' } },
                         y: { stacked: true, grid: { display: false } }
                     },
                     plugins: {
@@ -2351,7 +2351,7 @@ if (document.getElementById('kpi-estudios-promedio')) {
                 chartInstances.estudios.data.datasets[0].data = [estBiometria, estQuimica, estOrina, estEkg, estEm, estPsa];
                 let pending = [0, 0, 0, 0, 0, 0];
                 if (filterSexo === "Todos" && filterEdad === "Todos") {
-                    pending = [10, 10, 10, 10, 10, 5];
+                    pending = [0, 0, 0, 1, 2, 0];
                 }
                 chartInstances.estudios.data.datasets[1].data = pending;
                 chartInstances.estudios.update();
