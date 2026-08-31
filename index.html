@@ -441,7 +441,7 @@
             }
 
             .sidebar, .tabs-header, .btn-print, #slicer-indicator {
-                position: absolute; top: 0; left: 0; opacity: 0; visibility: hidden; pointer-events: none; z-index: -1; display: flex !important;
+                display: none !important;
             }
 
             .main-content, .tabs-container {
@@ -456,6 +456,8 @@
                 position: relative !important;
                 opacity: 1 !important;
                 visibility: visible !important;
+                z-index: 1 !important;
+                pointer-events: auto !important;
                 height: auto !important;
                 overflow: visible !important;
                 page-break-after: always !important;
