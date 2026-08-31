@@ -646,8 +646,8 @@
                         <div class="kpi-card">
                             <div class="kpi-data">
                                 <span class="kpi-title">Consentimiento de Información</span>
-                                <span class="kpi-value" style="color: var(--success-accent);">92.3%</span>
-                                <span class="kpi-sub"><strong>24 de 26 colaboradores</strong> accedieron a compartir</span>
+                                <span class="kpi-value" style="color: var(--success-accent);" id="kpi-consentimiento-pct">92.3%</span>
+                                <span class="kpi-sub" id="kpi-consentimiento-sub"><strong>24 de 26 colaboradores</strong> accedieron a compartir</span>
                             </div>
                             <div class="kpi-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--success-accent);"><i class="fa-solid fa-shield-check"></i></div>
                         </div>
@@ -2276,35 +2276,86 @@
             let total = filteredData.length;
             document.getElementById('kpi-total').innerText = total;
 
+            // Recalculate KPIs
+            let sumEstudios = 0;
+            let sumConsent = 0;
+            let estBiometria = 0, estQuimica = 0, estOrina = 0, estEkg = 0, estEm = 0, estPsa = 0;
+            
+            filteredData.forEach(p => {
+                if(p.compartir === 'SI') sumConsent++;
+                if(p.estudios_realizados.chopo_biometria) { sumEstudios++; estBiometria++; }
+                if(p.estudios_realizados.chopo_quimica) { sumEstudios++; estQuimica++; }
+                if(p.estudios_realizados.chopo_orina) { sumEstudios++; estOrina++; }
+                if(p.estudios_realizados.chopo_antigeno) { sumEstudios++; estPsa++; }
+                if(p.estudios_realizados.gabinete_ekg) { sumEstudios++; estEkg++; }
+                if(p.estudios_realizados.examen_medico) { sumEstudios++; estEm++; }
+            });
+
+            const avgEstudios = total > 0 ? (sumEstudios / total).toFixed(1) : "0.0";
+            
+            if (document.getElementById('kpi-consentimiento-pct')) {
+                const pct = total > 0 ? ((sumConsent / total) * 100).toFixed(1) + '%' : '0.0%';
+                document.getElementById('kpi-consentimiento-pct').innerText = pct;
+                document.getElementById('kpi-consentimiento-sub').innerHTML = `<strong>${sumConsent} de ${total} colaboradores</strong> accedieron a compartir`;
+            }
+if (document.getElementById('kpi-estudios-promedio')) {
+                document.getElementById('kpi-estudios-promedio').innerText = avgEstudios;
+            }
+            
             // Age distribution
             let ageF = [0, 0, 0, 0];
             let ageM = [0, 0, 0, 0];
+            // Fix encoding of 'años' if needed, but since we are writing to utf-8, it's fine
             const ageMap = { '21-30 años': 0, '31-40 años': 1, '41-50 años': 2, 'Más de 50 años': 3 };
+            const ageMapFallback = { '21-30 años': 0, '31-40 años': 1, '41-50 años': 2, 'Más de 50 años': 3 };
 
             filteredData.forEach(p => {
-                const idx = ageMap[p.rango_edad] || 2;
+                let idx = 2;
+                if (ageMap[p.rango_edad] !== undefined) idx = ageMap[p.rango_edad];
+                else if (ageMapFallback[p.rango_edad] !== undefined) idx = ageMapFallback[p.rango_edad];
+                
                 if (p.sexo === 'Femenino') ageF[idx]++;
                 else ageM[idx]++;
             });
 
-            chartInstances.edadSexo.data.datasets[0].data = ageF;
-            chartInstances.edadSexo.data.datasets[1].data = ageM;
-            chartInstances.edadSexo.update();
+            if (chartInstances.edadSexo) {
+                chartInstances.edadSexo.data.datasets[0].data = ageF;
+                chartInstances.edadSexo.data.datasets[1].data = ageM;
+                chartInstances.edadSexo.update();
+            }
 
             // Labs coverage by gender
             let femLabs = [0, 0, 0, 0];
             let mascLabs = [0, 0, 0, 0];
             filteredData.forEach(p => {
                 if (p.sexo === 'Femenino') {
-                    femLabs[0]++; femLabs[1]++; femLabs[2]++;
+                    if(p.estudios_realizados.chopo_biometria) femLabs[0]++; 
+                    if(p.estudios_realizados.chopo_quimica) femLabs[1]++; 
+                    if(p.estudios_realizados.chopo_orina) femLabs[2]++;
                 } else {
-                    mascLabs[0]++; mascLabs[1]++; mascLabs[2]++; mascLabs[3]++;
+                    if(p.estudios_realizados.chopo_biometria) mascLabs[0]++; 
+                    if(p.estudios_realizados.chopo_quimica) mascLabs[1]++; 
+                    if(p.estudios_realizados.chopo_orina) mascLabs[2]++; 
+                    if(p.estudios_realizados.chopo_antigeno) mascLabs[3]++;
                 }
             });
 
-            chartInstances.estudiosSexoLab.data.datasets[0].data = femLabs;
-            chartInstances.estudiosSexoLab.data.datasets[1].data = mascLabs;
-            chartInstances.estudiosSexoLab.update();
+            if (chartInstances.estudiosSexoLab) {
+                chartInstances.estudiosSexoLab.data.datasets[0].data = femLabs;
+                chartInstances.estudiosSexoLab.data.datasets[1].data = mascLabs;
+                chartInstances.estudiosSexoLab.update();
+            }
+
+            // Cobertura de Estudios
+            if (chartInstances.estudios) {
+                chartInstances.estudios.data.datasets[0].data = [estBiometria, estQuimica, estOrina, estEkg, estEm, estPsa];
+                let pending = [0, 0, 0, 0, 0, 0];
+                if (filterSexo === "Todos" && filterEdad === "Todos") {
+                    pending = [10, 10, 10, 10, 10, 5];
+                }
+                chartInstances.estudios.data.datasets[1].data = pending;
+                chartInstances.estudios.update();
+            }
         }
     </script>
 </body>
