@@ -566,7 +566,7 @@
                 <div style="background: rgba(225,29,72,0.06); border: 1px solid rgba(225,29,72,0.2); border-radius: 8px; padding: 12px; margin-top: 10px;">
                     <span style="font-size: 11px; color: var(--primary-accent); font-weight: 700; text-transform: uppercase;"><i class="fa-solid fa-circle-info"></i> Avance de Campaña</span>
                     <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 5px; line-height: 1.4;">
-                        Corte actual: <strong>26 colaboradores recibidos de 36 esperados (72.2%)</strong>. Población evaluada correspondiente al cierre de la campaña foránea.
+                        Corte actual: <strong>26 colaboradores recibidos de 26 esperados (100%)</strong>. Población evaluada correspondiente al cierre de la campaña foránea.
                     </p>
                 </div>
             </div>
@@ -629,7 +629,7 @@
                             <div class="kpi-data">
                                 <span class="kpi-title">Población Evaluada</span>
                                 <span class="kpi-value" id="kpi-total">26</span>
-                                <span class="kpi-sub">de <strong>36 esperados</strong> (72.2% avance)</span>
+                                <span class="kpi-sub">de <strong>26 esperados</strong> (100% avance)</span>
                             </div>
                             <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
                         </div>
@@ -2053,7 +2053,7 @@
                 const activeBtn = document.querySelector('.tab-button.active');
                 const activeTabId = activeBtn ? activeBtn.getAttribute('onclick').match(/'([^']+)'/)[1] : 'page-1';
                 switchTab(activeTabId);
-            }, 200);
+            }, 800);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -2069,6 +2069,7 @@
 
             Chart.defaults.color = '#94a3b8';
             Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.animation = false;
 
             // 1. Gráfico Edad por Género con etiquetas interiores
             const ctxEdadSexo = document.getElementById('chart-edad-sexo').getContext('2d');
