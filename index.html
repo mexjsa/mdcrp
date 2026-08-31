@@ -2031,13 +2031,11 @@
         }
 
         function exportReportPDF() {
-            // 1. Mostrar todas las pestañas para que el navegador y Chart.js midan y rendericen todas las gráficas
             const allPanes = document.querySelectorAll('.tab-pane');
             allPanes.forEach(pane => {
                 pane.style.display = 'flex';
             });
             
-            // 2. Redimensionar y actualizar todos los gráficos
             Object.values(chartInstances).forEach(chart => {
                 if (chart) {
                     chart.resize();
@@ -2045,14 +2043,38 @@
                 }
             });
             
-            // 3. Abrir cuadro de impresión tras renderizado completo
             setTimeout(() => {
-                window.print();
+                const canvases = document.querySelectorAll('canvas');
+                const backups = [];
+                canvases.forEach(canvas => {
+                    try {
+                        const img = document.createElement('img');
+                        img.src = canvas.toDataURL('image/png');
+                        img.style.width = canvas.style.width || canvas.offsetWidth + 'px';
+                        img.style.height = canvas.style.height || canvas.offsetHeight + 'px';
+                        img.style.maxWidth = '100%';
+                        img.style.objectFit = 'contain';
+                        img.className = 'print-img-temp';
+                        canvas.parentNode.insertBefore(img, canvas);
+                        canvas.style.display = 'none';
+                        backups.push({canvas, img});
+                    } catch(e) {
+                        console.error('Error generating image from canvas:', e);
+                    }
+                });
                 
-                // 4. Restaurar la pestaña activa
-                const activeBtn = document.querySelector('.tab-button.active');
-                const activeTabId = activeBtn ? activeBtn.getAttribute('onclick').match(/'([^']+)'/)[1] : 'page-1';
-                switchTab(activeTabId);
+                setTimeout(() => {
+                    window.print();
+                    
+                    backups.forEach(b => {
+                        b.canvas.style.display = 'block';
+                        b.img.remove();
+                    });
+
+                    const activeBtn = document.querySelector('.tab-button.active');
+                    const activeTabId = activeBtn ? activeBtn.getAttribute('onclick').match(/'([^']+)'/)[1] : 'page-1';
+                    switchTab(activeTabId);
+                }, 300);
             }, 800);
         }
 
