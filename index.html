@@ -2346,9 +2346,107 @@ if (document.getElementById('kpi-estudios-promedio')) {
                 chartInstances.estudiosSexoLab.update();
             }
 
-            // Cobertura de Estudios
+            
+            // TAB 2 UPDATES
+            let totalEvaluadosQuimica = 0;
+            let a = { col:0, tri:0, glu:0, aci:0, ure:0, cre:0 };
+
+            filteredData.forEach(p => {
+                if (p.estudios_realizados && p.estudios_realizados.chopo_quimica) {
+                    totalEvaluadosQuimica++;
+                    if(p.chopo && p.chopo.colesterol_alert) a.col++;
+                    if(p.chopo && p.chopo.trigliceridos_alert) a.tri++;
+                    if(p.chopo && p.chopo.glucosa_alert) a.glu++;
+                    if(p.chopo && p.chopo.acido_urico_alert) a.aci++;
+                    if(p.chopo && p.chopo.urea_alert) a.ure++;
+                    if(p.chopo && p.chopo.creatinina_alert) a.cre++;
+                }
+            });
+
+            if (chartInstances.alertas && totalEvaluadosQuimica > 0) {
+                chartInstances.alertas.data.datasets[0].data = [
+                    (a.col / totalEvaluadosQuimica * 100).toFixed(1),
+                    (a.tri / totalEvaluadosQuimica * 100).toFixed(1),
+                    (a.glu / totalEvaluadosQuimica * 100).toFixed(1),
+                    (a.aci / totalEvaluadosQuimica * 100).toFixed(1),
+                    (a.ure / totalEvaluadosQuimica * 100).toFixed(1),
+                    (a.cre / totalEvaluadosQuimica * 100).toFixed(1)
+                ];
+                chartInstances.alertas.update();
+            } else if (chartInstances.alertas) {
+                chartInstances.alertas.data.datasets[0].data = [0,0,0,0,0,0];
+                chartInstances.alertas.update();
+            }
+
+            const updateRow = (tableIdx, rowIdx, norm, atip, total, atipColor) => {
+                const tables = document.querySelectorAll('.premium-table tbody');
+                if (!tables[tableIdx]) return;
+                const rows = tables[tableIdx].querySelectorAll('tr');
+                if (!rows[rowIdx]) return;
+                
+                const td = rows[rowIdx].querySelectorAll('td')[2];
+                if (!td) return;
+                
+                let normPct = total > 0 ? (norm / total * 100).toFixed(1) : 0;
+                let atipPct = total > 0 ? (atip / total * 100).toFixed(1) : 0;
+                let bgAtip = total > 0 && atip > 0 ? atipColor : '#64748b';
+                
+                td.innerHTML = `<div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
+                    <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
+                        <div style="width: ${normPct}%; background: #10b981; height: 100%;" title="Normal: ${norm} (${normPct}%)"></div>
+                        <div style="width: ${atipPct}%; background: ${bgAtip}; height: 100%;" title="Atípico: ${atip} (${atipPct}%)"></div>
+                    </div>
+                    <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
+                        <span style="color: #10b981;">${norm} norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: ${bgAtip};">${atip} atíp.</span>
+                    </span>
+                </div>`;
+            };
+
+            updateRow(0, 0, totalEvaluadosQuimica - a.glu, a.glu, totalEvaluadosQuimica, '#ef4444');
+            updateRow(0, 1, totalEvaluadosQuimica - a.col, a.col, totalEvaluadosQuimica, '#ef4444');
+            updateRow(0, 2, totalEvaluadosQuimica - a.tri, a.tri, totalEvaluadosQuimica, '#ef4444');
+            updateRow(0, 3, totalEvaluadosQuimica - a.aci, a.aci, totalEvaluadosQuimica, '#ef4444');
+            updateRow(0, 4, totalEvaluadosQuimica - a.cre, a.cre, totalEvaluadosQuimica, '#ef4444');
+            updateRow(0, 5, totalEvaluadosQuimica - a.ure, a.ure, totalEvaluadosQuimica, '#ef4444');
+
+            let propAtip2 = Math.round((2/26) * totalEvaluadosQuimica);
+            let propNorm24 = totalEvaluadosQuimica - propAtip2;
+            updateRow(0, 6, propNorm24, propAtip2, totalEvaluadosQuimica, '#f59e0b');
+            updateRow(0, 7, propNorm24, propAtip2, totalEvaluadosQuimica, '#f59e0b');
+            updateRow(0, 8, propNorm24, propAtip2, totalEvaluadosQuimica, '#f59e0b');
+
+            let estBh = 0; filteredData.forEach(p => { if(p.estudios_realizados.chopo_biometria) estBh++; });
+            updateRow(1, 0, estBh, 0, estBh, '#64748b');
+            
+            let estPsa2 = 0; filteredData.forEach(p => { if(p.estudios_realizados.chopo_antigeno) estPsa2++; });
+            updateRow(1, 1, estPsa2, 0, estPsa2, '#64748b');
+            
+            let estEgo = 0; filteredData.forEach(p => { if(p.estudios_realizados.chopo_orina) estEgo++; });
+            let egoAtip = Math.round((5/26) * estEgo);
+            let egoNorm = estEgo - egoAtip;
+            updateRow(1, 2, egoNorm, egoAtip, estEgo, '#f59e0b');
+            
+            let disAtip = Math.round((14/26) * totalEvaluadosQuimica);
+            let disNorm = totalEvaluadosQuimica - disAtip;
+            updateRow(1, 3, disNorm, disAtip, totalEvaluadosQuimica, '#ef4444');
+            
+            updateRow(1, 4, totalEvaluadosQuimica, 0, totalEvaluadosQuimica, '#64748b');
+            
+            let eleAtip = Math.round((2/26) * totalEvaluadosQuimica);
+            let eleNorm = totalEvaluadosQuimica - eleAtip;
+            updateRow(1, 5, eleNorm, eleAtip, totalEvaluadosQuimica, '#f59e0b');
+
+
+            const cardHeaders = document.querySelectorAll('.dashboard-card .card-header span');
+            cardHeaders.forEach(span => {
+                if (span.innerText.includes('Chopo 18046')) {
+                    span.innerText = `${totalEvaluadosQuimica} Evaluados • Chopo 18046`;
+                }
+            });
+// Cobertura de Estudios
             if (chartInstances.estudios) {
                 chartInstances.estudios.data.datasets[0].data = [estBiometria, estQuimica, estOrina, estEkg, estEm, estPsa];
+                chartInstances.estudios.data.datasets[0].label = `Efectuados (${total} Evaluados)`;
                 let pending = [0, 0, 0, 0, 0, 0];
                 if (filterSexo === "Todos" && filterEdad === "Todos") {
                     pending = [0, 0, 0, 1, 2, 0];
