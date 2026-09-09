@@ -575,7 +575,7 @@
                 <div style="background: rgba(225,29,72,0.06); border: 1px solid rgba(225,29,72,0.2); border-radius: 8px; padding: 12px; margin-top: 10px;">
                     <span style="font-size: 11px; color: var(--primary-accent); font-weight: 700; text-transform: uppercase;"><i class="fa-solid fa-circle-info"></i> Avance de Campaña</span>
                     <p style="font-size: 11.5px; color: var(--text-secondary); margin-top: 5px; line-height: 1.4;">
-                        Corte actual: <strong>26 colaboradores recibidos de 26 esperados (100%)</strong>. Población evaluada correspondiente al cierre de la campaña foránea.
+                        Corte actual: <strong>26 colaboradores recibidos de 27 esperados (96.3%)</strong>. Población evaluada correspondiente al cierre de la campaña foránea.
                     </p>
                 </div>
             </div>
@@ -675,537 +675,13 @@
 
                         <div class="dashboard-card">
                             <div class="card-header">
-                                <h3><i class="fa-solid fa-clipboard-check" style="color: var(--primary-accent)"></i> Cobertura de Estudios (Meta: 26 Colaboradores)</h3>
-                                <span id="slicer-indicator" style="font-size: 11px; color: #10b981; font-weight: 500; cursor: pointer; display: none;" onclick="clearStudyFilter()">
-                                    Limpiar <i class="fa-solid fa-circle-xmark"></i>
-                                </span>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="chart-estudios"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="conclusion-box">
-                        <h4><i class="fa-solid fa-bullseye" style="color: var(--primary-accent)"></i> Estado de la Muestra Foránea:</h4>
-                        <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
-                            Al corte del presente informe se han consolidado <strong>24 expedientes médicos completos</strong> (92.3% de la población foránea objetivo). Todos los participantes recibidos cuentan con la batería íntegra de estudios de laboratorio clínico, trazo electrocardiográfico y evaluación médica presencial.
-                        </p>
-                    </div>
-                </section>
-
-                <!-- ============================================================= -->
-                <!-- PÁGINA 2: LABORATORIOS CHOPO -->
-                <!-- ============================================================= -->
-                <section class="tab-pane" id="page-2">
-                    <div class="page-header-print">
-                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – CAMPAÑA SANOFI FORÁNEOS 2026</span>
-                        <span class="print-subtitle">Página 2 de 5<br>Laboratorios Chopo (Química 12, Biometría, EGO, PSA)</span>
-                    </div>
-
-                    <div style="display: flex; flex-direction: column; gap: 6px;">
-                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
-                            2. Perfil de Laboratorios Clínicos y Biomarcadores (CHOPO)
-                        </h2>
-                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
-                            Resultados analíticos obtenidos a partir del concentrado oficial de Laboratorios Chopo (Contrato 18046).
-                        </p>
-                    </div>
-
-                    <div class="dashboard-grid-2">
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-chart-bar" style="color: var(--primary-accent)"></i> Cobertura de Laboratorio por Género</h3>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="chart-estudios-sexo-lab"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-accent)"></i> Tasa de Alertas en Biomarcadores de Química Clínica</h3>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="chart-alertas-chopo"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- TABLAS DE LABORATORIO COMPLETAS SIN BARRA DE DESPLAZAMIENTO (CONTEO DICOTÓMICO Y MICRO-BARRAS AMPLIAS) -->
-                    <div class="dashboard-grid-2">
-                        <div class="dashboard-card" style="overflow: visible;">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-flask" style="color: var(--primary-accent)"></i> Química Clínica (12 Elementos) - Conteo Dicotómico</h3>
-                                <span style="font-size: 10px; color: var(--text-muted);">26 Evaluados • Chopo 18046</span>
-                            </div>
-                            <div class="table-wrapper" style="max-height: none; overflow: visible;">
-                                <table class="premium-table" style="width: 100%;">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 32%;">Analito</th>
-                                            <th style="width: 25%;">Rango Esperado</th>
-                                            <th style="width: 43%;">Distribución (Normal / Atípico)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Glucosa en Ayuno</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">70.0 - 100.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 61.5%; background: #10b981; height: 100%;" title="Normal: 16 (61.5%)"></div>
-            <div style="width: 38.5%; background: #ef4444; height: 100%;" title="Atípico: 10 (38.5%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">16 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">10 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Colesterol Total</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">< 200.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 57.7%; background: #10b981; height: 100%;" title="Normal: 15 (57.7%)"></div>
-            <div style="width: 42.3%; background: #ef4444; height: 100%;" title="Atípico: 11 (42.3%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">15 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">11 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Triglicéridos</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">< 150.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 65.4%; background: #10b981; height: 100%;" title="Normal: 17 (65.4%)"></div>
-            <div style="width: 34.6%; background: #ef4444; height: 100%;" title="Atípico: 9 (34.6%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">17 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">9 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Ácido Úrico</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">2.5 - 7.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 80.8%; background: #10b981; height: 100%;" title="Normal: 21 (80.8%)"></div>
-            <div style="width: 19.2%; background: #f59e0b; height: 100%;" title="Atípico: 5 (19.2%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">21 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">5 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Creatinina</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">0.60 - 1.30 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
-            <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Urea</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">16.6 - 48.5 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
-            <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">BUN (Nitrógeno Urea)</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">7.0 - 20.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
-            <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">AST (TGO)</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">10.0 - 40.0 U/L</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
-            <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Albúmina</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">3.9 - 5.1 g/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
-            <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">LDH (Deshidrogenasa)</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">135 - 225 U/L</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 73.1%; background: #10b981; height: 100%;" title="Normal: 19 (73.1%)"></div>
-            <div style="width: 26.9%; background: #ef4444; height: 100%;" title="Atípico: 7 (26.9%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">19 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">7 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Fosfatasa Alcalina</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">40.0 - 130.0 U/L</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 96.2%; background: #10b981; height: 100%;" title="Normal: 25 (96.2%)"></div>
-            <div style="width: 3.8%; background: #f59e0b; height: 100%;" title="Atípico: 1 (3.8%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">25 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">1 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Calcio</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">8.6 - 10.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
-            <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Bilirrubina Total</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">0.2 - 1.2 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 96.2%; background: #10b981; height: 100%;" title="Normal: 25 (96.2%)"></div>
-            <div style="width: 3.8%; background: #f59e0b; height: 100%;" title="Atípico: 1 (3.8%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">25 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">1 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="dashboard-card" style="overflow: visible;">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-microscope" style="color: var(--primary-accent)"></i> Biometría, EGO y PSA - Conteo Dicotómico</h3>
-                                <span style="font-size: 10px; color: var(--text-muted);">26 Evaluados • Chopo 18046</span>
-                            </div>
-                            <div class="table-wrapper" style="max-height: none; overflow: visible;">
-                                <table class="premium-table" style="width: 100%;">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 32%;">Estudio / Panel</th>
-                                            <th style="width: 25%;">Rango / Criterio</th>
-                                            <th style="width: 43%;">Distribución (Normal / Atípico)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Biometría Hemática</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">13.5 - 17.5 g/dL (Hb)</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
-            <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Antígeno Prostático (PSA)</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">< 4.0 ng/mL (12 hombres)</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 12 (100.0%)"></div>
-            <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">12 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Examen Gral. de Orina (EGO)</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">Físico-Químico / Sedimento</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 80.8%; background: #10b981; height: 100%;" title="Normal: 21 (80.8%)"></div>
-            <div style="width: 19.2%; background: #f59e0b; height: 100%;" title="Atípico: 5 (19.2%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">21 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">5 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Dislipidemia Combinada</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">Colesterol >200 o Trig >150</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 46.2%; background: #10b981; height: 100%;" title="Normal: 12 (46.2%)"></div>
-            <div style="width: 53.8%; background: #ef4444; height: 100%;" title="Atípico: 14 (53.8%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">12 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #ef4444;">14 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Pruebas Función Hepática</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">AST / Albúmina en rango</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(100, 116, 139, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 100.0%; background: #10b981; height: 100%;" title="Normal: 26 (100.0%)"></div>
-            <div style="width: 0.0%; background: #64748b; height: 100%;" title="Atípico: 0 (0.0%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">26 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #64748b;">0 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-weight: 600; color: var(--text-primary);">Electrólitos & Calcio</td>
-                                            <td style="font-size: 11px; color: var(--text-muted); white-space: nowrap;">Calcio 8.6 - 10.0 mg/dL</td>
-                                            <td><div style="display: flex; align-items: center; gap: 10px; width: 100%; min-width: 210px;">
-        <div style="flex: 1; height: 10px; background: rgba(245, 158, 11, 0.2); border-radius: 5px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);">
-            <div style="width: 92.3%; background: #10b981; height: 100%;" title="Normal: 24 (92.3%)"></div>
-            <div style="width: 7.7%; background: #f59e0b; height: 100%;" title="Atípico: 2 (7.7%)"></div>
-        </div>
-        <span style="font-size: 11.5px; font-weight: 700; white-space: nowrap; font-family: var(--font-mono, monospace);">
-            <span style="color: #10b981;">24 norm.</span> <span style="color: var(--text-muted); font-weight: 400;">/</span> <span style="color: #f59e0b;">2 atíp.</span>
-        </span>
-    </div></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ============================================================= -->
-                <!-- PÁGINA 3: ESTUDIOS DE GABINETE & EXAMEN CLÍNICO -->
-                <!-- ============================================================= -->
-                <section class="tab-pane" id="page-3">
-                    <div class="page-header-print">
-                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – CAMPAÑA SANOFI FORÁNEOS 2026</span>
-                        <span class="print-subtitle">Página 3 de 5<br>Gabinete (EKG) y Exploración Médica Presencial (EM)</span>
-                    </div>
-
-                    <div style="display: flex; flex-direction: column; gap: 6px;">
-                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
-                            3. Estudios de Gabinete y Examen Clínico Individual
-                        </h2>
-                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
-                            Análisis consolidado de los 25 estudios de Electrocardiograma de 12 derivaciones (_EKG) y 24 de Examen Médico Clínico presencial (_EM).
-                        </p>
-                    </div>
-
-                    <div class="dashboard-grid-2">
-                        <!-- EKG -->
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary-accent)"></i> Electrocardiografía en Reposo (_EKG)</h3>
-                                <span style="font-size: 11px; color: var(--success-accent); font-weight: 700;">25 / 26 Efectuados (96.2%)</span>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
-                                <div style="display: flex; gap: 10px;">
-                                    <div style="flex: 1; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); padding: 12px; border-radius: 8px; text-align: center;">
-                                        <span style="font-size: 22px; font-weight: 800; color: var(--success-accent); font-family: var(--font-head);">100%</span>
-                                        <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Ritmo Sinusal</p>
-                                    </div>
-                                    <div style="flex: 1; background: rgba(2,132,199,0.1); border: 1px solid rgba(2,132,199,0.3); padding: 12px; border-radius: 8px; text-align: center;">
-                                        <span style="font-size: 22px; font-weight: 800; color: var(--info-accent); font-family: var(--font-head);">38.1%</span>
-                                        <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Bradicardia Fisiológica</p>
-                                    </div>
-                                    <div style="flex: 1; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); padding: 12px; border-radius: 8px; text-align: center;">
-                                        <span style="font-size: 22px; font-weight: 800; color: var(--warning-accent); font-family: var(--font-head);">0%</span>
-                                        <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Arritmias Graves</p>
-                                    </div>
-                                </div>
-                                <p>
-                                    La gran mayoría de los trazos electrocardiográficos mostraron actividad eléctrica normal (ritmo sinusal). Se detectó 1 colaborador con variante de conducción (bloqueo fascicular anterior izquierdo asintomático), integrado a protocolo de seguimiento preventivo con ecocardiograma de control.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- EXAMEN MÉDICO -->
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-user-doctor" style="color: var(--primary-accent)"></i> Evaluación Médica Clínica (_EM)</h3>
-                                <span style="font-size: 11px; color: var(--success-accent); font-weight: 700;">24 / 26 Efectuados (92.3%)</span>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
-                                <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 6px;">
-                                    <li><strong style="color: var(--text-primary);">Aptitud Laboral General:</strong> 100% de los colaboradores evaluados presentan condición clínica funcionalmente activa y apta para sus labores.</li>
-                                    <li><strong style="color: var(--text-primary);">Presión Arterial:</strong> Promedio sistólico de 124 mmHg y diastólico de 82 mmHg. 76.2% de la población se ubicó en cifras normotensas basales.</li>
-                                    <li><strong style="color: var(--text-primary);">Antropometría Foránea:</strong> 57.1% de los participantes presentan sobrepeso moderado, reflejando el impacto de la dinámica de trabajo en campo y comidas fuera de casa.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ============================================================= -->
-                <!-- PÁGINA 4: TELEMEDICINA Y CONSULTA INTEGRADA -->
-                <!-- ============================================================= -->
-                <section class="tab-pane" id="page-4">
-                    <div class="page-header-print">
-                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – CAMPAÑA SANOFI FORÁNEOS 2026</span>
-                        <span class="print-subtitle">Página 4 de 5<br>Análisis de Consultas e Interpretaciones Médicas Integradas</span>
-                    </div>
-
-                    <div style="display: flex; flex-direction: column; gap: 6px;">
-                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
-                            4. Telemedicina y Consultas Médicas Integradas
-                        </h2>
-                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
-                            Consolidación analítica generada a partir de los 26 archivos de consulta médica de interpretación médica individual entregados a cada colaborador.
-                        </p>
-                    </div>
-
-                    <div class="dashboard-grid-2">
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-comments-dollar" style="color: var(--primary-accent)"></i> Motivos de Intervención en Telemedicina</h3>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: var(--text-secondary);">
-                                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
-                                    <span>Orientación Nutricional & Manejo de Dislipidemia</span>
-                                    <strong style="color: var(--primary-accent);">76.9% (20 de 26)</strong>
-                                </div>
-                                <div style="font-size: 11px; color: var(--text-muted); padding-left: 12px; margin-top: -4px;">
-                                    * Indicada por correlación directa con sobrepeso/obesidad (76.9%) y dislipidemia (53.8%) derivada de hábitos calóricos.
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
-                                    <span>Salud Urogenital e Hidratación</span>
-                                    <strong style="color: var(--info-accent);">80.8% (21 de 26)</strong>
-                                </div>
-                                <div style="font-size: 11px; color: var(--text-muted); padding-left: 12px; margin-top: -4px;">
-                                    * Pautas de incremento hídrico preventivo por concentración urinaria y sedimentos.
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
-                                    <span>Regulación de Glucosa y Resistencia a Insulina</span>
-                                    <strong style="color: var(--warning-accent);">19.0% (4 de 21)</strong>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px;">
-                                    <span>Higiene del Sueño y Manejo de Estrés Ocupacional</span>
-                                    <strong style="color: var(--purple-accent);">33.3% (7 de 21)</strong>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-stethoscope" style="color: var(--primary-accent)"></i> Impacto de la Consulta Médica Integrada</h3>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
-                                <p>
-                                    Cada colaborador foráneo recibió una consulta individualizada estructurada con:
-                                </p>
-                                <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 6px;">
-                                    <li><strong>Explicación de Estudios Chopo:</strong> Interpretación contextualizada de glucosa, lípidos y orina.</li>
-                                    <li><strong>Correlación Clínica:</strong> Evaluación de síntomas digestivos, tensionales y hábitos de descanso.</li>
-                                    <li><strong>Plan de Seguimiento:</strong> Metas claras de autocuidado y calendarización de reevaluación.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ============================================================= -->
-                <!-- PÁGINA 5: HALLAZGOS Y RECOMENDACIONES -->
-                <!-- ============================================================= -->
-                <section class="tab-pane" id="page-5">
-                    <div class="page-header-print">
-                        <span class="print-title">REPORTE EPIDEMIOLÓGICO POBLACIONAL – CAMPAÑA SANOFI FORÁNEOS 2026</span>
-                        <span class="print-subtitle">Página 5 de 5<br>Hallazgos Integrados y Plan de Salud Corporativa</span>
-                    </div>
-
-                    <div style="display: flex; flex-direction: column; gap: 6px;">
-                        <h2 style="font-size: 22px; color: var(--text-primary); border-left: 4px solid var(--primary-accent); padding-left: 12px; margin: 0;">
-                            5. Hallazgos Integrados y Plan Estratégico de Salud
-                        </h2>
-                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">
-                            Conclusiones epidemiológicas consolidadas y recomendaciones prioritarias para la mejora continua de la salud de Sanofi Foráneos.
-                        </p>
-                    </div>
-
-                    <div class="dashboard-grid-2">
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary-accent)"></i> Conclusiones Clínicas Principales</h3>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
-                                <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 10px;">
-                                    <li>
-                                        <strong style="color: var(--text-primary);"><i class="fa-solid fa-droplet" style="color: var(--primary-accent);"></i> Dislipidemia:</strong> 
-                                        La alteración en el perfil de lípidos (colesterol >200 mg/dL o triglicéridos >150 mg/dL) se identificó en el <strong>53.8% (14 de 26 colaboradores)</strong>. Representa el foco metabólico primordial para intervención nutricional y prevención cardiovascular en personal con traslados de campo.
-                                    </li>
-                                    <li>
-                                        <strong style="color: var(--text-primary);"><i class="fa-solid fa-dna" style="color: var(--info-accent);"></i> Hematología:</strong> 
-                                        El <strong>100% (26 de 26 colaboradores)</strong> evaluados mediante biometría hemática automatizada se encuentra en rangos fisiológicos estables, sin detección de anemias poblacionales ni alteraciones eritrocitarias de significancia clínica.
-                                    </li>
-                                    <li>
-                                        <strong style="color: var(--text-primary);"><i class="fa-solid fa-shield-virus" style="color: var(--success-accent);"></i> Salud Urogenital y Urología:</strong> 
-                                        El <strong>100% (12 de 12)</strong> de los colaboradores masculinos presentan Antígeno Prostático Específico (PSA) en rango seguro (<4.0 ng/mL). El 80.8% (21 de 26) de los exámenes generales de orina descartan infección activa, recomendándose refuerzo de hidratación continua.
-                                    </li>
-                                    <li>
-                                        <strong style="color: var(--text-primary);"><i class="fa-solid fa-heart-pulse" style="color: var(--warning-accent);"></i> Electrocardiograma:</strong> 
-                                        El <strong>96% (24 de 25 colaboradores)</strong> presenta trazo sinusal regular sin isquemia ni arritmias complejas. Se detectó <strong>1 colaborador (3.8%)</strong> con variante de conducción (bloqueo fascicular anterior izquierdo asintomático), integrado a protocolo de seguimiento preventivo con ecocardiograma de control.
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="dashboard-card">
-                            <div class="card-header">
                                 <h3><i class="fa-solid fa-clipboard-check" style="color: var(--success-accent)"></i> Recomendaciones para la Empresa</h3>
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
                                 <ul style="padding-left: 18px; margin: 0; display: flex; flex-direction: column; gap: 8px;">
                                     <li><strong style="color: var(--text-primary);">Taller de Nutrición en Ruta:</strong> Capacitaciones específicas para personal foráneo sobre elecciones alimentarias saludables en hoteles y traslados.</li>
-                                    <li><strong style="color: var(--text-primary);">Control Trimestral de Lípidos:</strong> Seguimiento de laboratorio a los colaboradores con alertas de colesterol >200 mg/dL.</li>
+                                    <li><strong style="color: var(--text-primary);">Programa de Higiene del Sueño y Estrés:</strong> Implementar pausas activas y estrategias de descanso dirigidas al personal que reportó alteraciones (26.9%) por la carga de traslados.</li>
+                                    <li><strong style="color: var(--text-primary);">Campaña de Hidratación Continua:</strong> Fomentar la ingesta adecuada de agua natural durante los viajes para prevenir alteraciones urológicas en el 80.8% detectado.</li>
                                     <li><strong style="color: var(--text-primary);">Institucionalización Anual:</strong> Consolidar el Check-Up anual para mantener la trazabilidad clínica y cobertura preventiva en el 100% del equipo.</li>
                                 </ul>
                             </div>
@@ -1343,7 +819,7 @@
                         },
                         {
                             label: 'Pendientes (Esperados)',
-                            data: [10, 10, 10, 10, 10, 5],
+                            data: [1, 1, 1, 2, 3, 0],
                             backgroundColor: '#334155',
                             borderRadius: 4,
                             barThickness: 18,
@@ -1366,7 +842,7 @@
                     scales: {
                         x: {
                             stacked: true,
-                            max: 26, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            max: 27, grid: { color: 'rgba(255,255,255,0.05)' } },
                         y: { stacked: true, grid: { display: false } }
                     },
                     plugins: {
@@ -1462,7 +938,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: ctx => ` ${ctx.raw}% de colaboradores evaluados`
+                                label: ctx => { let pct = ctx.raw; let t = window.RAW_DATA ? window.RAW_DATA.filter(p=>p.estudios_realizados && p.estudios_realizados.chopo_quimica).length : 26; let c = Math.round((pct/100)*t); return ` ${c} colaboradores (${pct}%)`; }
                             }
                         }
                     }
@@ -1501,9 +977,10 @@
             const avgEstudios = total > 0 ? (sumEstudios / total).toFixed(1) : "0.0";
             
             if (document.getElementById('kpi-consentimiento-pct')) {
-                const pct = total > 0 ? ((sumConsent / total) * 100).toFixed(1) + '%' : '0.0%';
+                const expectedTotal = 27;
+                const pct = expectedTotal > 0 ? ((sumConsent / expectedTotal) * 100).toFixed(1) + '%' : '0.0%';
                 document.getElementById('kpi-consentimiento-pct').innerText = pct;
-                document.getElementById('kpi-consentimiento-sub').innerHTML = `<strong>${sumConsent} de ${total} colaboradores</strong> accedieron a compartir`;
+                document.getElementById('kpi-consentimiento-sub').innerHTML = `<strong>${sumConsent} de ${expectedTotal} colaboradores</strong> accedieron a compartir`;
             }
 if (document.getElementById('kpi-estudios-promedio')) {
                 document.getElementById('kpi-estudios-promedio').innerText = avgEstudios;
@@ -1656,7 +1133,7 @@ if (document.getElementById('kpi-estudios-promedio')) {
                 chartInstances.estudios.data.datasets[0].label = `Efectuados (${total} Evaluados)`;
                 let pending = [0, 0, 0, 0, 0, 0];
                 if (filterSexo === "Todos" && filterEdad === "Todos") {
-                    pending = [0, 0, 0, 1, 2, 0];
+                    pending = [1, 1, 1, 2, 3, 0];
                 }
                 chartInstances.estudios.data.datasets[1].data = pending;
                 chartInstances.estudios.update();
