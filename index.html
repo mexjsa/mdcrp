@@ -1996,8 +1996,25 @@
       "acido_urico": 5.84,
       "acido_urico_alert": false
     }
-  }
-];
+  },
+    {
+      "id": 27,
+      "nombre": "Colaborador_27",
+      "sexo": "Femenino",
+      "rango_edad": "41-50 a\u00f1os",
+      "compartir": "SI",
+      "estudios_realizados": {
+        "chopo_biometria": false,
+        "chopo_quimica": false,
+        "chopo_orina": false,
+        "chopo_antigeno": false,
+        "gabinete_ekg": false,
+        "examen_medico": false,
+        "telemedicina": false
+      },
+      "chopo": {}
+    }
+  ];
 
         let chartInstances = {};
         let selectedStudyFilter = null;
@@ -2192,6 +2209,16 @@
                             formatter: function(value) {
                                 return value;
                             }
+                          },
+                          tooltip: {
+                              callbacks: {
+                                  label: function(context) {
+                                      let v = context.raw;
+                                      let total_eval = window.RAW_DATA ? window.RAW_DATA.filter(p=>p.estudios_realizados && Object.values(p.estudios_realizados).some(x=>x)).length : 26;
+                                      let pct = total_eval > 0 ? ((v / total_eval) * 100).toFixed(1) : 0;
+                                      return  :  (%);
+                                  }
+                              }
                         }
                     }
                 }
@@ -2258,7 +2285,7 @@
                 return matchSexo && matchEdad;
             });
 
-            let total = filteredData.length;
+            let total = filteredData.filter(p => p.estudios_realizados && Object.values(p.estudios_realizados).some(v => v === true)).length;
             document.getElementById('kpi-total').innerText = total;
 
             // Recalculate KPIs
