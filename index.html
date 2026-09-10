@@ -2216,7 +2216,7 @@
                                       let v = context.raw;
                                       let total_eval = window.RAW_DATA ? window.RAW_DATA.filter(p=>p.estudios_realizados && Object.values(p.estudios_realizados).some(x=>x)).length : 26;
                                       let pct = total_eval > 0 ? ((v / total_eval) * 100).toFixed(1) : 0;
-                                      return  :  (%);
+                                      return ` ${context.dataset.label}: ${v} (${pct}%)`;
                                   }
                               }
                         }
