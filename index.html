@@ -1080,33 +1080,11 @@
                                     <li><strong style="color: var(--text-primary);">Aptitud Laboral General:</strong> 100% de los colaboradores evaluados presentan condición clínica funcionalmente activa y apta para sus labores.</li>
                                     <li><strong style="color: var(--text-primary);">Presión Arterial:</strong> Promedio sistólico de 124 mmHg y diastólico de 82 mmHg. 76.2% de la población se ubicó en cifras normotensas basales.</li>
                                     <li><strong style="color: var(--text-primary);">Antropometría Foránea:</strong> 57.1% de los participantes presentan sobrepeso moderado, reflejando el impacto de la dinámica de trabajo en campo y comidas fuera de casa.</li>
-                                                                </ul>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="dashboard-grid-2" style="margin-top: 16px;">
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-bed-pulse" style="color: var(--purple-accent)"></i> Indicadores de Descanso</h3>
-                                <span style="font-size: 10px; color: var(--text-muted);">25 participantes</span>
-                            </div>
-                            <div class="chart-container" style="height: 220px;">
-                                <canvas id="chart-descanso"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-shield-halved" style="color: var(--success-accent)"></i> Hábitos Protectores y de Seguridad</h3>
-                                <span style="font-size: 10px; color: var(--text-muted);">25 participantes</span>
-                            </div>
-                            <div class="chart-container" style="height: 220px;">
-                                <canvas id="chart-seguridad"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                  </section>
+                </section>
 
                 <!-- ============================================================= -->
                 <!-- PÁGINA 4: TELEMEDICINA Y CONSULTA INTEGRADA -->
@@ -1169,33 +1147,11 @@
                                     <li><strong>Explicación de Estudios Chopo:</strong> Interpretación contextualizada de glucosa, lípidos y orina.</li>
                                     <li><strong>Correlación Clínica:</strong> Evaluación de síntomas digestivos, tensionales y hábitos de descanso.</li>
                                     <li><strong>Plan de Seguimiento:</strong> Metas claras de autocuidado y calendarización de reevaluación.</li>
-                                                                </ul>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="dashboard-grid-2" style="margin-top: 16px;">
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-bed-pulse" style="color: var(--purple-accent)"></i> Indicadores de Descanso</h3>
-                                <span style="font-size: 10px; color: var(--text-muted);">25 participantes</span>
-                            </div>
-                            <div class="chart-container" style="height: 220px;">
-                                <canvas id="chart-descanso"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="dashboard-card">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-shield-halved" style="color: var(--success-accent)"></i> Hábitos Protectores y de Seguridad</h3>
-                                <span style="font-size: 10px; color: var(--text-muted);">25 participantes</span>
-                            </div>
-                            <div class="chart-container" style="height: 220px;">
-                                <canvas id="chart-seguridad"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                  </section>
+                </section>
 
                 <!-- ============================================================= -->
                 <!-- PÁGINA 5: HALLAZGOS Y RECOMENDACIONES -->
@@ -1248,11 +1204,10 @@
                                     <li><strong style="color: var(--text-primary);">Programa de Higiene del Sueño:</strong> Implementar pausas activas y estrategias de descanso dirigidas al personal que reportó alteraciones (26.9%) por la carga de traslados.</li>
                                     <li><strong style="color: var(--text-primary);">Campaña de Hidratación Continua:</strong> Fomentar la ingesta adecuada de agua natural durante los viajes para prevenir alteraciones urológicas en el 80.8% detectado.</li>
                                     <li><strong style="color: var(--text-primary);">Institucionalización Anual:</strong> Consolidar el Check-Up anual para mantener la trazabilidad clínica y cobertura preventiva en el 100% del equipo.</li>
-                                                                </ul>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    
                     <div class="dashboard-grid-2" style="margin-top: 16px;">
                         <div class="dashboard-card">
                             <div class="card-header">
@@ -2339,9 +2294,7 @@
                     }
                 }
             });
-         
 
-        
             // 5. Gráfico Indicadores de Descanso
             if (document.getElementById('chart-descanso')) {
                 const ctxDescanso = document.getElementById('chart-descanso').getContext('2d');
@@ -2386,7 +2339,7 @@
                 chartInstances.seguridad = new Chart(ctxSeguridad, {
                     type: 'bar',
                     data: {
-                        labels: ['Cinturón al conducir', 'Sin celular al conducir', 'Seguridad en casa', 'Uso de protector solar'],
+                        labels: ['Cinturón al conducir', 'Sin celular', 'Seguridad en casa', 'Protector solar'],
                         datasets: [{
                             label: '% de Cumplimiento',
                             data: [100, 100, 68, 56],
@@ -2417,10 +2370,9 @@
                     }
                 });
             }
+        }
 
-          }
-
-          function updateDashboard() {
+        function updateDashboard() {
             const filterSexo = document.getElementById('filter-sexo').value;
             const filterEdad = document.getElementById('filter-edad').value;
 
